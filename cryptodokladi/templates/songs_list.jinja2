@@ -1,0 +1,35 @@
+{% extends 'layout.jinja2' %}
+
+{% block songnavigation %}
+<li class="nav-item">
+    <a class="pure-button" href="{{ request.route_url('song_add') }}">Add</a>
+</li>
+{% endblock songnavigation %}
+
+{% block content %}
+<h1 class="content-subhead">
+    <form class="pure-form">
+        <input class="pure-input-1 input-search" type="text" id="search" placeholder="Search"/>
+    </form>
+</h1>
+
+{% for song in songs %}
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            <a href="{{request.route_url('song', songtitle=song.title)}}">{{song.title}}</a>
+        </h2>
+
+        <p class="post-meta">
+            {{song.subtitle}}
+            
+            {% for tag in song.tags %}
+                <a class="post-category post-category-design" href="{{request.route_url('tag', tagname=tag.text)}}">{{tag.text}}</a>
+            {% endfor %}
+        </p>
+    </header>
+</section>
+{% endfor %}
+
+{% endblock content %}

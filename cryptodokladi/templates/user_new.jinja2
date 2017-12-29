@@ -1,0 +1,24 @@
+{% extends 'layout.jinja2' %}
+
+{% block content %}
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            Add User
+        </h2>
+
+        <p class="post-meta">
+        <form action="{{ user_new }}" method="post">
+            <div class="pure-control-group">
+                <input class="pure-input-1-2" type="text" name="name" placeholder="Name" />
+                <input class="pure-input-1-2" type="password" name="password" placeholder="password" />
+            </div>
+            <div class="pure-control-group">
+                <button type="submit" name="form.submitted" value="Add" class="pure-button">Add</button>
+            </div>
+        </form>
+        </p>
+    </header>
+</section>
+{% endblock content %}

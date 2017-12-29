@@ -1,0 +1,3 @@
+[run]
+source = cryptodokladi
+omit = cryptodokladi/test*

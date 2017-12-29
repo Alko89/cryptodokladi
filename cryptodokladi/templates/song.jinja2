@@ -1,0 +1,61 @@
+{% extends 'layout.jinja2' %}
+
+{% block subtitle %}{{song.title}} - {% endblock subtitle %}
+
+{% block songnavigation %}
+<li class="nav-item">
+     <a class="pure-button" href="{{ edit_url }}">Edit</a>
+</li>
+{% endblock songnavigation %}
+
+{% block content %}
+<h1 class="content-subhead">{{song.subtitle}}</h1>
+
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">{{song.title}}</h2>
+
+        <p class="post-meta">
+            <!--By <a href="#" class="post-author">artist-->
+            {% for tag in song.tags %}
+                <a class="post-category post-category-design" href="{{request.route_url('tag', tagname=tag.text)}}">{{tag.text}}</a>
+            {% endfor %}
+        </p>
+    </header>
+
+    <div class="post-description">
+        {% if song.ytplayer %}
+            <div class="post-images">
+                <div class="video-container">
+                    <iframe src="{{song.ytplayer}}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        {% endif %}
+    
+        {% for lyric in song.lyrics %}
+        
+            {% if lyric.language == "text" %}
+                <p>
+                    {{lyric.text | safe}}
+                </p>
+            {% endif %}
+            
+            {% if lyric.language == "en" and lyric.text != "" %}
+                English
+                <p>
+                    {{lyric.text | safe}}
+                </p>
+            {% endif %}
+            
+            {% if lyric.language == "ru" and lyric.text != "" %}
+                Русский
+                <p>
+                    {{lyric.text | safe}}
+                </p>
+            {% endif %}
+        
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

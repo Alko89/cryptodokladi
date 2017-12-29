@@ -1,0 +1,38 @@
+{% extends 'layout.jinja2' %}
+
+{% block content %}
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            All funds
+        </h2>
+
+        <p class="post-meta">
+            <table class="pure-table pure-table-horizontal">
+                {% for user in user_funds %}
+                <tr>
+                    <td>
+                        <a href="{{request.route_url('user_view', username=user.name)}}">{{ user.name }}</a>
+                    </td>
+                    <td>
+                        {{ user.token }}
+                    </td>
+                    <td class="{{ user.token }}">
+                        {{ user.value }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </p>
+
+        {% if request.user.role == "editor" %}
+        <p class"post-meta">
+            <a href="{{request.route_url('user_new')}}">
+                Add user
+            </a>
+        </p>
+        {% endif %}
+    </header>
+</section>
+{% endblock content %}

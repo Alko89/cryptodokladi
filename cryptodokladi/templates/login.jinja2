@@ -1,0 +1,26 @@
+{% extends 'layout.jinja2' %}
+
+{% block title %}Login - {% endblock title %}
+
+{% block content %}
+<p>
+<strong>
+    Login
+</strong><br>
+{{ message }}
+</p>
+<form class="pure-form pure-form-aligned" action="{{ url }}" method="post">
+    <input type="hidden" name="next" value="{{ next_url }}">
+    <div class="pure-control-group">
+        <label for="login">Username</label>
+        <input type="text" name="login" value="{{ login }}">
+    </div>
+    <div class="pure-control-group">
+        <label for="password">Password</label>
+        <input type="password" name="password">
+    </div>
+    <div class="pure-control-group">
+        <button type="submit" name="form.submitted" value="Log In" class="pure-button">Log In</button>
+    </div>
+</form>
+{% endblock content %}

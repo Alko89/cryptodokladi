@@ -1,0 +1,45 @@
+{% extends 'layout.jinja2' %}
+
+{% block content %}
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            {{ user.name }}
+        </h2>
+
+        <p class="post-meta">
+            <table class="pure-table pure-table-bordered">
+                {% for fund in user.user_funds %}
+                <tr>
+                    <td>
+                        {{ fund.token }}
+                    </td>
+                    <td class="{{ fund.token }}">
+                        {{ fund.value }}
+                    </td>
+                    <td>
+                        {{ fund.timestamp }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </p>
+        <p class="post-meta">
+        <form action="{{ add_fund }}" method="post">
+            <div class="pure-control-group">
+                <select class="pure-input-1-2" name="token" placeholder="Token">
+                    <option value="BTC">BTC</option>
+                    <option value="ETH">ETH</option>
+                    <option value="IOTA">IOTA</option>
+                </select>
+                <input class="pure-input-1-2" type="text" name="value" placeholder="Value" />
+            </div>
+            <div class="pure-control-group">
+                <button type="submit" name="form.submitted" value="Add" class="pure-button">Add</button>
+            </div>
+        </form>
+        </p>
+    </header>
+</section>
+{% endblock content %}

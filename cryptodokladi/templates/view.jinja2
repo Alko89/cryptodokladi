@@ -1,0 +1,28 @@
+{% extends 'layout.jinja2' %}
+
+{% block subtitle %}{{page.subtitle}} - {% endblock subtitle %}
+
+{% block songnavigation %}
+<li class="nav-item">
+     <a class="pure-button" href="{{ edit_url }}">Uredi Stran</a>
+</li>
+{% endblock songnavigation %}
+
+{% block content %}
+<h1 class="content-subhead">{{page.subtitle}}</h1>
+
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">{{page.title}}</h2>
+
+        <p class="post-meta">
+            {{page.creator.name}}
+        </p>
+    </header>
+
+    <div class="post-description">
+        {{ content|safe }}
+    </div>
+</section>
+{% endblock content %}
