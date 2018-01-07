@@ -20,6 +20,12 @@ $( document ).ready(function() {
         });
     });
 
+    $('.timestamp').each(function() {
+        $(this).text(function( i, val ) {
+            return val.split(".")[0];
+        });
+    });
+
     $.get("https://api.kraken.com/0/public/Ticker?pair=BTCEUR", function(data) {
         var bine = data.result.XXBTZEUR.c[0]
 
