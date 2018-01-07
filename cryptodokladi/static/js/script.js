@@ -20,22 +20,19 @@ $( document ).ready(function() {
         });
     });
 
-    $('#btceur').text(function() {
-        var btctoeur
+    $.get("https://api.kraken.com/0/public/Ticker?pair=BTCEUR", function(data) {
+        var bine = data.result.XXBTZEUR.c[0]
 
-        $.get("https://api.kraken.com/0/public/Ticker?pair=BTCEUR", function(data) {
-            btctoeur = data.result.XXBTZEUR.c[0]
-        });
-
-        return btctoeur
+        $('#btceur').text(bine)
+        var tb = parseFloat($('#BTC').text())
+        $('#BTCEUR').text(tb * bine);
     });
-    $('#etheur').text(function() {
-        var ethtoeur
 
-        $.get("https://api.kraken.com/0/public/Ticker?pair=ETHEUR", function(data) {
-            ethtoeur = data.result.XETHZEUR.c[0]
-        });
+    $.get("https://api.kraken.com/0/public/Ticker?pair=ETHEUR", function(data) {
+        var eine = data.result.XETHZEUR.c[0]
 
-        return ethtoeur
+        $('#etheur').text(eine)
+        var te = parseFloat($('#ETH').text())
+        $('#ETHEUR').text(te * eine);
     });
 });

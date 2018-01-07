@@ -17,6 +17,7 @@
                         <tr>
                             <th>Koin</th>
                             <th>Vrednost</th>
+                            <th>Vrednost v EUR</th>
                         </tr>
                     </thead>
 
@@ -26,8 +27,10 @@
                             <td>
                                 {{ fund.token }}
                             </td>
-                            <td class="{{ fund.token }}">
+                            <td class="{{ fund.token }}" id="{{ fund.token }}">
                                 {{ fund.value }}
+                            </td>
+                            <td class="{{ fund.token }}" ID="{{ fund.token }}EUR">
                             </td>
                         </tr>
                         {% endfor %}
