@@ -50,13 +50,6 @@ def add_funds(request):
     if 'form.submitted' in request.params:
         token = request.params['token']
         value = float(request.params['value'])
-        
-        if token == "BTC":
-            # Convert value to Satoshi
-            value = int(value * 100000000)
-        elif token == "ETH":
-            # Convert value to Wei
-            value = int(value * 1000000000000000000)
 
         fund = Funds(token=token, value=value, user=edit_user)
         request.dbsession.add(fund)

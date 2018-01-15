@@ -9,17 +9,6 @@ $( document ).ready(function() {
         });
     });
 
-    $('.BTC').each(function() {
-        $(this).text(function( i, val ) {
-            return parseInt(val) / 100000000;
-        });
-    });
-    $('.ETH').each(function() {
-        $(this).text(function( i, val ) {
-            return parseInt(val) / 1000000000000000000;
-        });
-    });
-
     $('.timestamp').each(function() {
         $(this).text(function( i, val ) {
             return val.split(".")[0];

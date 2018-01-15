@@ -2,6 +2,7 @@ from sqlalchemy import (
     Column,
     ForeignKey,
     Integer,
+    Numeric,
     Text,
     DateTime
 )
@@ -16,7 +17,7 @@ class Funds(Base):
     __tablename__ = 'funds'
     id = Column(Integer, primary_key=True)
     token = Column(Text, nullable=False)
-    value = Column(Integer, nullable=False)
+    value = Column(Numeric(precision=28, scale=18), nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
     comment = Column(Text)
 
