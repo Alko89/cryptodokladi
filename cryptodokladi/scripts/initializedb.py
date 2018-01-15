@@ -62,8 +62,8 @@ def main(argv=sys.argv):
 
         about = Page(
             name='About',
-            title='O nas',
-            subtitle='O nas',
+            title='O Nas',
+            subtitle='O Nas',
             creator=alko,
             data='GoOpen',
         )

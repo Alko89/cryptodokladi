@@ -18,6 +18,7 @@ class Funds(Base):
     token = Column(Text, nullable=False)
     value = Column(Integer, nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
+    comment = Column(Text)
 
     user_id = Column(ForeignKey('users.id'), nullable=False)
     user = relationship('User', backref='user_funds')
