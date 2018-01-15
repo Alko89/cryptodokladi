@@ -3,7 +3,6 @@ from sqlalchemy import (
     Column,
     Integer,
     Text,
-    String
 )
 
 from .meta import Base
@@ -13,7 +12,7 @@ class User(Base):
     """ The SQLAlchemy declarative model class for a User object. """
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False, unique=True)
+    name = Column(Text, nullable=False, unique=True)
     role = Column(Text, nullable=False)
 
     password_hash = Column(Text)

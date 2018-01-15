@@ -4,7 +4,6 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     Text,
-    String
 )
 
 from sqlalchemy.orm import relationship
@@ -20,7 +19,7 @@ songs_tags = Table('tags', Base.metadata,
 class Song(Base):
     __tablename__ = 'song'
     id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False, unique=True)
+    title = Column(Text, nullable=False, unique=True)
     subtitle = Column(Text)
     url = Column(Text)
     ytplayer = Column(Text)
