@@ -19,5 +19,3 @@ Data.fs*
 .DS_Store
 coverage
 test
-cryptodokladi.sqlite
-.vscode/
