@@ -17,7 +17,7 @@ from ..models import (
     get_session_factory,
     get_tm_session,
     )
-from ..models import Song, Lyric, Tag, Page, User, Funds
+from ..models import Song, Lyric, Tag, Page, User, Funds, Token
 
 
 def usage(argv):
@@ -68,6 +68,22 @@ def main(argv=sys.argv):
             data='GoOpen',
         )
         dbsession.add(about)
+
+        btc = Token(
+            token = 'BTC',
+            name = 'Bitcoin',
+            unit = 'Satoshi',
+            base = 100000000
+        )
+        dbsession.add(btc)
+
+        eth = Token(
+            token = 'ETH',
+            name = 'Ethereum',
+            unit = 'Wei',
+            base = 1000000000000000000
+        )
+        dbsession.add(eth)
 
         with open('./cryptodokladi/scripts/capoeiralyrics_2017-12-18.json') as data_file:    
             data = json.load(data_file)

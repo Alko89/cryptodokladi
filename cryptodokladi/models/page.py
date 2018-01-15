@@ -3,6 +3,7 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     Text,
+    String
 )
 from sqlalchemy.orm import relationship
 
@@ -13,7 +14,7 @@ class Page(Base):
     """ The SQLAlchemy declarative model class for a Page object. """
     __tablename__ = 'pages'
     id = Column(Integer, primary_key=True)
-    name = Column(Text, nullable=False, unique=True)
+    name = Column(String(255), nullable=False, unique=True)
     title = Column(Text)
     subtitle = Column(Text)
     data = Column(Text, nullable=False)
