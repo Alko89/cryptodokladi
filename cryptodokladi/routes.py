@@ -27,6 +27,7 @@ def includeme(config):
 
     config.add_route('user_list', '/user/user_list', factory=user_list_factory)
     config.add_route('user_new', '/user/user_new', factory=user_list_factory)
+    config.add_route('user_settings', '/user/settings/{username}', factory=user_factory)
     config.add_route('user_view', '/user/{username}', factory=user_factory)
     config.add_route('add_funds', '/user/add_funds/{username}', factory=add_funds_factory)
 

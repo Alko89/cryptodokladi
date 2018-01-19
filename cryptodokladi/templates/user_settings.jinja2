@@ -1,0 +1,22 @@
+{% extends 'layout.jinja2' %}
+
+{% block subtitle %}Nastavitve - {% endblock subtitle %}
+
+{% block content %}
+<h1 class="content-subhead">Nastavitve {{ request.user.name }}</h1>
+
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">Spremeni geslo</h2>
+    </header>
+
+    <div class="post-description">
+        tuki
+    </div>
+
+    <div class="form-group">
+        <a class="pure-button" href="{{ save_user_settings }}">Shrani</a>
+    </div>
+</section>
+{% endblock content %}

@@ -47,15 +47,18 @@
                 </li>
 
                 {% if request.user is not none %}
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link" href="{{request.route_url('user_view', username=request.user.name)}}">Stanje</a>
+                    </li>
                     {% if request.user.role == "editor" %}
                     <li class="pure-menu-item">
                         <a class="pure-menu-link" href="{{request.route_url('user_list')}}">Seznam</a>
                     </li>
                     {% endif %}
-                    <li class="pure-menu-item">
-                        <a class="pure-menu-link" href="{{request.route_url('user_view', username=request.user.name)}}">Stanje</a>
-                    </li>
                     {% block songnavigation %}{% endblock %}
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link" href="{{request.route_url('user_settings', username=request.user.name)}}">Nastavitve</a>
+                    </li>
                     <li class="pure-menu-item">
                         <a class="pure-menu-link" href="{{request.route_url('logout')}}">Logout</a>
                     </li>
@@ -66,7 +69,7 @@
                 {% endif %}
 
                 <li class="pure-menu-item menu-item-divided">
-                    <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='About')}}">O nas</a>
+                    <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='About')}}">O Nas</a>
                 </li>
                 
                 <li class="pure-menu-item">

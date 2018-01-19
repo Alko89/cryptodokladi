@@ -22,6 +22,12 @@ def user_view(request):
 
     return dict(user=user, tokens=tokens, add_funds=funds_add)
 
+@view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='view')
+def user_settings(request):
+    user = request.context.user
+
+    return dict(user=user)
+
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
 def user_list(request):
     user_funds = request.dbsession.query(User.name, Funds.token, func.sum(Funds.value).label('value')).outerjoin(Funds).group_by(User.name).group_by(Funds.token)

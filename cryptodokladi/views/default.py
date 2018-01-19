@@ -35,20 +35,23 @@ def view_page(request):
             add_url = request.route_url('add_page', pagename=word)
             return '<a href="%s">%s</a>' % (add_url, escape(word))
 
-    content = publish_parts(page.data, writer_name='html')['html_body']
-    content = wikiwords.sub(add_link, content)
     edit_url = request.route_url('edit_page', pagename=page.name)
-    return dict(page=page, content=content, edit_url=edit_url)
+    return dict(page=page, edit_url=edit_url)
 
 @view_config(route_name='edit_page', renderer='../templates/edit.jinja2', permission='edit')
 def edit_page(request):
     page = request.context.page
+    print(page.title)
     if 'form.submitted' in request.params:
         page.data = request.params['body']
+        page.title = request.params['title']
+        page.subtitle = request.params['subtitle']
         next_url = request.route_url('view_page', pagename=page.name)
         return HTTPFound(location=next_url)
     return dict(
         pagename=page.name,
+        pagetitle=page.title,
+        pagesubtitle=page.subtitle,
         pagedata=page.data,
         save_url=request.route_url('edit_page', pagename=page.name),
         )
@@ -58,10 +61,12 @@ def add_page(request):
     pagename = request.context.pagename
     if 'form.submitted' in request.params:
         body = request.params['body']
-        page = Page(name=pagename, data=body)
+        title = request.params['title']
+        subtitle = request.params['subtitle']
+        page = Page(name=pagename, title=title, subtitle=subtitle, data=body)
         page.creator = request.user
         request.dbsession.add(page)
         next_url = request.route_url('view_page', pagename=pagename)
         return HTTPFound(location=next_url)
     save_url = request.route_url('add_page', pagename=pagename)
-    return dict(pagename=pagename, pagedata='', save_url=save_url)
+    return dict(pagename=pagename, pagetitle='', pagesubtitle='', pagedata='', save_url=save_url)
