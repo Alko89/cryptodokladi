@@ -3,7 +3,7 @@
 {% block subtitle %}Nastavitve - {% endblock subtitle %}
 
 {% block content %}
-<h1 class="content-subhead">Nastavitve {{ request.user.name }}</h1>
+<h1 class="content-subhead">Nastavitve {{ user.name }}</h1>
 
 <!-- A single blog post -->
 <section class="post">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-group">
-        <a class="pure-button" href="{{ save_user_settings }}">Shrani</a>
+        <a class="pure-button" href="{{ user_save_settings }}">Shrani</a>
     </div>
 </section>
 {% endblock content %}

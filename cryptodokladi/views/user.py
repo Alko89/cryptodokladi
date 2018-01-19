@@ -49,7 +49,7 @@ def user_new(request):
     save_url = request.route_url('user_new')
     return dict(save_url=save_url)
 
-@view_config(route_name='add_funds', renderer='../templates/user_edit.jinja2', permission='create')
+@view_config(route_name='add_funds', renderer='../templates/user_add_funds.jinja2', permission='create')
 def add_funds(request):
     edit_user = request.context.user
     
