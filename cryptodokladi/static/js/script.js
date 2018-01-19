@@ -30,6 +30,4 @@ $( document ).ready(function() {
         var te = parseFloat($('#ETH').text())
         $('#ETHEUR').text(te * eine);
     });
-
-    $("textarea").jqte();
 });
