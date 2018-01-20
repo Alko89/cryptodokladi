@@ -41,7 +41,6 @@ def view_page(request):
 @view_config(route_name='edit_page', renderer='../templates/edit.jinja2', permission='edit')
 def edit_page(request):
     page = request.context.page
-    print(page.title)
     if 'form.submitted' in request.params:
         page.data = request.params['body']
         page.title = request.params['title']
