@@ -22,12 +22,6 @@ def user_view(request):
 
     return dict(user=user, tokens=tokens, add_funds=funds_add)
 
-@view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='view')
-def user_settings(request):
-    user = request.context.user
-
-    return dict(user=user)
-
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
 def user_list(request):
     user_funds = request.dbsession.query(User.name, Funds.token, func.sum(Funds.value).label('value')).outerjoin(Funds).group_by(User.name).group_by(Funds.token)
@@ -64,3 +58,20 @@ def add_funds(request):
         return HTTPFound(location=next_url)
     save_url = request.route_url('add_funds', username=edit_user.name)
     return dict(user=edit_user, save_url=save_url)
+
+
+@view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='save')
+def user_settings(request):
+    user = request.context.user
+
+    if 'form.submitted' in request.params:
+        password = request.params['password']
+        repassword = request.params['repassword']
+
+        if password != repassword:
+            return HTTPFound(location=request.route_url('user_settings_save', username=user.name))
+
+        user.set_password(password)
+        return HTTPFound(location=request.route_url('view_page', pagename='FrontPage'))
+
+    return dict(user=user)

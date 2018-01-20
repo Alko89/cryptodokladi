@@ -12,11 +12,15 @@
     </header>
 
     <div class="post-description">
-        tuki
-    </div>
-
-    <div class="form-group">
-        <a class="pure-button" href="{{ user_save_settings }}">Shrani</a>
+        <form action="{{ user_settings_save }}" method="post">
+            <div class="pure-control-group">
+                <input class="pure-input-1-2" type="password" name="password" placeholder="geslo" />
+                <input class="pure-input-1-2" type="password" name="repassword" placeholder="ponovi geslo" />
+            </div>
+            <div class="pure-control-group">
+                <button type="submit" name="form.submitted" value="Save" class="pure-button">Shrani</button>
+            </div>
+        </form>
     </div>
 </section>
 {% endblock content %}

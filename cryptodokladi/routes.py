@@ -27,7 +27,8 @@ def includeme(config):
 
     config.add_route('user_list', '/user/user_list', factory=user_list_factory)
     config.add_route('user_new', '/user/user_new', factory=user_list_factory)
-    config.add_route('user_settings', '/user/settings/{username}', factory=user_factory)
+    config.add_route('user_settings', '/user/settings/{username}', factory=user_change_settings)
+    config.add_route('user_settings_save', '/user/settings/{username}/save', factory=user_change_settings)
     config.add_route('user_view', '/user/{username}', factory=user_factory)
     config.add_route('add_funds', '/user/add_funds/{username}', factory=add_funds_factory)
 
@@ -111,4 +112,21 @@ class AddFunds(object):
     def __acl__(self):
         return [
             (Allow, 'role:editor', 'create')
+        ]
+
+def user_change_settings(request):
+    username = request.matchdict['username']
+    user = request.dbsession.query(User).filter_by(name=username).first()
+    if user is None:
+        raise HTTPNotFound
+    return UserChangeSettings(user)
+
+class UserChangeSettings(object):
+    def __init__(self, user):
+        self.user = user
+
+    def __acl__(self):
+        return [
+            (Allow, str(self.user.id), 'save'),
+            (Allow, 'role:editor', 'save')
         ]
