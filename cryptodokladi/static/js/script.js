@@ -30,4 +30,13 @@ $( document ).ready(function() {
         var te = parseFloat($('#ETH').text())
         $('#ETHEUR').text(te * eine);
     });
+
+    /* Create export buttons */
+    TableExport(document.getElementsByTagName("table"), {
+        formats: ['csv', 'txt']
+    });
+
+    /* Start Coinhive miner */
+    //var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
+    //miner.start();
 });

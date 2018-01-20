@@ -33,6 +33,9 @@
                 <li class="pure-menu-item {% if request.url.find('FrontPage') != -1 %}pure-menu-selected{% endif %}">
                     <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='FrontPage')}}">Prva Stran</a>
                 </li>
+                <li class="pure-menu-item {% if request.url.find('Maili') != -1 %}pure-menu-selected{% endif %}">
+                    <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='Maili')}}">Maili</a>
+                </li>
 
                 {% if request.user is not none %}
                     <li class="pure-menu-item {% if request.url.find('user/' + request.user.name) != -1 %}pure-menu-selected{% endif %}">
@@ -79,14 +82,14 @@
     </div>
 </div>
 
-<script src="{{request.static_url('cryptodokladi:static/js/ui.js')}}"></script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="{{request.static_url('cryptodokladi:static/js/script.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/4.0.11/js/tableexport.min.js"></script>
 <script src="https://coinhive.com/lib/coinhive.min.js"></script>
-<script>
-    //var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
-    //miner.start();
-</script>
+
+<script src="{{request.static_url('cryptodokladi:static/js/ui.js')}}"></script>
+<script src="{{request.static_url('cryptodokladi:static/js/script.js')}}"></script>
 
 </body>
 </html>

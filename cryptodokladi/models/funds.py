@@ -23,3 +23,6 @@ class Funds(Base):
 
     user_id = Column(ForeignKey('users.id'), nullable=False)
     user = relationship('User', backref='user_funds')
+
+    # creator_id = Column(ForeignKey('users.id'), nullable=False)
+    # creator = relationship('User', backref='creator_transaction')

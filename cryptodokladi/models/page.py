@@ -21,3 +21,15 @@ class Page(Base):
 
     creator_id = Column(ForeignKey('users.id'), nullable=False)
     creator = relationship('User', backref='created_pages')
+
+# class Commetn(Base):
+#     __tablename__ = 'comments'
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String(255))
+#     data = Column(Text, nullable=False)
+
+#     page_id = Column(ForeignKey('pages.id'), nullable=False)
+#     page = relationship('Page', backref='page_comments')
+
+#     creator_id = Column(ForeignKey('users.id'), nullable=False)
+#     creator = relationship('User', backref='posted_comments')
