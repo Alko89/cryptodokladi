@@ -24,7 +24,17 @@ def user_view(request):
 
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
 def user_list(request):
-    user_funds = request.dbsession.query(User.name, Funds.token, func.sum(Funds.value).label('value')).outerjoin(Funds).group_by(User.name).group_by(Funds.token)
+    user_funds = request.dbsession.execute("""
+    SELECT users.name,
+        SUM(CASE WHEN funds.token = 'BTC' THEN funds.value ELSE 0 END) AS BTC,
+        SUM(CASE WHEN funds.token = 'ETH' THEN funds.value ELSE 0 END) AS ETH,
+        SUM(CASE WHEN funds.token = 'PIVX' THEN funds.value ELSE 0 END) AS PIVX,
+        SUM(CASE WHEN funds.token = 'SPF' THEN funds.value ELSE 0 END) AS SPF,
+        SUM(CASE WHEN funds.token = 'IOTA' THEN funds.value ELSE 0 END) AS IOTA
+    FROM funds
+    INNER JOIN users ON users.id = funds.user_id
+    GROUP BY users.name
+    """)
 
     return dict(user_funds=user_funds)
 

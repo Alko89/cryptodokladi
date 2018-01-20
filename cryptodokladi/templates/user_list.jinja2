@@ -10,16 +10,38 @@
 
         <p class="post-meta">
             <table class="pure-table pure-table-horizontal">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>BTC</th>
+                        <th>ETH</th>
+                        <th>SPF</th>
+                        <th>PIVX</th>
+                        <th>IOTA</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                
                 {% for user in user_funds %}
                 <tr>
                     <td>
                         <a href="{{request.route_url('user_view', username=user.name)}}">{{ user.name }}</a>
                     </td>
                     <td>
-                        {{ user.token }}
+                        {{ user.BTC }}
                     </td>
                     <td class="{{ user.token }}">
-                        {{ user.value }}
+                        {{ user.ETH }}
+                    </td>
+                    <td class="{{ user.token }}">
+                        {{ user.SPF }}
+                    </td>
+                    <td class="{{ user.token }}">
+                        {{ user.PIVX }}
+                    </td>
+                    <td class="{{ user.token }}">
+                        {{ user.IOTA }}
                     </td>
                 </tr>
                 {% endfor %}
