@@ -29,19 +29,19 @@
                         <a href="{{request.route_url('user_view', username=user.name)}}">{{ user.name }}</a>
                     </td>
                     <td>
-                        {{ user.BTC }}
+                        {{ "%.8f"|format(user.BTC) }}
                     </td>
                     <td class="{{ user.token }}">
-                        {{ user.ETH }}
+                        {{ "%.8f"|format(user.ETH) }}
                     </td>
                     <td class="{{ user.token }}">
-                        {{ user.SPF }}
+                        {{ "%.8f"|format(user.SPF) }}
                     </td>
                     <td class="{{ user.token }}">
-                        {{ user.PIVX }}
+                        {{ "%.8f"|format(user.PIVX) }}
                     </td>
                     <td class="{{ user.token }}">
-                        {{ user.IOTA }}
+                        {{ "%.8f"|format(user.IOTA) }}
                     </td>
                 </tr>
                 {% endfor %}

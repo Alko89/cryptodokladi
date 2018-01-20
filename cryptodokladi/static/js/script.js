@@ -16,18 +16,18 @@ $( document ).ready(function() {
     });
 
     $.get("https://api.kraken.com/0/public/Ticker?pair=BTCEUR", function(data) {
-        var bine = data.result.XXBTZEUR.c[0]
+        var bine = data.result.XXBTZEUR.c[0];
 
-        $('#btceur').text(bine)
-        var tb = parseFloat($('#BTC').text())
+        $('#btceur').text(bine);
+        var tb = parseFloat($('#BTC').text()).toFixed(8);
         $('#BTCEUR').text(tb * bine);
     });
 
     $.get("https://api.kraken.com/0/public/Ticker?pair=ETHEUR", function(data) {
-        var eine = data.result.XETHZEUR.c[0]
+        var eine = data.result.XETHZEUR.c[0];
 
-        $('#etheur').text(eine)
-        var te = parseFloat($('#ETH').text())
+        $('#etheur').text(eine);
+        var te = parseFloat($('#ETH').text()).toFixed(8);
         $('#ETHEUR').text(te * eine);
     });
 

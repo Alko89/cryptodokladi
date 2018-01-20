@@ -15,7 +15,7 @@
         {{ page.data|safe }}
     </div>
 
-    {% if request.user is not none %}
+    {% if request.user.role == "editor" or request.user.id == page.creator_id %}
     <div class="form-group">
         <a class="pure-button" href="{{ edit_url }}">Uredi Stran</a>
     </div>

@@ -28,7 +28,7 @@
                                 {{ fund.token }}
                             </td>
                             <td class="{{ fund.token }}" id="{{ fund.token }}">
-                                {{ fund.value|round(4) }}
+                                {{ "%.8f"|format(fund.value) }}
                             </td>
                             <td class="{{ fund.token }}" ID="{{ fund.token }}EUR">
                             </td>
@@ -73,7 +73,7 @@
                         {{ fund.token }}
                     </td>
                     <td class="{{ fund.token }}">
-                        {{ fund.value|round(4) }}
+                        {{ "%.8f"|format(fund.value) }}
                     </td>
                     <td class="timestamp">
                         {{ fund.timestamp }}
