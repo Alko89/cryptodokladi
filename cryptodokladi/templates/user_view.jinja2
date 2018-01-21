@@ -66,6 +66,12 @@
                     <td class="{{ fund.token }}">
                         {{ "%.8f"|format(fund.value) }}
                     </td>
+                    <td>
+                        {{ fund.sender.name }}
+                    </td>
+                    <td>
+                        {{ fund.comment }}
+                    </td>
                     <td class="timestamp">
                         {{ fund.timestamp }}
                     </td>
@@ -96,6 +102,12 @@
                     <td class="{{ fund.token }}">
                         {{ "%.8f"|format(fund.value) }}
                     </td>
+                    <td>
+                        {{ fund.sender.name }}
+                    </td>
+                    <td>
+                        {{ fund.comment }}
+                    </td>
                     <td class="timestamp">
                         {{ fund.timestamp }}
                     </td>
@@ -124,6 +136,12 @@
                     </td>
                     <td class="{{ fund.token }}">
                         {{ "%.8f"|format(fund.value) }}
+                    </td>
+                    <td>
+                        {{ fund.sender.name }}
+                    </td>
+                    <td>
+                        {{ fund.comment }}
                     </td>
                     <td class="timestamp">
                         {{ fund.timestamp }}
@@ -155,6 +173,12 @@
                     <td class="{{ fund.token }}">
                         {{ "%.8f"|format(fund.value) }}
                     </td>
+                    <td>
+                        {{ fund.sender.name }}
+                    </td>
+                    <td>
+                        {{ fund.comment }}
+                    </td>
                     <td class="timestamp">
                         {{ fund.timestamp }}
                     </td>
@@ -185,6 +209,12 @@
                     <td class="{{ fund.token }}">
                         {{ "%.8f"|format(fund.value) }}
                     </td>
+                    <td>
+                        {{ fund.sender.name }}
+                    </td>
+                    <td>
+                        {{ fund.comment }}
+                    </td>
                     <td class="timestamp">
                         {{ fund.timestamp }}
                     </td>
@@ -196,16 +226,26 @@
     </div>
     {% endif %}
 
-    {% if request.user.role == "editor" %}
     <div class="post-description">
-        <div class="pure-u-1">
-            <p class"post-meta">
-                <a class="pure-button" href="{{ add_funds }}">
-                    Dodaj Koine
-                </a>
-            </p>
+        <div class="pure-g">
+            {% if request.user.role == "editor" %}
+            <div class="pure-u-1-2">
+                <p class"post-meta">
+                    <a class="pure-button" href="{{ add_funds }}">
+                        Dodaj Koine
+                    </a>
+                </p>
+            </div>
+            {% endif %}
+
+            <div class="pure-u-1-2">
+                <p class"post-meta">
+                    <a class="pure-button" href="{{ send_funds }}">
+                        Pošlji Koine
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
-    {% endif %}
 </section>
 {% endblock content %}

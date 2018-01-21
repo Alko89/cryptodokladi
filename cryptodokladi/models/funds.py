@@ -22,7 +22,7 @@ class Funds(Base):
     comment = Column(Text)
 
     user_id = Column(ForeignKey('users.id'), nullable=False)
-    user = relationship('User', backref='user_funds')
+    user = relationship('User', backref='user_funds', foreign_keys='Funds.user_id')
 
-    # creator_id = Column(ForeignKey('users.id'), nullable=False)
-    # creator = relationship('User', backref='creator_transaction')
+    sender_id = Column(ForeignKey('users.id'))
+    sender = relationship('User', backref='user_sender', foreign_keys='Funds.sender_id')

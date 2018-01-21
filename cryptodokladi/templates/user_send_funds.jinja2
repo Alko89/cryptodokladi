@@ -28,6 +28,12 @@
         <p class="post-meta">
         <form action="{{ add_fund }}" method="post">
             <div class="pure-control-group">
+                <select class="pure-input-1" name="receiving_user" placeholder="Izberi prejemnika">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+
                 <select class="pure-input-1-2" name="token" placeholder="Token">
                     <option value="BTC">Bitcoin</option>
                     <option value="ETH">Ethereum</option>
@@ -35,7 +41,7 @@
                     <option value="PIVX">PIVX</option>
                     <option value="IOTA">MIOTA</option>
                 </select>
-                <input class="pure-input-1-2" type="text" name="value" placeholder="Vrednost" />
+                <input class="pure-input-1-2" type="text" name="value" placeholder="Value" />
             </div>
             <div class="pure-control-group">
                 <input class="pure-input-1-2" type="text" name="comment" placeholder="Komentar" />

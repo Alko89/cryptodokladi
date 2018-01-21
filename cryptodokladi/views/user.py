@@ -19,13 +19,14 @@ def user_view(request):
 
     tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
 
-    transactions_btc = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='BTC')
-    transactions_eth = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='ETH')
-    transactions_pivx = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='PIVX')
-    transactions_spf = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='SPF')
-    transactions_iota = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='IOTA')
+    transactions_btc = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='BTC').order_by(Funds.timestamp.desc())
+    transactions_eth = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='ETH').order_by(Funds.timestamp.desc())
+    transactions_pivx = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='PIVX').order_by(Funds.timestamp.desc())
+    transactions_spf = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='SPF').order_by(Funds.timestamp.desc())
+    transactions_iota = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='IOTA').order_by(Funds.timestamp.desc())
 
     funds_add = request.route_url('add_funds', username=user.name)
+    funds_send = request.route_url('send_funds', username=user.name)
     return dict(
         user=user,
         tokens=tokens,
@@ -34,7 +35,8 @@ def user_view(request):
         transactions_pivx=transactions_pivx,
         transactions_spf=transactions_spf,
         transactions_iota=transactions_iota,
-        add_funds=funds_add
+        add_funds=funds_add,
+        send_funds=funds_send
     )
 
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
@@ -74,15 +76,39 @@ def add_funds(request):
     
     if 'form.submitted' in request.params:
         token = request.params['token']
-        value = float(request.params['value'])
+        value = request.params['value']
+        comment = request.params['comment']
 
-        fund = Funds(token=token, value=value, user=edit_user)
+        fund = Funds(token=token, value=value, comment=comment, user=edit_user)
         request.dbsession.add(fund)
 
         next_url = request.route_url('user_view', username=edit_user.name)
         return HTTPFound(location=next_url)
-    save_url = request.route_url('add_funds', username=edit_user.name)
-    return dict(user=edit_user, save_url=save_url)
+    
+    return dict(user=edit_user)
+
+@view_config(route_name='send_funds', renderer='../templates/user_send_funds.jinja2', permission='send')
+def send_funds(request):
+    sending_user = request.context.user
+    users = request.dbsession.query(User.id, User.name).all()
+    
+    if 'form.submitted' in request.params:
+        receiving_userid = request.params['receiving_user']
+        receiving_user = request.dbsession.query(User).filter_by(id=receiving_userid).first()
+        token = request.params['token']
+        value = float(request.params['value'].replace(',', '.'))
+        comment = request.params['comment']
+
+        fund_send = Funds(token=token, value=-value, comment=receiving_user.name + ": " + comment, user=sending_user)
+        fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
+
+        request.dbsession.add(fund_send)
+        request.dbsession.add(fund_receive)
+
+        next_url = request.route_url('user_view', username=sending_user.name)
+        return HTTPFound(location=next_url)
+
+    return dict(user=sending_user, users=users)
 
 
 @view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='save')

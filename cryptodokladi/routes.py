@@ -31,6 +31,7 @@ def includeme(config):
     config.add_route('user_settings_save', '/user/settings/{username}/save', factory=user_change_settings)
     config.add_route('user_view', '/user/{username}', factory=user_factory)
     config.add_route('add_funds', '/user/add_funds/{username}', factory=add_funds_factory)
+    config.add_route('send_funds', '/user/send_funds/{username}', factory=send_funds_factory)
 
 
 def new_page_factory(request):
@@ -112,6 +113,22 @@ class AddFunds(object):
     def __acl__(self):
         return [
             (Allow, 'role:editor', 'create')
+        ]
+
+def send_funds_factory(request):
+    username = request.matchdict['username']
+    user = request.dbsession.query(User).filter_by(name=username).first()
+    if user is None:
+        raise HTTPNotFound
+    return SendFunds(user)
+
+class SendFunds(object):
+    def __init__(self, user):
+        self.user = user
+
+    def __acl__(self):
+        return [
+            (Allow, str(self.user.id), 'send')
         ]
 
 def user_change_settings(request):
