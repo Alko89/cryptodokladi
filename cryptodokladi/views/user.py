@@ -18,9 +18,24 @@ def user_view(request):
     user = request.context.user
 
     tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
-    funds_add = request.route_url('add_funds', username=user.name)
 
-    return dict(user=user, tokens=tokens, add_funds=funds_add)
+    transactions_btc = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='BTC')
+    transactions_eth = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='ETH')
+    transactions_pivx = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='PIVX')
+    transactions_spf = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='SPF')
+    transactions_iota = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='IOTA')
+
+    funds_add = request.route_url('add_funds', username=user.name)
+    return dict(
+        user=user,
+        tokens=tokens,
+        transactions_btc=transactions_btc,
+        transactions_eth=transactions_eth,
+        transactions_pivx=transactions_pivx,
+        transactions_spf=transactions_spf,
+        transactions_iota=transactions_iota,
+        add_funds=funds_add
+    )
 
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
 def user_list(request):
