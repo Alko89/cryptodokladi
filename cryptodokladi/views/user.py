@@ -72,24 +72,26 @@ def user_new(request):
 
 @view_config(route_name='add_funds', renderer='../templates/user_add_funds.jinja2', permission='create')
 def add_funds(request):
-    edit_user = request.context.user
+    user = request.context.user
+    tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
     
     if 'form.submitted' in request.params:
         token = request.params['token']
         value = request.params['value']
         comment = request.params['comment']
 
-        fund = Funds(token=token, value=value, comment=comment, user=edit_user)
+        fund = Funds(token=token, value=value, comment=comment, user=user)
         request.dbsession.add(fund)
 
-        next_url = request.route_url('user_view', username=edit_user.name)
+        next_url = request.route_url('user_view', username=user.name)
         return HTTPFound(location=next_url)
     
-    return dict(user=edit_user)
+    return dict(user=user, tokens=tokens)
 
 @view_config(route_name='send_funds', renderer='../templates/user_send_funds.jinja2', permission='send')
 def send_funds(request):
     sending_user = request.context.user
+    tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=sending_user).group_by(Funds.token)
     users = request.dbsession.query(User.id, User.name).all()
     
     if 'form.submitted' in request.params:
@@ -98,6 +100,10 @@ def send_funds(request):
         token = request.params['token']
         value = float(request.params['value'].replace(',', '.'))
         comment = request.params['comment']
+
+        if value < 0:
+            back = request.route_url('send_funds', username=sending_user.name)
+            return HTTPFound(location=back)
 
         fund_send = Funds(token=token, value=-value, comment=receiving_user.name + ": " + comment, user=sending_user)
         fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
@@ -108,7 +114,7 @@ def send_funds(request):
         next_url = request.route_url('user_view', username=sending_user.name)
         return HTTPFound(location=next_url)
 
-    return dict(user=sending_user, users=users)
+    return dict(user=sending_user, tokens=tokens, users=users)
 
 
 @view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='save')

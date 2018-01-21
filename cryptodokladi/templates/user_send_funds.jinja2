@@ -7,25 +7,48 @@
         <h2 class="post-title">
             {{ user.name }}
         </h2>
+    </header>
 
-        <p class="post-meta">
-            <table class="pure-table pure-table-bordered">
-                {% for fund in user.user_funds %}
-                <tr>
-                    <td>
-                        {{ fund.token }}
-                    </td>
-                    <td class="{{ fund.token }}">
-                        {{ fund.value }}
-                    </td>
-                    <td>
-                        {{ fund.timestamp }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </p>
-        <p class="post-meta">
+    <div class="post-description">
+        <div class="post-images pure-g">
+            <div class="pure-u-1">
+                <table class="pure-table pure-table-horizontal">
+                    <thead>
+                        <tr>
+                            <th>Koin</th>
+                            <th>Vrednost</th>
+                            <th>Tečaj</th>
+                            <th>Vrednost v EUR</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for fund in tokens %}
+                        <tr>
+                            <td>
+                                {{ fund.token }}
+                            </td>
+                            <td class="{{ fund.token }}" id="{{ fund.token }}">
+                                {{ "%.8f"|format(fund.value) }}
+                            </td>
+                            {% if fund.token == "BTC" %}
+                            <td id="btceur"></td>
+                            {% elif fund.token == "ETH" %}
+                            <td id="etheur"></td>
+                            {% else %}
+                            <td></td>
+                            {% endif %}
+                            <td class="{{ fund.token }}" ID="{{ fund.token }}EUR">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-description">
         <form action="{{ add_fund }}" method="post">
             <div class="pure-control-group">
                 <select class="pure-input-1" name="receiving_user" placeholder="Izberi prejemnika">
@@ -48,7 +71,6 @@
                 <button type="submit" name="form.submitted" value="Add" class="pure-button">Add</button>
             </div>
         </form>
-        </p>
-    </header>
+    </div>
 </section>
 {% endblock content %}
