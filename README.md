@@ -1,8 +1,6 @@
 # cryptodokladi
-=============
 
 ## Getting Started
----------------
 
 - Change directory into your newly created project.
 
