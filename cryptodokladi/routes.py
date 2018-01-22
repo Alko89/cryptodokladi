@@ -12,6 +12,7 @@ from .models import Page, User
 def includeme(config):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('view_wiki', '/')
+    config.add_route('solidity', '/solidity')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 
@@ -116,8 +117,7 @@ class AddFunds(object):
         ]
 
 def send_funds_factory(request):
-    username = request.matchdict['username']
-    user = request.dbsession.query(User).filter_by(name=username).first()
+    user = request.user
     if user is None:
         raise HTTPNotFound
     return SendFunds(user)

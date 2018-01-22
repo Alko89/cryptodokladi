@@ -1,0 +1,91 @@
+{% extends 'layout.jinja2' %}
+
+{% block subtitle %}Solidity SandBox - {% endblock subtitle %}
+
+{% block content %}
+<div class="content">
+    <h2 class="content-subhead">Solidity - SandBox</h2>
+    <p>
+        <div class="pure-control-group">
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" value="{{ user.name }}">
+        </div>
+        <div class="pure-control-group">
+            <label for="age">Age</label>
+            <input id="age" type="text" name="age">
+        </div>
+        <div class="pure-control-group">
+            <button id="update" class="pure-button">Update</button>
+        </div>
+    </p>
+    <p id="sand"></p>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{request.static_url('cryptodokladi:static/node_modules/web3/dist/web3.min.js')}}"></script>
+<script>
+    if (typeof web3 !== 'undefined') {
+        web3 = new Web3(web3.currentProvider);
+    }
+    else {
+        web3 = new Web3(new Web3.providers.HttpProvider("https://localhost:8545"));
+    }
+
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+    var SandBoxContract = web3.eth.contract([
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getNameAge",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_username",
+                    "type": "string"
+                },
+                {
+                    "name": "_age",
+                    "type": "uint256"
+                }
+            ],
+            "name": "setNameAge",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ]);
+
+    var SandBox = SandBoxContract.at('0x361D055Be1fe5d1721aEB009dB0a6F32b3c5b939');
+    console.log(SandBox);
+
+    SandBox.getNameAge(function(error, result) {
+        if(!error) {
+            $("#sand").html(result[0] + ' (' + result[1] + ')');
+        } else {
+            console.log(error);
+        }
+    });
+
+    $("#update").click(function() {
+        SandBox.setNameAge($("#name").val(), $("#age").val());
+    })
+
+</script>
+{% endblock scripts %}

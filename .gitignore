@@ -20,3 +20,6 @@ Data.fs*
 coverage
 test
 .vscode
+node_modules/
+bin/
+package-lock.json

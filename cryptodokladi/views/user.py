@@ -90,7 +90,7 @@ def add_funds(request):
 
 @view_config(route_name='send_funds', renderer='../templates/user_send_funds.jinja2', permission='send')
 def send_funds(request):
-    sending_user = request.context.user
+    sending_user = request.user
     tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=sending_user).group_by(Funds.token)
     users = request.dbsession.query(User.id, User.name).all()
     
