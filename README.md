@@ -29,6 +29,7 @@
 - Install node_modules.
 
     `cd ./cryptodokladi/static`
+    
     `npm install`
 
 - Run your project.
