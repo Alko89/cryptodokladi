@@ -20,6 +20,7 @@ class MyAuthenticationPolicy(AuthTktAuthenticationPolicy):
         if user is not None:
             principals.append(Authenticated)
             principals.append(str(user.id))
+            principals.append('name:' + user.name)
             principals.append('role:' + user.role)
         return principals
 

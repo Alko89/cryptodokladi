@@ -34,7 +34,7 @@ def includeme(config):
     config.add_route('add_funds', '/user/add_funds/{username}', factory=add_funds_factory)
     config.add_route('send_funds', '/user/send_funds/{username}', factory=send_funds_factory)
 
-    config.add_route('calculate_staking_rewards', '/api/calculate_rewards/{pivx_reward}')
+    config.add_route('calculate_staking_rewards', '/api/calculate_rewards/{pivx_reward}/{save}', factory=calculate_staking_rewards)
 
 
 def new_page_factory(request):
@@ -148,4 +148,19 @@ class UserChangeSettings(object):
         return [
             (Allow, str(self.user.id), 'save'),
             (Allow, 'role:editor', 'save')
+        ]
+
+def calculate_staking_rewards(request):
+    user = request.user
+    if user is None:
+        raise HTTPNotFound
+    return CalculateStakingRewards(user)
+
+class CalculateStakingRewards(object):
+    def __init__(self, user):
+        self.user = user
+
+    def __acl__(self):
+        return [
+            (Allow, 'name:alko', 'calc')
         ]
