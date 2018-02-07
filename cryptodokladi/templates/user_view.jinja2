@@ -35,10 +35,16 @@
                             <td id="btceur"></td>
                             {% elif fund.token == "ETH" %}
                             <td id="etheur"></td>
+                            {% elif fund.token == "PIVX" %}
+                            <td id="pivxeur"></td>
+                            {% elif fund.token == "SPF" %}
+                            <td id="spfeur"></td>
+                            {% elif fund.token == "IOTA" %}
+                            <td id="iotaeur"></td>
                             {% else %}
                             <td></td>
                             {% endif %}
-                            <td class="{{ fund.token }}" ID="{{ fund.token }}EUR">
+                            <td ID="{{ fund.token }}EUR">
                             </td>
                         </tr>
                         {% endfor %}

@@ -15,20 +15,46 @@ $( document ).ready(function() {
         });
     });
 
-    $.get("https://api.kraken.com/0/public/Ticker?pair=BTCEUR", function(data) {
-        var bine = data.result.XXBTZEUR.c[0];
+    $.get("https://api.coinmarketcap.com/v1/ticker/pivx/?convert=EUR", function(data) {
+        var pivx_eur = data[0].price_eur
+        var pivx = $('#PIVX').text();
 
-        $('#btceur').text(bine);
-        var tb = parseFloat($('#BTC').text()).toFixed(8);
-        $('#BTCEUR').text(tb * bine);
+        $('#pivxeur').text(parseFloat(pivx_eur).toFixed(8));
+        $('#PIVXEUR').text((pivx * pivx_eur).toFixed(8));
     });
 
-    $.get("https://api.kraken.com/0/public/Ticker?pair=ETHEUR", function(data) {
-        var eine = data.result.XETHZEUR.c[0];
+    $.get("https://api.coinmarketcap.com/v1/ticker/sportyco/?convert=EUR", function(data) {
+        var spf_eur = data[0].price_eur
+        var spf = $('#SPF').text();
 
-        $('#etheur').text(eine);
-        var te = parseFloat($('#ETH').text()).toFixed(8);
-        $('#ETHEUR').text(te * eine);
+        $('#spfeur').text(parseFloat(spf_eur).toFixed(8));
+        $('#SPFEUR').text((spf * spf_eur).toFixed(8));
+    });
+
+    $.get("https://api.coinmarketcap.com/v1/ticker/iota/?convert=EUR", function(data) {
+        var iota_eur = data[0].price_eur
+        var iota = $('#IOTA').text();
+
+        $('#iotaeur').text(parseFloat(iota_eur).toFixed(8));
+        $('#IOTAEUR').text((iota * iota_eur).toFixed(8));
+    });
+
+    $.get("https://api.fixer.io/latest", function(data) {
+        var usd_eur = data.rates.USD;
+
+        $.get("https://poloniex.com/public?command=returnTicker", function(data) {
+            var usdt_btc = data.USDT_BTC.last;
+            var usdt_eth = data.USDT_ETH.last;
+
+            var btc = $('#BTC').text();
+            var eth = $('#ETH').text();
+
+            $('#btceur').text((usdt_btc / usd_eur).toFixed(8));
+            $('#BTCEUR').text((btc * (usdt_btc / usd_eur)).toFixed(8));
+
+            $('#etheur').text((usdt_eth / usd_eur).toFixed(8));
+            $('#ETHEUR').text((eth * (usdt_eth / usd_eur)).toFixed(8));
+        });
     });
 
     /* Create export buttons */
