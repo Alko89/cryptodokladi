@@ -34,6 +34,8 @@ def includeme(config):
     config.add_route('add_funds', '/user/add_funds/{username}', factory=add_funds_factory)
     config.add_route('send_funds', '/user/send_funds/{username}', factory=send_funds_factory)
 
+    config.add_route('calculate_staking_rewards', '/api/calculate_rewards/{pivx_reward}')
+
 
 def new_page_factory(request):
     pagename = request.matchdict['pagename']
