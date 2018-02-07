@@ -119,7 +119,8 @@ def send_funds(request):
 
 @view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='save')
 def user_settings(request):
-    user = request.context.user
+    username = request.matchdict['username']
+    user = request.dbsession.query(User).filter_by(name=username).first()
 
     if 'form.submitted' in request.params:
         password = request.params['password']

@@ -48,6 +48,30 @@
         </div>
     </div>
 
+    <div class="post-description">
+        <div class="pure-g">
+            {% if request.user.role == "editor" %}
+            <div class="pure-u-1-2">
+                <p class"post-meta">
+                    <a class="pure-button" href="{{ add_funds }}">
+                        Dodaj Koine
+                    </a>
+                </p>
+            </div>
+            {% endif %}
+
+            {% if request.user.name == user.name %}
+            <div class="pure-u-1-2">
+                <p class"post-meta">
+                    <a class="pure-button" href="{{ send_funds }}">
+                        Pošlji Koine
+                    </a>
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
     {% if transactions_btc.count() != 0 %}
     <header class="post-header">
         <p class="post-meta">
@@ -225,29 +249,5 @@
         </div>
     </div>
     {% endif %}
-
-    <div class="post-description">
-        <div class="pure-g">
-            {% if request.user.role == "editor" %}
-            <div class="pure-u-1-2">
-                <p class"post-meta">
-                    <a class="pure-button" href="{{ add_funds }}">
-                        Dodaj Koine
-                    </a>
-                </p>
-            </div>
-            {% endif %}
-
-            {% if request.user.name == user.name %}
-            <div class="pure-u-1-2">
-                <p class"post-meta">
-                    <a class="pure-button" href="{{ send_funds }}">
-                        Pošlji Koine
-                    </a>
-                </p>
-            </div>
-            {% endif %}
-        </div>
-    </div>
 </section>
 {% endblock content %}
