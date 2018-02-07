@@ -21,10 +21,12 @@ def calculate_staking_rewards(request):
 
     pivx_user_rewards = []
     reward_sum = 0
+    funds_sum_after = 0
 
     for user in pivx_user_funds:
         reward = (float(user.total) * pivx_reward) / float(pivx_funds.total)
         reward_sum += reward
+        funds_sum_after += float(user.total) + reward
 
         if request.matchdict['save'] == "1":
             fund = Funds(token="PIVX", value=reward, comment="reward", user_id=user.user_id)
@@ -33,11 +35,15 @@ def calculate_staking_rewards(request):
         username = request.dbsession.query(User.name).filter_by(id=user.user_id).first()
 
         pivx_user_rewards.append({
-            'user': username,
+            'user': username[0],
             'reward': reward,
             'before': float(user.total),
             'after': float(user.total) + reward
         })
 
-    pivx_user_rewards.append({'sum': reward_sum})
+    pivx_user_rewards.append({
+        'sum': reward_sum,
+        'before': float(pivx_funds.total),
+        'after': funds_sum_after
+    })
     return pivx_user_rewards
