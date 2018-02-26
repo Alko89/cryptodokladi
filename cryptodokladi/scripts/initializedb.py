@@ -17,7 +17,7 @@ from ..models import (
     get_session_factory,
     get_tm_session,
     )
-from ..models import Song, Lyric, Tag, Page, User, Funds
+from ..models import User, Funds
 
 
 def usage(argv):
@@ -43,62 +43,10 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        jaka7 = User(name='7jaka7', role='editor')
-        jaka7.set_password('editor')
-        dbsession.add(jaka7)
+        editor = User(name='editor', role='editor')
+        editor.set_password('editor')
+        dbsession.add(editor)
 
-        alko = User(name='alko', role='basic')
-        alko.set_password('mojamama')
-        dbsession.add(alko)
-
-        page = Page(
-            name='FrontPage',
-            title='Prva Stran',
-            subtitle='Dobrodosli',
-            creator=jaka7,
-            data='Novice o Kripto Kojnih.',
-        )
-        dbsession.add(page)
-
-        about = Page(
-            name='About',
-            title='O Nas',
-            subtitle='O Nas',
-            creator=alko,
-            data='GoOpen',
-        )
-        dbsession.add(about)
-
-        with open('./cryptodokladi/scripts/capoeiralyrics_2017-12-18.json') as data_file:    
-            data = json.load(data_file)
-        
-        for song in data:
-            s = Song(title = song['title'],
-                    subtitle = song['subtitle'])
-            
-            if song['ytplayer'] is not None:
-                s.ytplayer = song['ytplayer']
-            
-            dbsession.add(s)
-            
-            for key in song['lyrics'].keys():
-                
-                l = Lyric(language=key, text=song['lyrics'][key].replace('\n', '<br />'), song=s)
-                
-                dbsession.add(l)
-        
-        
-        with open('./cryptodokladi/scripts/tags_2017-12-18.json') as data_file:    
-            data = json.load(data_file)
-            
-        for s in data:
-            song = dbsession.query(Song).filter_by(title=s['title']).first()
-            if song is not None:
-            
-                for t in s['tags']:
-                    tag = dbsession.query(Tag).filter_by(text=t).first()
-                    if tag is None:
-                        tag = Tag(text = t)
-                        dbsession.add(tag)
-                    
-                    song.tags.append(tag)
+        basic = User(name='basic', role='basic')
+        basic.set_password('basic')
+        dbsession.add(basic)

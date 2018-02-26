@@ -5,8 +5,6 @@ import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from .song import Song, Lyric, Tag  # noqa
-from .page import Page  # noqa
 from .user import User  # noqa
 from .funds import Funds  # noqa
 
