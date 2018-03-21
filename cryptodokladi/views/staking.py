@@ -28,7 +28,7 @@ def calculate_staking_rewards(request):
         reward_sum += reward
         funds_sum_after += float(user.total) + reward
 
-        if request.matchdict['save'] == "1":
+        if request.matchdict['save'] == "save":
             fund = Funds(token="PIVX", value=reward, comment="reward", user_id=user.user_id)
             request.dbsession.add(fund)
 

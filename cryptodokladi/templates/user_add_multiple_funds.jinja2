@@ -1,0 +1,61 @@
+{% extends 'layout.jinja2' %}
+
+{% block content %}
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            Add multiple funds
+        </h2>
+
+        <p class="post-meta">
+            <select class="pure-input-1-2" id="token" placeholder="Token">
+                <option value="BTC">Bitcoin</option>
+                <option value="ETH">Ethereum</option>
+                <option value="SPF">SportyFi</option>
+                <option value="PIVX">PIVX</option>
+                <option value="IOTA">MIOTA</option>
+            </select>
+            <input class="pure-input-1-2" type="text" id="rate" placeholder="Rate" />
+
+            <table class="pure-table pure-table-horizontal">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>
+                        <a class="name">{{ user.name }}</a>
+                    </td>
+                    <td>
+                        <input class="pure-input-1-2" type="text" class="value" placeholder="Value" />
+                    </td>
+                    <td>
+                        <input class="pure-input-1-2" type="text" class="comment" placeholder="Comment" />
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>SUM</td>
+                    <td id="btcsum"></td>
+                </tr>
+                </tbody>
+            </table>
+        </p>
+
+        {% if request.user.role == "editor" %}
+        <p class"post-meta">
+            <a href="#">
+                Send funds
+            </a>
+        </p>
+        {% endif %}
+    </header>
+</section>
+{% endblock content %}

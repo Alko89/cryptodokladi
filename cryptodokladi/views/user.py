@@ -55,6 +55,18 @@ def user_list(request):
 
     return dict(user_funds=user_funds)
 
+@view_config(route_name='add_multiple_funds', renderer='../templates/user_add_multiple_funds.jinja2', permission='call')
+def add_multiple_funds(request):
+    users = request.dbsession.query(User.name)
+    
+    return dict(users=users)
+
+@view_config(route_name='add_multiple_funds_call', renderer='string', permission='call')
+def add_multiple_funds_call(request):
+    print(request.json_body)
+
+    return HTTPFound(location=request.route_url('user_list'))
+
 @view_config(route_name='user_new', renderer='../templates/user_new.jinja2', permission='new')
 def user_new(request):
     if 'form.submitted' in request.params:

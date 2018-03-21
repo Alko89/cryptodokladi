@@ -28,6 +28,7 @@ def includeme(config):
 
     config.add_route('user_list', '/user/user_list', factory=user_list_factory)
     config.add_route('user_new', '/user/user_new', factory=user_list_factory)
+    config.add_route('add_multiple_funds', '/user/add_multiple_funds', factory=calculate_staking_rewards)
     config.add_route('user_settings', '/user/settings/{username}', factory=user_change_settings)
     config.add_route('user_settings_save', '/user/settings/{username}/save', factory=user_change_settings)
     config.add_route('user_view', '/user/{username}', factory=user_factory)
@@ -35,6 +36,7 @@ def includeme(config):
     config.add_route('send_funds', '/user/send_funds/{username}', factory=send_funds_factory)
 
     config.add_route('calculate_staking_rewards', '/api/calculate_rewards/{pivx_reward}/{save}', factory=calculate_staking_rewards)
+    config.add_route('add_multiple_funds_call', '/api/add_multiple_funds_call', factory=calculate_staking_rewards)
 
 
 def new_page_factory(request):
@@ -162,5 +164,6 @@ class CalculateStakingRewards(object):
 
     def __acl__(self):
         return [
+            (Allow, 'role:editor', 'call'),
             (Allow, 'name:alko', 'calc')
         ]
