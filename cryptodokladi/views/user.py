@@ -51,9 +51,19 @@ def user_list(request):
     FROM funds
     INNER JOIN users ON users.id = funds.user_id
     GROUP BY users.name
-    """)
+    """).fetchall()
 
-    return dict(user_funds=user_funds)
+    print(user_funds)
+
+    sums = [0, 0, 0, 0, 0]
+    for user in user_funds:
+        sums[0] = sums[0] + user.BTC
+        sums[1] = sums[1] + user.ETH
+        sums[2] = sums[2] + user.PIVX
+        sums[3] = sums[3] + user.SPF
+        sums[4] = sums[4] + user.IOTA
+
+    return dict(user_funds=user_funds, sums=sums)
 
 @view_config(route_name='add_multiple_funds', renderer='../templates/user_add_multiple_funds.jinja2', permission='call')
 def add_multiple_funds(request):

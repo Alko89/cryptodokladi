@@ -57,8 +57,6 @@ $( document ).ready(function() {
         });
     });
 
-    
-
     /* Create export buttons */
     TableExport(document.getElementsByTagName("table"), {
         formats: ['csv', 'txt']

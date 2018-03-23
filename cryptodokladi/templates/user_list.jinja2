@@ -9,7 +9,7 @@
         </h2>
 
         <p class="post-meta">
-            <table class="pure-table pure-table-horizontal">
+            <table id="user_list_table_sum" class="pure-table pure-table-horizontal">
                 <thead>
                     <tr>
                         <th>User</th>
@@ -46,11 +46,9 @@
                 {% endfor %}
                 <tr>
                     <td>SUM</td>
-                    <td id="btcsum"></td>
-                    <td id="ethsum"></td>
-                    <td id="spfsum"></td>
-                    <td id="pivsum"></td>
-                    <td id="iotasum"></td>
+                    {% for s in sums %}
+                        <td>{{ "%.8f"|format(s) }}</td>
+                    {% endfor %}
                 </tr>
                 </tbody>
             </table>
