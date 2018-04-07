@@ -57,8 +57,8 @@ def user_list(request):
     for user in user_funds:
         sums[0] = sums[0] + user.BTC
         sums[1] = sums[1] + user.ETH
-        sums[2] = sums[2] + user.PIVX
-        sums[3] = sums[3] + user.SPF
+        sums[2] = sums[2] + user.SPF
+        sums[3] = sums[3] + user.PIVX
         sums[4] = sums[4] + user.IOTA
 
     return dict(user_funds=user_funds, sums=sums)
