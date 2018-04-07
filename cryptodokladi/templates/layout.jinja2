@@ -63,9 +63,6 @@
                     <li class="pure-menu-item {% if request.url.find('Pravila') != -1 %}pure-menu-selected{% endif %}">
                         <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='Pravila')}}">Pravila</a>
                     </li>
-                    <li class="pure-menu-item menu-item-divided {% if request.url.find('solidity') != -1 %}pure-menu-selected{% endif %}">
-                        <a class="pure-menu-link" href="{{request.route_url('solidity')}}">Solidity</a>
-                    </li>
                 {% endif %}
                 <li class="pure-menu-item menu-item-divided {% if request.url.find('About') != -1 %}pure-menu-selected{% endif %}">
                     <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='About')}}">O Nas</a>

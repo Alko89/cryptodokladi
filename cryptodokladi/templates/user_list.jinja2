@@ -9,7 +9,7 @@
         </h2>
 
         <p class="post-meta">
-            <table id="user_list_table_sum" class="pure-table pure-table-horizontal">
+            <table class="pure-table pure-table-horizontal">
                 <thead>
                     <tr>
                         <th>User</th>
@@ -58,6 +58,9 @@
         <p class"post-meta">
             <a href="{{request.route_url('user_new')}}">
                 Add user
+            </a>
+            <a href="{{request.route_url('add_multiple_funds')}}">
+                Send funds to users
             </a>
         </p>
         {% endif %}

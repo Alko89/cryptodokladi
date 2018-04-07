@@ -53,8 +53,6 @@ def user_list(request):
     GROUP BY users.name
     """).fetchall()
 
-    print(user_funds)
-
     sums = [0, 0, 0, 0, 0]
     for user in user_funds:
         sums[0] = sums[0] + user.BTC
@@ -71,11 +69,44 @@ def add_multiple_funds(request):
     
     return dict(users=users)
 
-@view_config(route_name='add_multiple_funds_call', renderer='string', permission='call')
+@view_config(route_name='add_multiple_funds_call', renderer='json', permission='call')
 def add_multiple_funds_call(request):
-    print(request.json_body)
+    successful_transactions = []
 
-    return HTTPFound(location=request.route_url('user_list'))
+    try:
+        rate = float(request.matchdict['rate'])
+        sending_user = request.user
+        token = request.matchdict['token']
+
+        successful_transactions.append({
+            'sending_user': sending_user,
+            'token': token,
+            'rate': rate
+        })
+
+        for el in request.json_body:
+            try:
+                value = float(el[1])
+                if (value == 0):
+                    continue
+
+                # Value is set by rate set by the editor
+                value = value / rate
+                receiving_user = request.dbsession.query(User).filter_by(name=el[0]).first()
+                comment = el[2]
+
+                if (receiving_user != None):
+                    transaction(request, token, value, comment, sending_user, receiving_user)
+                    successful_transactions.append({
+                        'receiving_user': receiving_user.name,
+                        'value': value,
+                        'comment': comment
+                    })
+            except ValueError:
+                continue
+    finally:
+        print(successful_transactions)
+        return HTTPFound(location=request.route_url('view_page', pagename='FrontPage'))
 
 @view_config(route_name='user_new', renderer='../templates/user_new.jinja2', permission='new')
 def user_new(request):
@@ -127,17 +158,19 @@ def send_funds(request):
             back = request.route_url('send_funds', username=sending_user.name)
             return HTTPFound(location=back)
 
-        fund_send = Funds(token=token, value=-value, comment=receiving_user.name + ": " + comment, user=sending_user)
-        fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
-
-        request.dbsession.add(fund_send)
-        request.dbsession.add(fund_receive)
+        transaction(request, token, value, comment, sending_user, receiving_user)
 
         next_url = request.route_url('user_view', username=sending_user.name)
         return HTTPFound(location=next_url)
 
     return dict(user=sending_user, tokens=tokens, users=users)
 
+def transaction(request, token, value, comment, sending_user, receiving_user):
+    fund_send = Funds(token=token, value=-value, comment=comment, user=sending_user)
+    fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
+
+    request.dbsession.add(fund_send)
+    request.dbsession.add(fund_receive)
 
 @view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='save')
 def user_settings(request):
