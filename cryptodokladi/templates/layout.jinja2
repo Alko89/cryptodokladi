@@ -31,7 +31,10 @@
             <ul class="pure-menu-list">
                 {% if request.user is not none %}
                     <li class="pure-menu-item {% if request.url.find('user/' + request.user.name) != -1 %}pure-menu-selected{% endif %}">
-                        <a class="pure-menu-link" href="{{request.route_url('user_view', username=request.user.name)}}">Stanje</a>
+                        <a class="pure-menu-link" href="{{request.route_url('user_view', username=request.user.name)}}">Wallet</a>
+                    </li>
+                    <li class="pure-menu-item {% if request.url.find('limit_trade') != -1 %}pure-menu-selected{% endif %}">
+                        <a class="pure-menu-link" href="{{request.route_url('limit_trade')}}">Trade</a>
                     </li>
                     {% if request.user.role == "editor" %}
                     <li class="pure-menu-item {% if request.url.find('user/user_list') != -1 %}pure-menu-selected{% endif %}">
@@ -40,14 +43,14 @@
                     {% endif %}
                     {% block songnavigation %}{% endblock %}
                     <li class="pure-menu-item {% if request.url.find('user/settings') != -1 %}pure-menu-selected{% endif %}">
-                        <a class="pure-menu-link" href="{{request.route_url('user_settings', username=request.user.name)}}">Nastavitve</a>
+                        <a class="pure-menu-link" href="{{request.route_url('user_settings', username=request.user.name)}}">Settings</a>
                     </li>
                     <li class="pure-menu-item">
-                        <a class="pure-menu-link" href="{{request.route_url('logout')}}">Odjava</a>
+                        <a class="pure-menu-link" href="{{request.route_url('logout')}}">Logout</a>
                     </li>
                 {% else %}
                     <li class="pure-menu-item {% if request.url.find('login') != -1 %}pure-menu-selected{% endif %}">
-                        <a class="pure-menu-link" href="{{request.route_url('login')}}">Prijava</a>
+                        <a class="pure-menu-link" href="{{request.route_url('login')}}">Login</a>
                     </li>
                 {% endif %}
 

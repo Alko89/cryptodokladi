@@ -14,7 +14,7 @@ def includeme(config):
     config.add_route('login', '/')
     config.add_route('logout', '/logout')
     
-    config.add_route('trade_funds', '/trade_funds', factory=send_funds_factory)
+    config.add_route('limit_trade', '/limit_trade', factory=send_funds_factory)
 
     config.add_route('user_list', '/user/user_list', factory=user_list_factory)
     config.add_route('user_new', '/user/user_new', factory=user_list_factory)

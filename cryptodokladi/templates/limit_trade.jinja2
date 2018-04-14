@@ -1,0 +1,125 @@
+{% extends 'layout.jinja2' %}
+
+{% block content %}
+<!-- A single blog post -->
+<section class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            {{ user.name }}
+        </h2>
+    </header>
+
+    <div class="post-description">
+        <div class="post-images pure-g">
+            <div class="pure-u-1">
+                <table class="pure-table pure-table-horizontal">
+                    <thead>
+                        <tr>
+                            <th>Buy</th>
+                            <th>Sell</th>
+                            <th>Value</th>
+                            <th>Rate</th>
+                            <th>Buy/Sell</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for trade in trades %}
+                        <tr>
+                            <td>
+                                {{ trade.buy_token }}
+                            </td>
+                            <td>
+                                {{ trade.sell_token }}
+                            </td>
+                            <td>
+                                {{ "%.8f"|format(trade.value) }}
+                            </td>
+                            <td>
+                                {{ "%.8f"|format(trade.rate) }}
+                            </td>
+                            <td>
+                                {{ trade.buysell }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-description">
+        <form class="pure-form pure-form-stacked" action="{{ limit_trade }}" method="post">
+            <div class="pure-g">
+                <select class="pure-u-1-8" name="buysell" placeholder="Izberi prejemnika">
+                    <option value="buy">buy</option>
+                    <option value="sell">sell</option>
+                </select>
+                <select class="pure-u-1-5" name="buy_token" placeholder="Token">
+                    <option value="BTC">Bitcoin</option>
+                    <option value="ETH">Ethereum</option>
+                    <option value="SPF">SportyFi</option>
+                    <option value="PIVX">PIVX</option>
+                </select>
+                <input class="pure-u-1-5" type="text" name="value" placeholder="Value" />
+            </div>
+
+            <div class="pure-g">
+                <label class="pure-u-1-8" for="rate">Rate</label>
+                <select class="pure-u-1-5" name="sell_token" placeholder="Token">
+                    <option value="BTC">Bitcoin</option>
+                    <option value="ETH">Ethereum</option>
+                    <option value="SPF">SportyFi</option>
+                    <option value="PIVX">PIVX</option>
+                </select>
+                <input class="pure-u-1-5" type="text" name="rate" placeholder="Rate" />
+            </div>
+
+            <div class="pure-g">
+                <button type="submit" name="form.submitted" value="Add" class="pure-u-1-5 pure-button">Trade</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="post-description">
+        <div class="post-images pure-g">
+            <div class="pure-u-1">
+                <table class="pure-table pure-table-horizontal">
+                    <thead>
+                        <tr>
+                            <th>Buy</th>
+                            <th>Sell</th>
+                            <th>Value</th>
+                            <th>Rate</th>
+                            <th>Buy/Sell</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for trade in user_trades %}
+                        <tr>
+                            <td>
+                                {{ trade.buy_token }}
+                            </td>
+                            <td>
+                                {{ trade.sell_token }}
+                            </td>
+                            <td>
+                                {{ "%.8f"|format(trade.value) }}
+                            </td>
+                            <td>
+                                {{ "%.8f"|format(trade.rate) }}
+                            </td>
+                            <td>
+                                {{ trade.buysell }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

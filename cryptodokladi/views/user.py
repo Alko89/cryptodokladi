@@ -142,33 +142,6 @@ def transaction(request, token, value, comment, sending_user, receiving_user):
     request.dbsession.add(fund_receive)
 
 
-@view_config(route_name='trade_funds', renderer='../templates/user_trade_funds.jinja2', permission='send')
-def trade_funds(request):
-    user = request.user
-    tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
-
-    # if 'form.submitted' in request.params:
-    #     token_sell = request.params['token_sell']
-    #     token_buy = request.params['token_buy']
-    #     value_sell = float(request.params['value_sell'].replace(',', '.'))
-    #     price_buy = float(request.params['submit_value'].replace(',', '.'))
-    #     comment = token_sell + " - " + token_buy
-
-    #     print(request.params['submit_value'])
-
-    #     if value < 0:
-    #         back = request.route_url('trade_funds')
-    #         return HTTPFound(location=back)
-
-    #     # fund_buy = Funds(token=token, value=-value, comment=comment, user=sending_user)
-    #     # fund_sell = Funds(token=token, value=value * price_buy, comment=comment, user=sending_user)
-
-    #     next_url = request.route_url('user_view', username=sending_user.name)
-    #     return HTTPFound(location=next_url)
-
-    return dict(user=user, tokens=tokens)
-
-
 @view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='save')
 def user_settings(request):
     username = request.matchdict['username']
