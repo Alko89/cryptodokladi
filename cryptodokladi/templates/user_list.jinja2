@@ -17,7 +17,6 @@
                         <th>ETH</th>
                         <th>SPF</th>
                         <th>PIVX</th>
-                        <th>IOTA</th>
                     </tr>
                 </thead>
 
@@ -40,11 +39,14 @@
                     <td class="{{ user.token }}">
                         {{ "%.8f"|format(user.PIVX) if user.PIVX != 0 else '/' }}
                     </td>
-                    <td class="{{ user.token }}">
-                        {{ "%.8f"|format(user.IOTA) if user.IOTA != 0 else '/' }}
-                    </td>
                 </tr>
                 {% endfor %}
+                <tr>
+                    <td>SUM</td>
+                    {% for s in sums %}
+                        <td>{{ "%.8f"|format(s) }}</td>
+                    {% endfor %}
+                </tr>
             </table>
         </p>
 

@@ -8,22 +8,34 @@ from pyramid.httpexceptions import (
 )
 
 from pyramid.view import view_config
-from sqlalchemy import func
+from sqlalchemy import func, union, select
 
 from ..models import User, Funds
+
+def getTransactions(request, user, token):
+    transactions_btc_r = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token==token)
+    transactions_btc_s = request.dbsession.query(Funds).filter_by(sender=user).filter(Funds.token==token)
+    return transactions_btc_r.union(transactions_btc_s).order_by(Funds.timestamp.desc())
+
+def getTokenSums(request, user):
+    tokens_r = request.dbsession.query(Funds.token.label('token'), func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
+    tokens_s = request.dbsession.query(Funds.token.label('token'), -func.sum(Funds.value).label('value')).filter_by(sender=user).group_by(Funds.token)
+    tokens_u = union(tokens_r, tokens_s).alias('funds')
+    return request.dbsession.query(tokens_u.columns.token, func.sum(tokens_u.columns.value).label('value')).group_by(Funds.token)
 
 
 @view_config(route_name='user_view', renderer='../templates/user_view.jinja2', permission='view')
 def user_view(request):
     user = request.context.user
 
-    tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
+    # Get sums from all transactions by currencies
+    tokens = getTokenSums(request, user)
 
-    transactions_btc = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='BTC').order_by(Funds.timestamp.desc())
-    transactions_eth = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='ETH').order_by(Funds.timestamp.desc())
-    transactions_pivx = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='PIVX').order_by(Funds.timestamp.desc())
-    transactions_spf = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='SPF').order_by(Funds.timestamp.desc())
-    transactions_iota = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token=='IOTA').order_by(Funds.timestamp.desc())
+    # Get all transactions for each currency.
+    transactions_btc = getTransactions(request, user, 'BTC')
+    transactions_eth = getTransactions(request, user, 'ETH')
+    transactions_pivx= getTransactions(request, user, 'PIVX')
+    transactions_spf = getTransactions(request, user, 'SPF')
 
     funds_add = request.route_url('add_funds', username=user.name)
     funds_send = request.route_url('send_funds', username=user.name)
@@ -34,26 +46,36 @@ def user_view(request):
         transactions_eth=transactions_eth,
         transactions_pivx=transactions_pivx,
         transactions_spf=transactions_spf,
-        transactions_iota=transactions_iota,
         add_funds=funds_add,
         send_funds=funds_send
     )
 
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
 def user_list(request):
-    user_funds = request.dbsession.execute("""
-    SELECT users.name,
-        SUM(CASE WHEN funds.token = 'BTC' THEN funds.value ELSE 0 END) AS BTC,
-        SUM(CASE WHEN funds.token = 'ETH' THEN funds.value ELSE 0 END) AS ETH,
-        SUM(CASE WHEN funds.token = 'PIVX' THEN funds.value ELSE 0 END) AS PIVX,
-        SUM(CASE WHEN funds.token = 'SPF' THEN funds.value ELSE 0 END) AS SPF,
-        SUM(CASE WHEN funds.token = 'IOTA' THEN funds.value ELSE 0 END) AS IOTA
-    FROM funds
-    INNER JOIN users ON users.id = funds.user_id
-    GROUP BY users.name
-    """)
+    users = request.dbsession.query(User).all()
 
-    return dict(user_funds=user_funds)
+    user_funds = []
+    sums = [0, 0, 0, 0]
+    for u in users:
+        user = {
+            'name': u.name,
+            'BTC': 0,
+            'ETH': 0,
+            'PIVX': 0,
+            'SPF': 0
+        }
+
+        for token in getTokenSums(request, u).all():
+            user[token.token] = token.value
+
+        sums[0] = sums[0] + user['BTC']
+        sums[1] = sums[1] + user['ETH']
+        sums[2] = sums[2] + user['SPF']
+        sums[3] = sums[3] + user['PIVX']
+
+        user_funds.append(user)
+
+    return dict(user_funds=user_funds, sums=sums)
 
 @view_config(route_name='user_new', renderer='../templates/user_new.jinja2', permission='new')
 def user_new(request):
@@ -105,16 +127,19 @@ def send_funds(request):
             back = request.route_url('send_funds', username=sending_user.name)
             return HTTPFound(location=back)
 
-        fund_send = Funds(token=token, value=-value, comment=receiving_user.name + ": " + comment, user=sending_user)
-        fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
-
-        request.dbsession.add(fund_send)
-        request.dbsession.add(fund_receive)
+        transaction(request, token, value, comment, sending_user, receiving_user)
 
         next_url = request.route_url('user_view', username=sending_user.name)
         return HTTPFound(location=next_url)
 
     return dict(user=sending_user, tokens=tokens, users=users)
+
+def transaction(request, token, value, comment, sending_user, receiving_user):
+    # fund_send = Funds(token=token, value=-value, comment=comment, user=sending_user)
+    fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
+
+    # request.dbsession.add(fund_send)
+    request.dbsession.add(fund_receive)
 
 
 @view_config(route_name='trade_funds', renderer='../templates/user_trade_funds.jinja2', permission='send')
@@ -122,24 +147,24 @@ def trade_funds(request):
     user = request.user
     tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
 
-    if 'form.submitted' in request.params:
-        token_sell = request.params['token_sell']
-        token_buy = request.params['token_buy']
-        value_sell = float(request.params['value_sell'].replace(',', '.'))
-        price_buy = float(request.params['submit_value'].replace(',', '.'))
-        comment = token_sell + " - " + token_buy
+    # if 'form.submitted' in request.params:
+    #     token_sell = request.params['token_sell']
+    #     token_buy = request.params['token_buy']
+    #     value_sell = float(request.params['value_sell'].replace(',', '.'))
+    #     price_buy = float(request.params['submit_value'].replace(',', '.'))
+    #     comment = token_sell + " - " + token_buy
 
-        print(request.params['submit_value'])
+    #     print(request.params['submit_value'])
 
-        if value < 0:
-            back = request.route_url('trade_funds')
-            return HTTPFound(location=back)
+    #     if value < 0:
+    #         back = request.route_url('trade_funds')
+    #         return HTTPFound(location=back)
 
-        # fund_buy = Funds(token=token, value=-value, comment=comment, user=sending_user)
-        # fund_sell = Funds(token=token, value=value * price_buy, comment=comment, user=sending_user)
+    #     # fund_buy = Funds(token=token, value=-value, comment=comment, user=sending_user)
+    #     # fund_sell = Funds(token=token, value=value * price_buy, comment=comment, user=sending_user)
 
-        next_url = request.route_url('user_view', username=sending_user.name)
-        return HTTPFound(location=next_url)
+    #     next_url = request.route_url('user_view', username=sending_user.name)
+    #     return HTTPFound(location=next_url)
 
     return dict(user=user, tokens=tokens)
 

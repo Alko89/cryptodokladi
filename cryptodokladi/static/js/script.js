@@ -31,14 +31,6 @@ $( document ).ready(function() {
         $('#SPFEUR').text((spf * spf_eur).toFixed(8));
     });
 
-    $.get("https://api.coinmarketcap.com/v1/ticker/iota/?convert=EUR", function(data) {
-        var iota_eur = data[0].price_eur
-        var iota = $('#IOTA').text();
-
-        $('#iotaeur').text(parseFloat(iota_eur).toFixed(8));
-        $('#IOTAEUR').text((iota * iota_eur).toFixed(8));
-    });
-
     $.get("https://api.fixer.io/latest", function(data) {
         var usd_eur = data.rates.USD;
 

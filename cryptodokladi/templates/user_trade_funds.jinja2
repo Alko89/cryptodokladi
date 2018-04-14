@@ -39,8 +39,6 @@
                             <td id="pivxeur"></td>
                             {% elif fund.token == "SPF" %}
                             <td id="spfeur"></td>
-                            {% elif fund.token == "IOTA" %}
-                            <td id="iotaeur"></td>
                             {% else %}
                             <td></td>
                             {% endif %}
@@ -62,7 +60,6 @@
                     <option value="ETH">Ethereum</option>
                     <option value="SPF">SportyFi</option>
                     <option value="PIVX">PIVX</option>
-                    <option value="IOTA">MIOTA</option>
                 </select>
 
                 <select id="token_buy" class="pure-input-1-2" name="token_buy" placeholder="Token">
@@ -70,7 +67,6 @@
                     <option value="ETH" selected>Ethereum</option>
                     <option value="SPF">SportyFi</option>
                     <option value="PIVX">PIVX</option>
-                    <option value="IOTA">MIOTA</option>
                 </select>
                 <input class="pure-input-1-2" type="text" name="value" placeholder="Value" />
             </div>
