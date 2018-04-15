@@ -9,6 +9,15 @@ $( document ).ready(function() {
         });
     });
 
+    var calculateTotal = function() {
+        value = $('#value').val();
+        rate = $('#rate').val();
+
+        $('#total').text(value * rate);
+    }
+    $('#value').keypress(calculateTotal).blur(calculateTotal);
+    $('#rate').keypress(calculateTotal).blur(calculateTotal);
+
     $('.timestamp').each(function() {
         $(this).text(function( i, val ) {
             return val.split(".")[0];
