@@ -17,8 +17,8 @@ from .user import transaction, getTokenSums
 @view_config(route_name='limit_trade', renderer='../templates/limit_trade.jinja2', permission='send')
 def limit_trade(request):
     user = request.user
-    trades = request.dbsession.query(LimitTrade).order_by(LimitTrade.timestamp.desc())
-    user_trades = request.dbsession.query(LimitTrade).filter_by(user=user)
+    trades = request.dbsession.query(LimitTrade).filter(LimitTrade.user != user).order_by(LimitTrade.timestamp.desc())
+    user_trades = request.dbsession.query(LimitTrade).filter(LimitTrade.user == user)
     tokens = getTokenSums(request, user)
 
     if 'form.submitted' in request.params:
@@ -31,10 +31,22 @@ def limit_trade(request):
         # check maching pair with the same rate and remember who is buying and who is selling
         buynotsell = False
         if buysell == 'buy':
-            matching_trades = request.dbsession.query(LimitTrade).filter_by(buy_token=buy_token, sell_token=sell_token, rate=rate, buysell='sell').order_by(LimitTrade.timestamp.asc())
+            matching_trades = request.dbsession.query(LimitTrade).filter(
+                LimitTrade.buy_token == buy_token,
+                LimitTrade.sell_token == sell_token,
+                LimitTrade.rate == rate,
+                LimitTrade.buysell == 'sell',
+                LimitTrade.user != user
+            ).order_by(LimitTrade.timestamp.asc())
             buynotsell = True
         elif buysell == 'sell':
-            matching_trades = request.dbsession.query(LimitTrade).filter_by(buy_token=buy_token, sell_token=sell_token, rate=rate, buysell='buy').order_by(LimitTrade.timestamp.asc())
+            matching_trades = request.dbsession.query(LimitTrade).filter(
+                LimitTrade.buy_token == buy_token,
+                LimitTrade.sell_token == sell_token,
+                LimitTrade.rate == rate,
+                LimitTrade.buysell == 'buy',
+                LimitTrade.user != user
+            ).order_by(LimitTrade.timestamp.asc())
             buynotsell = False
         else:
             next_url = request.route_url('limit_trade')

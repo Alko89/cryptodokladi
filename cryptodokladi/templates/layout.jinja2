@@ -38,7 +38,7 @@
                     </li>
                     {% if request.user.role == "editor" %}
                     <li class="pure-menu-item {% if request.url.find('user/user_list') != -1 %}pure-menu-selected{% endif %}">
-                        <a class="pure-menu-link" href="{{request.route_url('user_list')}}">Seznam</a>
+                        <a class="pure-menu-link" href="{{request.route_url('user_list')}}">List</a>
                     </li>
                     {% endif %}
                     {% block songnavigation %}{% endblock %}
