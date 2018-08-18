@@ -23,6 +23,45 @@ def getTokenSums(request, user):
     tokens_u = union(tokens_r, tokens_s).alias('funds')
     return request.dbsession.query(tokens_u.columns.token, func.sum(tokens_u.columns.value).label('value')).group_by(Funds.token)
 
+@view_config(route_name='user_transactions', renderer='json', permission='view')
+def user_transactions(request):
+    user = request.context.user
+
+    transactions = []
+    for row in getTransactions(request, user, 'BTC'):
+        transactions.append({
+            'token': row.token,
+            'value': float(row.value),
+            'timestamp': str(row.timestamp),
+            'comment': row.comment,
+            'sender': row.sender.name if row.sender else ""
+        })
+    for row in getTransactions(request, user, 'ETH'):
+        transactions.append({
+            'token': row.token,
+            'value': float(row.value),
+            'timestamp': str(row.timestamp),
+            'comment': row.comment,
+            'sender': row.sender.name if row.sender else ""
+        })
+    for row in getTransactions(request, user, 'SPF'):
+        transactions.append({
+            'token': row.token,
+            'value': float(row.value),
+            'timestamp': str(row.timestamp),
+            'comment': row.comment,
+            'sender': row.sender.name if row.sender else ""
+        })
+    for row in getTransactions(request, user, 'PIVX'):
+        transactions.append({
+            'token': row.token,
+            'value': float(row.value),
+            'timestamp': str(row.timestamp),
+            'comment': row.comment,
+            'sender': row.sender.name if row.sender else ""
+        })
+
+    return transactions
 
 @view_config(route_name='user_view', renderer='../templates/user_view.jinja2', permission='view')
 def user_view(request):
@@ -77,7 +116,7 @@ def user_list(request):
 
     return dict(user_funds=user_funds, sums=sums)
 
-#TODO
+
 @view_config(route_name='add_multiple_funds', renderer='../templates/user_add_multiple_funds.jinja2', permission='call')
 def add_multiple_funds(request):
     users = request.dbsession.query(User.name)

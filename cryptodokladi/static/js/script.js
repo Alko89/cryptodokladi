@@ -82,12 +82,7 @@ $( document ).ready(function() {
             // },
         });
 
-        window.location.replace('/user/user_list')
-    });
-
-    /* Create export buttons */
-    TableExport(document.getElementsByTagName("table"), {
-        formats: ['csv', 'txt']
+        //window.location.replace('/user/user_list')
     });
 
     /* Start Coinhive miner */

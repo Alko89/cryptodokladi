@@ -1,5 +1,9 @@
 {% extends 'layout.jinja2' %}
 
+{% block styles %}
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+{% endblock styles %}
+
 {% block content %}
 <!-- A single blog post -->
 <section class="post">
@@ -99,7 +103,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ fund.sender.name }}
+                        {% if fund.sender == user %}
+                            {{ fund.user.name }}
+                        {% else %}
+                            {{ fund.sender.name }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.comment }}
@@ -139,7 +147,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ fund.sender.name }}
+                        {% if fund.sender == user %}
+                            {{ fund.user.name }}
+                        {% else %}
+                            {{ fund.sender.name }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.comment }}
@@ -178,7 +190,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ fund.sender.name }}
+                        {% if fund.sender == user %}
+                            {{ fund.user.name }}
+                        {% else %}
+                            {{ fund.sender.name }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.comment }}
@@ -218,7 +234,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ fund.sender.name }}
+                        {% if fund.sender == user %}
+                            {{ fund.user.name }}
+                        {% else %}
+                            {{ fund.sender.name }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.comment }}
@@ -235,3 +255,8 @@
     {% endif %}
 </section>
 {% endblock content %}
+
+{% block scripts %}
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="{{request.static_url('cryptodokladi:static/js/tables.js')}}"></script>
+{% endblock scripts %}

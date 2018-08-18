@@ -1,5 +1,9 @@
 {% extends 'layout.jinja2' %}
 
+{% block styles %}
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+{% endblock styles %}
+
 {% block content %}
 <!-- A single blog post -->
 <section class="post">
@@ -9,7 +13,7 @@
         </h2>
 
         <p class="post-meta">
-            <table class="pure-table pure-table-horizontal">
+            <table id="user-funds" class="pure-table pure-table-horizontal">
                 <thead>
                     <tr>
                         <th>User</th>
@@ -21,7 +25,6 @@
                 </thead>
 
                 <tbody>
-                
                 {% for user in user_funds %}
                 <tr>
                     <td>
@@ -64,3 +67,8 @@
     </header>
 </section>
 {% endblock content %}
+
+{% block scripts %}
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="{{request.static_url('cryptodokladi:static/js/tables.js')}}"></script>
+{% endblock scripts %}

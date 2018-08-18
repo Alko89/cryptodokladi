@@ -20,7 +20,7 @@ class User(Base):
 
     def set_password(self, pw):
         pwhash = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
-        self.password_hash = pwhash.decode('utf8')
+        self.password_hash = pwhash
 
     def check_password(self, pw):
         if self.password_hash is not None:
