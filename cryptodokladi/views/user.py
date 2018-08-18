@@ -77,7 +77,7 @@ def user_list(request):
 
     return dict(user_funds=user_funds, sums=sums)
 
-//TODO
+#TODO
 @view_config(route_name='add_multiple_funds', renderer='../templates/user_add_multiple_funds.jinja2', permission='call')
 def add_multiple_funds(request):
     users = request.dbsession.query(User.name)

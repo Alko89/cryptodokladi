@@ -55,7 +55,7 @@ def main(argv=sys.argv):
             name='FrontPage',
             title='Prva Stran',
             subtitle='Dobrodosli',
-            creator=jaka7,
+            creator=editor,
             data='Novice o Kripto Kojnih.',
         )
         dbsession.add(page)
@@ -64,7 +64,7 @@ def main(argv=sys.argv):
             name='About',
             title='O Nas',
             subtitle='O Nas',
-            creator=alko,
+            creator=basic,
             data='GoOpen',
         )
         dbsession.add(about)
