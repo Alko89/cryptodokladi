@@ -1,4 +1,4 @@
-{% extends 'layout.jinja2' %}
+{% extends 'song_layout.jinja2' %}
 
 {% block subtitle %}Add song - {% endblock subtitle %}
 
@@ -33,15 +33,15 @@
                 <input class="pure-input-1" type="text" name="ytplayer" placeholder="URL" />
             </div>
             <p>
-                <textarea class="pure-input-1" name="lyric_text" rows="10" cols="60"></textarea>
+                <textarea class="pure-input-1 trumbowyg-textarea" name="lyric_text" rows="10" cols="60"></textarea>
             </p>
             <label for="lyric_en">English</label>
             <p>
-                <textarea class="pure-input-1" name="lyric_en" rows="10" cols="60"></textarea>
+                <textarea class="pure-input-1 trumbowyg-textarea" name="lyric_en" rows="10" cols="60"></textarea>
             </p>
             <label for="lyric_ru">Русский</label>
             <p>
-                <textarea class="pure-input-1" name="lyric_ru" rows="10" cols="60"></textarea>
+                <textarea class="pure-input-1 trumbowyg-textarea" name="lyric_ru" rows="10" cols="60"></textarea>
             </p>
         </div>
 

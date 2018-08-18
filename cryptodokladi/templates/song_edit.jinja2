@@ -1,4 +1,4 @@
-{% extends 'layout.jinja2' %}
+{% extends 'song_layout.jinja2' %}
 
 {% block subtitle %}Edit {{song.title}} - {% endblock subtitle %}
 
@@ -35,19 +35,19 @@
             {% for lyric in song.lyrics %}
                 {% if lyric.language == "text" %}
                     <p>
-                        <textarea class="pure-input-1" name="lyric_text" rows="10" cols="60">{{lyric.text | safe}}</textarea>
+                        <textarea class="pure-input-1 trumbowyg-textarea" name="lyric_text" rows="10" cols="60">{{lyric.text | safe}}</textarea>
                     </p>
                 {% endif %}
                 {% if lyric.language == "en" %}
                     <label for="lyric_en">English</label>
                     <p>
-                        <textarea class="pure-input-1" name="lyric_en" rows="10" cols="60">{{lyric.text | safe}}</textarea>
+                        <textarea class="pure-input-1 trumbowyg-textarea" name="lyric_en" rows="10" cols="60">{{lyric.text | safe}}</textarea>
                     </p>
                 {% endif %}
                 {% if lyric.language == "ru" %}
                     <label for="lyric_ru">Русский</label>
                     <p>
-                        <textarea class="pure-input-1" name="lyric_ru" rows="10" cols="60">{{lyric.text | safe}}</textarea>
+                        <textarea class="pure-input-1 trumbowyg-textarea" name="lyric_ru" rows="10" cols="60">{{lyric.text | safe}}</textarea>
                     </p>
                 {% endif %}
             {% endfor %}

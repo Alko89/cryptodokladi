@@ -9,6 +9,8 @@ $( document ).ready(function() {
         });
     });
 
+    $('.trumbowyg-textarea').trumbowyg();
+
     var calculateTotal = function() {
         value = $('#value').val();
         rate = $('#rate').val();
