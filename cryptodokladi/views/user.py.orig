@@ -52,32 +52,29 @@ def user_view(request):
 
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
 def user_list(request):
-    users = request.dbsession.query(User).all()
+<<<<<<< HEAD
+    user_funds = request.dbsession.execute("""
+    SELECT users.name,
+        SUM(CASE WHEN funds.token = 'BTC' THEN funds.value ELSE 0 END) AS BTC,
+        SUM(CASE WHEN funds.token = 'ETH' THEN funds.value ELSE 0 END) AS ETH,
+        SUM(CASE WHEN funds.token = 'PIVX' THEN funds.value ELSE 0 END) AS PIVX,
+        SUM(CASE WHEN funds.token = 'SPF' THEN funds.value ELSE 0 END) AS SPF,
+        SUM(CASE WHEN funds.token = 'IOTA' THEN funds.value ELSE 0 END) AS IOTA
+    FROM funds
+    INNER JOIN users ON users.id = funds.user_id
+    GROUP BY users.name
+    """).fetchall()
 
-    user_funds = []
-    sums = [0, 0, 0, 0]
-    for u in users:
-        user = {
-            'name': u.name,
-            'BTC': 0,
-            'ETH': 0,
-            'PIVX': 0,
-            'SPF': 0
-        }
-
-        for token in getTokenSums(request, u).all():
-            user[token.token] = token.value
-
-        sums[0] = sums[0] + user['BTC']
-        sums[1] = sums[1] + user['ETH']
-        sums[2] = sums[2] + user['SPF']
-        sums[3] = sums[3] + user['PIVX']
-
-        user_funds.append(user)
+    sums = [0, 0, 0, 0, 0]
+    for user in user_funds:
+        sums[0] = sums[0] + user.BTC
+        sums[1] = sums[1] + user.ETH
+        sums[2] = sums[2] + user.SPF
+        sums[3] = sums[3] + user.PIVX
+        sums[4] = sums[4] + user.IOTA
 
     return dict(user_funds=user_funds, sums=sums)
 
-//TODO
 @view_config(route_name='add_multiple_funds', renderer='../templates/user_add_multiple_funds.jinja2', permission='call')
 def add_multiple_funds(request):
     users = request.dbsession.query(User.name)
@@ -122,7 +119,32 @@ def add_multiple_funds_call(request):
     finally:
         print(successful_transactions)
         return HTTPFound(location=request.route_url('view_page', pagename='FrontPage'))
+=======
+    users = request.dbsession.query(User).all()
 
+    user_funds = []
+    sums = [0, 0, 0, 0]
+    for u in users:
+        user = {
+            'name': u.name,
+            'BTC': 0,
+            'ETH': 0,
+            'PIVX': 0,
+            'SPF': 0
+        }
+
+        for token in getTokenSums(request, u).all():
+            user[token.token] = token.value
+
+        sums[0] = sums[0] + user['BTC']
+        sums[1] = sums[1] + user['ETH']
+        sums[2] = sums[2] + user['SPF']
+        sums[3] = sums[3] + user['PIVX']
+
+        user_funds.append(user)
+
+    return dict(user_funds=user_funds, sums=sums)
+>>>>>>> origin/trade
 
 @view_config(route_name='user_new', renderer='../templates/user_new.jinja2', permission='new')
 def user_new(request):
@@ -182,12 +204,20 @@ def send_funds(request):
     return dict(user=sending_user, tokens=tokens, users=users)
 
 def transaction(request, token, value, comment, sending_user, receiving_user):
+<<<<<<< HEAD
+    fund_send = Funds(token=token, value=-value, comment=comment, user=sending_user)
+    fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
+
+    request.dbsession.add(fund_send)
+    request.dbsession.add(fund_receive)
+=======
     # fund_send = Funds(token=token, value=-value, comment=comment, user=sending_user)
     fund_receive = Funds(token=token, value=value, comment=comment, user=receiving_user, sender=sending_user)
 
     # request.dbsession.add(fund_send)
     request.dbsession.add(fund_receive)
 
+>>>>>>> origin/trade
 
 @view_config(route_name='user_settings', renderer='../templates/user_settings.jinja2', permission='save')
 def user_settings(request):

@@ -35,10 +35,14 @@
                             <td id="btceur"></td>
                             {% elif fund.token == "ETH" %}
                             <td id="etheur"></td>
+                            {% elif fund.token == "PIVX" %}
+                            <td id="pivxeur"></td>
+                            {% elif fund.token == "SPF" %}
+                            <td id="spfeur"></td>
                             {% else %}
                             <td></td>
                             {% endif %}
-                            <td class="{{ fund.token }}" id="{{ fund.token }}EUR">
+                            <td ID="{{ fund.token }}EUR">
                             </td>
                         </tr>
                         {% endfor %}
@@ -49,17 +53,18 @@
     </div>
 
     <div class="post-description">
-        <form action="{{ add_fund }}" method="post">
+        <form id="buy_funds" action="{{ buy_funds }}" method="post">
             <div class="pure-control-group">
-                <select class="pure-input-1" name="receiving_user" placeholder="Izberi prejemnika">
-                    {% for user in users %}
-                        <option value="{{ user.id }}">{{ user.name }}</option>
-                    {% endfor %}
-                </select>
-
-                <select class="pure-input-1-2" name="token" placeholder="Token">
+                <select id="token_sell" class="pure-input-1-2" name="token_sell" placeholder="Token">
                     <option value="BTC">Bitcoin</option>
                     <option value="ETH">Ethereum</option>
+                    <option value="SPF">SportyFi</option>
+                    <option value="PIVX">PIVX</option>
+                </select>
+
+                <select id="token_buy" class="pure-input-1-2" name="token_buy" placeholder="Token">
+                    <option value="BTC">Bitcoin</option>
+                    <option value="ETH" selected>Ethereum</option>
                     <option value="SPF">SportyFi</option>
                     <option value="PIVX">PIVX</option>
                 </select>
@@ -67,7 +72,7 @@
             </div>
             <div class="pure-control-group">
                 <input class="pure-input-1-2" type="text" name="comment" placeholder="Komentar" />
-                <button type="submit" name="form.submitted" value="Add" class="pure-button">Pošlji</button>
+                <button type="submit" name="form.submitted" value="Buy" class="pure-button">Buy</button>
             </div>
         </form>
     </div>

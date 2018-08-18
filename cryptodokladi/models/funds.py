@@ -26,3 +26,16 @@ class Funds(Base):
 
     sender_id = Column(ForeignKey('users.id'))
     sender = relationship('User', backref='user_sender', foreign_keys='Funds.sender_id')
+
+class LimitTrade(Base):
+    __tablename__ = 'limittrade'
+    id = Column(Integer, primary_key=True)
+    buy_token = Column(Text, nullable=False)
+    sell_token = Column(Text, nullable=False)
+    value = Column(Numeric(precision=28, scale=18), nullable=False)
+    rate = Column(Numeric(precision=28, scale=18), nullable=False)
+    buysell = Column(Text, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    user_id = Column(ForeignKey('users.id'), nullable=False)
+    user = relationship('User', backref='user_limittrade', foreign_keys='LimitTrade.user_id')

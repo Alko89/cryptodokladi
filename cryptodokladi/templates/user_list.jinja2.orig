@@ -21,7 +21,6 @@
                 </thead>
 
                 <tbody>
-                
                 {% for user in user_funds %}
                 <tr>
                     <td>
@@ -47,7 +46,10 @@
                         <td>{{ "%.8f"|format(s) }}</td>
                     {% endfor %}
                 </tr>
+<<<<<<< HEAD
                 </tbody>
+=======
+>>>>>>> origin/trade
             </table>
         </p>
 

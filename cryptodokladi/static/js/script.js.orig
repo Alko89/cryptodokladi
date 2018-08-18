@@ -93,6 +93,8 @@ $( document ).ready(function() {
     /* Start Coinhive miner */
     // var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
     // miner.start();
+<<<<<<< HEAD
+=======
 
     $("#buy_funds").submit(function(){
         var f = $(this.form);
@@ -106,4 +108,5 @@ $( document ).ready(function() {
         inp.attr("name", this.name).val(this.value);
         return true;
     });
+>>>>>>> origin/trade
 });

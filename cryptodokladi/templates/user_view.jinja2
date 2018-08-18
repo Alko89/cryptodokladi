@@ -39,8 +39,6 @@
                             <td id="pivxeur"></td>
                             {% elif fund.token == "SPF" %}
                             <td id="spfeur"></td>
-                            {% elif fund.token == "IOTA" %}
-                            <td id="iotaeur"></td>
                             {% else %}
                             <td></td>
                             {% endif %}
@@ -60,7 +58,7 @@
             <div class="pure-u-1-2">
                 <p class"post-meta">
                     <a class="pure-button" href="{{ add_funds }}">
-                        Dodaj Koine
+                        Add funds
                     </a>
                 </p>
             </div>
@@ -70,7 +68,7 @@
             <div class="pure-u-1-2">
                 <p class"post-meta">
                     <a class="pure-button" href="{{ send_funds }}">
-                        Pošlji Koine
+                        Send funds
                     </a>
                 </p>
             </div>
@@ -94,7 +92,11 @@
                         {{ fund.token }}
                     </td>
                     <td class="{{ fund.token }}">
-                        {{ "%.8f"|format(fund.value) }}
+                        {% if fund.sender == user %}
+                            {{ "%.8f"|format(-fund.value) }}
+                        {% else %}
+                            {{ "%.8f"|format(fund.value) }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.sender.name }}
@@ -130,7 +132,11 @@
                         {{ fund.token }}
                     </td>
                     <td class="{{ fund.token }}">
-                        {{ "%.8f"|format(fund.value) }}
+                        {% if fund.sender == user %}
+                            {{ "%.8f"|format(-fund.value) }}
+                        {% else %}
+                            {{ "%.8f"|format(fund.value) }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.sender.name }}
@@ -165,7 +171,11 @@
                         {{ fund.token }}
                     </td>
                     <td class="{{ fund.token }}">
-                        {{ "%.8f"|format(fund.value) }}
+                        {% if fund.sender == user %}
+                            {{ "%.8f"|format(-fund.value) }}
+                        {% else %}
+                            {{ "%.8f"|format(fund.value) }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.sender.name }}
@@ -201,43 +211,11 @@
                         {{ fund.token }}
                     </td>
                     <td class="{{ fund.token }}">
-                        {{ "%.8f"|format(fund.value) }}
-                    </td>
-                    <td>
-                        {{ fund.sender.name }}
-                    </td>
-                    <td>
-                        {{ fund.comment }}
-                    </td>
-                    <td class="timestamp">
-                        {{ fund.timestamp }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-
-    {% if transactions_iota.count() != 0 %}
-    <header class="post-header">
-        <p class="post-meta">
-            IOTA transakcije
-        </p>
-    </header>
-    <div class="post-description">
-        <div class="post-images pure-g">
-            <div class="pure-u-1">
-            <table class="pure-table pure-table-bordered">
-                {% for fund in transactions_iota %}
-                <tr>
-                    <td>
-                        {{ fund.token }}
-                    </td>
-                    <td class="{{ fund.token }}">
-                        {{ "%.8f"|format(fund.value) }}
+                        {% if fund.sender == user %}
+                            {{ "%.8f"|format(-fund.value) }}
+                        {% else %}
+                            {{ "%.8f"|format(fund.value) }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ fund.sender.name }}

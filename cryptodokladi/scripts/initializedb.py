@@ -43,13 +43,13 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        jaka7 = User(name='7jaka7', role='editor')
-        jaka7.set_password('editor')
-        dbsession.add(jaka7)
+        editor = User(name='editor', role='editor')
+        editor.set_password('editor')
+        dbsession.add(editor)
 
-        alko = User(name='alko', role='basic')
-        alko.set_password('mojamama')
-        dbsession.add(alko)
+        basic = User(name='basic', role='basic')
+        basic.set_password('basic')
+        dbsession.add(basic)
 
         page = Page(
             name='FrontPage',
