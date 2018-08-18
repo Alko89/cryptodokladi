@@ -30,7 +30,14 @@
 
             <ul class="pure-menu-list">
 
+                <li class="pure-menu-item {% if request.url.find('FrontPage') != -1 %}pure-menu-selected{% endif %}">
+                    <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='FrontPage')}}">Prva Stran</a>
+                </li>
+
                 {% if request.user is not none %}
+                    <li class="pure-menu-item {% if request.url.find('Maili') != -1 %}pure-menu-selected{% endif %}">
+                        <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='Maili')}}">Maili</a>
+                    </li>
                     <li class="pure-menu-item {% if request.url.find('user/' + request.user.name) != -1 %}pure-menu-selected{% endif %}">
                         <a class="pure-menu-link" href="{{request.route_url('user_view', username=request.user.name)}}">Stanje</a>
                     </li>
@@ -51,6 +58,15 @@
                         <a class="pure-menu-link" href="{{request.route_url('login')}}">Prijava</a>
                     </li>
                 {% endif %}
+
+                {% if request.user is not none %}
+                    <li class="pure-menu-item {% if request.url.find('Pravila') != -1 %}pure-menu-selected{% endif %}">
+                        <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='Pravila')}}">Pravila</a>
+                    </li>
+                {% endif %}
+                <li class="pure-menu-item menu-item-divided {% if request.url.find('About') != -1 %}pure-menu-selected{% endif %}">
+                    <a class="pure-menu-link" href="{{request.route_url('view_page', pagename='About')}}">O Nas</a>
+                </li>
                 <li class="pure-menu-item">
                     <a class="pure-menu-link" href="https://github.com/Alko89/cryptodokladi">GitHub</a>
                 </li>
@@ -59,10 +75,10 @@
     </div>
 
     <div id="main">
-        <!-- <div class="header">
+        <div class="header">
             <h1>Kripto Dokladi</h1>
             <h2>Trejdajne Kriptokoinu</h2>
-        </div> -->
+        </div>
 
         <div class="content">
             {% block content %}{% endblock %}
