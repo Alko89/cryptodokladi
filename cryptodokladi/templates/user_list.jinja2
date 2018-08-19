@@ -44,13 +44,16 @@
                     </td>
                 </tr>
                 {% endfor %}
-                <tr>
-                    <td>SUM</td>
-                    {% for s in sums %}
-                        <td>{{ "%.8f"|format(s) }}</td>
-                    {% endfor %}
-                </tr>
-                </tbody>
+                </tbody>        
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         </p>
 

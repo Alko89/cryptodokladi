@@ -94,7 +94,6 @@ def user_list(request):
     users = request.dbsession.query(User).all()
 
     user_funds = []
-    sums = [0, 0, 0, 0]
     for u in users:
         user = {
             'name': u.name,
@@ -107,14 +106,9 @@ def user_list(request):
         for token in getTokenSums(request, u).all():
             user[token.token] = token.value
 
-        sums[0] = sums[0] + user['BTC']
-        sums[1] = sums[1] + user['ETH']
-        sums[2] = sums[2] + user['SPF']
-        sums[3] = sums[3] + user['PIVX']
-
         user_funds.append(user)
 
-    return dict(user_funds=user_funds, sums=sums)
+    return dict(user_funds=user_funds)
 
 
 @view_config(route_name='add_multiple_funds', renderer='../templates/user_add_multiple_funds.jinja2', permission='call')

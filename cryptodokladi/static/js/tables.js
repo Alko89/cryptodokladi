@@ -15,7 +15,34 @@ function format ( d ) {
 }
 
 $(document).ready( function () {
-    var table = $('#user-funds').DataTable();
+    var table = $('#user-funds').DataTable({
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+
+            var sumVal = function ( c ) {
+                return api
+                        .column( c )
+                        .data()
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b.replace('/', '0'));
+                        }, 0 );
+            }
+
+            // Update footers
+            $( api.column( 1 ).footer() ).html(
+                sumVal(1).toFixed(8)
+            );
+            $( api.column( 2 ).footer() ).html(
+                sumVal(2).toFixed(8)
+            );
+            $( api.column( 3 ).footer() ).html(
+                sumVal(3).toFixed(8)
+            );
+            $( api.column( 4 ).footer() ).html(
+                sumVal(4).toFixed(8)
+            );
+        }
+    });
 
     $('#user-funds tbody').on('click', 'tr', function () {
         var tr = $(this)
