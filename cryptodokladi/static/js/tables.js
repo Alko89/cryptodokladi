@@ -15,6 +15,8 @@ function format ( d ) {
 }
 
 $(document).ready( function () {
+    $('.user-table').DataTable();
+
     var table = $('#user-funds').DataTable({
         "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
