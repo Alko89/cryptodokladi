@@ -18,6 +18,9 @@ $(document).ready( function () {
     $('.user-table').DataTable();
 
     var table = $('#user-funds').DataTable({
+        "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
+        "iDisplayLength": 50,
+
         "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
 
