@@ -11,13 +11,15 @@ from pyramid.view import view_config
 from sqlalchemy import func
 
 from ..models import User, Funds
+from ..transactions.transaction import getTokenFunds, getTokenUserFunds, getTokenSum
+
 
 @view_config(route_name='calculate_staking_rewards', renderer='json', permission='calc')
 def calculate_staking_rewards(request):
     pivx_reward = float(request.matchdict['pivx_reward'])
 
-    pivx_funds = request.dbsession.query(func.sum(Funds.value).label("total")).filter(Funds.token=="PIVX").first()
-    pivx_user_funds = request.dbsession.query(Funds.user_id, func.sum(Funds.value).label("total")).filter(Funds.token=="PIVX").group_by(Funds.user_id)
+    pivx_funds = getTokenFunds(request, "PIVX")
+    pivx_user_funds = getTokenUserFunds(request, "PIVX")
 
     pivx_user_rewards = []
     reward_sum = 0
@@ -29,13 +31,13 @@ def calculate_staking_rewards(request):
         funds_sum_after += float(user.total) + reward
 
         if request.matchdict['save'] == "save":
-            fund = Funds(token="PIVX", value=reward, comment="reward", user_id=user.user_id)
+            fund = Funds(token="PIVX", value=reward, comment="reward", user_id=user.user)
             request.dbsession.add(fund)
 
         username = request.dbsession.query(User.name).filter_by(id=user.user_id).first()
 
         pivx_user_rewards.append({
-            'user': username[0],
+            'user': username,
             'reward': reward,
             'before': float(user.total),
             'after': float(user.total) + reward

@@ -12,7 +12,7 @@ requires = [
     'bcrypt',
     'docutils',
     'plaster_pastedeploy',
-    'pyramid >= 1.9a',
+    'pyramid',
     'pyramid_debugtoolbar',
     'pyramid_jinja2',
     'pyramid_retry',

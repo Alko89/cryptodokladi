@@ -12,7 +12,7 @@ from sqlalchemy import func, union, select
 
 from ..models import User, Funds, LimitTrade
 
-from .user import transaction, getTokenSums
+from ..transactions.transaction import transaction, getTokenSums
 
 @view_config(route_name='limit_trade', renderer='../templates/limit_trade.jinja2', permission='send')
 def limit_trade(request):
