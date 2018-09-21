@@ -36,3 +36,35 @@
     </tbody>
 </table>
 {% endmacro %}
+
+{% macro user_transactions(transactions) %}
+<table class="pure-table pure-table-bordered" style="width:100%">
+    {% for fund in transactions %}
+    <tr>
+        <td>
+            {{ fund.token }}
+        </td>
+        <td class="{{ fund.token }}">
+            {% if fund.sender == user %}
+                {{ "%.8f"|format(-fund.value) }}
+            {% else %}
+                {{ "%.8f"|format(fund.value) }}
+            {% endif %}
+        </td>
+        <td>
+            {% if fund.sender == user %}
+                {{ fund.user.name }}
+            {% else %}
+                {{ fund.sender.name }}
+            {% endif %}
+        </td>
+        <td>
+            {{ fund.comment }}
+        </td>
+        <td class="timestamp">
+            {{ fund.timestamp }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endmacro %}

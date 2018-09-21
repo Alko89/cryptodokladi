@@ -1,5 +1,5 @@
 {% extends 'layout.jinja2' %}
-{% from 'components.jinja2' import user_tokens with context %}
+{% from 'components.jinja2' import user_tokens, user_transactions with context %}
 
 {% block styles %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
@@ -55,35 +55,7 @@
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
-            <table class="pure-table pure-table-bordered" style="width:100%">
-                {% for fund in transactions_btc %}
-                <tr>
-                    <td>
-                        {{ fund.token }}
-                    </td>
-                    <td class="{{ fund.token }}">
-                        {% if fund.sender == user %}
-                            {{ "%.8f"|format(-fund.value) }}
-                        {% else %}
-                            {{ "%.8f"|format(fund.value) }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if fund.sender == user %}
-                            {{ fund.user.name }}
-                        {% else %}
-                            {{ fund.sender.name }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{ fund.comment }}
-                    </td>
-                    <td class="timestamp">
-                        {{ fund.timestamp }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+                {{ user_transactions(transactions_btc) }}
             </div>
         </div>
     </div>
@@ -99,35 +71,7 @@
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
-            <table class="pure-table pure-table-bordered" style="width:100%">
-                {% for fund in transactions_eth %}
-                <tr>
-                    <td>
-                        {{ fund.token }}
-                    </td>
-                    <td class="{{ fund.token }}">
-                        {% if fund.sender == user %}
-                            {{ "%.8f"|format(-fund.value) }}
-                        {% else %}
-                            {{ "%.8f"|format(fund.value) }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if fund.sender == user %}
-                            {{ fund.user.name }}
-                        {% else %}
-                            {{ fund.sender.name }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{ fund.comment }}
-                    </td>
-                    <td class="timestamp">
-                        {{ fund.timestamp }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+               {{ user_transactions(transactions_eth) }}
             </div>
         </div>
     </div>
@@ -142,35 +86,7 @@
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
-            <table class="pure-table pure-table-bordered" style="width:100%">
-                {% for fund in transactions_spf %}
-                <tr>
-                    <td>
-                        {{ fund.token }}
-                    </td>
-                    <td class="{{ fund.token }}">
-                        {% if fund.sender == user %}
-                            {{ "%.8f"|format(-fund.value) }}
-                        {% else %}
-                            {{ "%.8f"|format(fund.value) }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if fund.sender == user %}
-                            {{ fund.user.name }}
-                        {% else %}
-                            {{ fund.sender.name }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{ fund.comment }}
-                    </td>
-                    <td class="timestamp">
-                        {{ fund.timestamp }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+                {{ user_transactions(transactions_spf) }}
             </div>
         </div>
     </div>
@@ -186,35 +102,7 @@
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
-            <table class="pure-table pure-table-bordered" style="width:100%">
-                {% for fund in transactions_pivx %}
-                <tr>
-                    <td>
-                        {{ fund.token }}
-                    </td>
-                    <td class="{{ fund.token }}">
-                        {% if fund.sender == user %}
-                            {{ "%.8f"|format(-fund.value) }}
-                        {% else %}
-                            {{ "%.8f"|format(fund.value) }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if fund.sender == user %}
-                            {{ fund.user.name }}
-                        {% else %}
-                            {{ fund.sender.name }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{ fund.comment }}
-                    </td>
-                    <td class="timestamp">
-                        {{ fund.timestamp }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+                {{ user_transactions(transactions_pivx) }}
             </div>
         </div>
     </div>

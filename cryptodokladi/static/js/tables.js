@@ -1,13 +1,22 @@
-function format ( d ) {
+function format ( name, d ) {
     table = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
     for (i = 0; i < d.length; i++){
         table += 
-        '<tr>'+
-            '<td>'+d[i].token+'</td>'+
-            '<td>'+d[i].value+'</td>'+
-            '<td>'+d[i].sender+'</td>'+
-            '<td>'+d[i].timestamp+'</td>'+
-        '</tr>';
+            '<tr>' +
+            '<td>' + d[i].token + '</td>';
+        if (name == d.sender) {
+            table +=
+                '<td>' + (- d[i].value.toFixed(8)) +'</td>' +
+                '<td>' + name + '</td>';
+        }
+        else {
+            table +=
+                '<td>' + d[i].value.toFixed(8) + '</td>' +
+                '<td>' + d[i].sender + '</td>';
+        }
+        table +=
+            '<td>' + d[i].timestamp + '</td>'+
+            '</tr>';
     }
     table += '</table>';
 
@@ -64,7 +73,7 @@ $(document).ready( function () {
                 contentType : 'application/json',
                 type : 'GET',
                 success: function(data){
-                    row.child(format(data)).show();
+                    row.child(format(name, data)).show();
                     tr.addClass('shown');
                 },
             });

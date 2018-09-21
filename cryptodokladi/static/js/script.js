@@ -87,10 +87,6 @@ $( document ).ready(function() {
         //window.location.replace('/user/user_list')
     });
 
-    /* Start Coinhive miner */
-    // var miner = new CoinHive.User('fPJeVvHSsmiTqZD7MXrltqc3ogjojFLp', 'KriptoKojn', { threads: 1 });
-    // miner.start();
-
     $("#buy_funds").submit(function(){
         var f = $(this.form);
         var inp = f.find("input.submit_value");
