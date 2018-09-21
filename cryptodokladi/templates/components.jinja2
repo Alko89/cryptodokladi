@@ -1,0 +1,38 @@
+{% macro user_tokens(tokens) %}
+<table class="pure-table pure-table-horizontal user-table" style="width:100%">
+    <thead>
+        <tr>
+            <th>Koin</th>
+            <th>Vrednost</th>
+            <th>Tečaj</th>
+            <th>Vrednost v EUR</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for fund in tokens %}
+        <tr>
+            <td>
+                {{ fund.token }}
+            </td>
+            <td class="{{ fund.token }}" id="{{ fund.token }}">
+                {{ "%.8f"|format(fund.value) }}
+            </td>
+            {% if fund.token == "BTC" %}
+            <td id="btceur"></td>
+            {% elif fund.token == "ETH" %}
+            <td id="etheur"></td>
+            {% elif fund.token == "PIVX" %}
+            <td id="pivxeur"></td>
+            {% elif fund.token == "SPF" %}
+            <td id="spfeur"></td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td ID="{{ fund.token }}EUR">
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}

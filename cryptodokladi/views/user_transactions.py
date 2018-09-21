@@ -152,7 +152,9 @@ def add_multiple_funds_call(request):
 @view_config(route_name='add_funds', renderer='../templates/user_add_funds.jinja2', permission='create')
 def add_funds(request):
     user = request.context.user
-    tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=user).group_by(Funds.token)
+    
+    # Get sums from all transactions by currencies
+    tokens = getTokenSums(request, user)
     
     if 'form.submitted' in request.params:
         token = request.params['token']
@@ -170,7 +172,10 @@ def add_funds(request):
 @view_config(route_name='send_funds', renderer='../templates/user_send_funds.jinja2', permission='send')
 def send_funds(request):
     sending_user = request.user
-    tokens = request.dbsession.query(Funds.token, func.sum(Funds.value).label('value')).filter_by(user=sending_user).group_by(Funds.token)
+    
+    # Get sums from all transactions by currencies
+    tokens = getTokenSums(request, sending_user)
+
     users = request.dbsession.query(User.id, User.name).all()
     
     if 'form.submitted' in request.params:
