@@ -26,6 +26,7 @@ def user_transactions(request):
             'value': float(row.value),
             'timestamp': str(row.timestamp),
             'comment': row.comment,
+            'user': row.user.name,
             'sender': row.sender.name if row.sender else ""
         })
     for row in getTransactions(request, user, 'ETH'):

@@ -4,10 +4,10 @@ function format ( name, d ) {
         table += 
             '<tr>' +
             '<td>' + d[i].token + '</td>';
-        if (name == d.sender) {
+        if (d.user == d.sender) {
             table +=
                 '<td>' + (- d[i].value.toFixed(8)) +'</td>' +
-                '<td>' + name + '</td>';
+                '<td>' + d[i].user + '</td>';
         }
         else {
             table +=
