@@ -43,12 +43,10 @@ $( document ).ready(function() {
     });
 
     $.ajax({
-        url: "http://data.fixer.io/api/latest?access_key=80db6acd43cdc31badc316b4b60a86f8",
-        type: 'POST',
-        crossDomain: true,
-        dataType: "jsonp",
+        url: "/api/eur_usd_rate",
+        type: 'get',
         success: function (data) {
-            var usd_eur = data.rates.USD;
+            var usd_eur = data.USD;
 
             $.get("https://poloniex.com/public?command=returnTicker", function(data) {
                 var usdt_btc = data.USDT_BTC.last;

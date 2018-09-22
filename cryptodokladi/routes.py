@@ -40,3 +40,4 @@ def includeme(config):
     config.add_route('calculate_staking_rewards', '/api/calculate_rewards/{pivx_reward}/{save}', factory=calculate_staking_rewards)
     config.add_route('add_multiple_funds_call', '/api/add_multiple_funds_call/{token}/{rate}', factory=calculate_staking_rewards)
     config.add_route('user_transactions', '/api/user_transactions/{username}', factory=user_factory)
+    config.add_route('eur_usd_rate', '/api/eur_usd_rate')

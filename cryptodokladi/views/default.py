@@ -69,9 +69,3 @@ def add_page(request):
         return HTTPFound(location=next_url)
     save_url = request.route_url('add_page', pagename=pagename)
     return dict(pagename=pagename, pagetitle='', pagesubtitle='', pagedata='', save_url=save_url)
-
-@view_config(route_name='solidity', renderer='../templates/solidity.jinja2')
-def solidity(request):
-    user = request.user
-    
-    return dict(user=user)
