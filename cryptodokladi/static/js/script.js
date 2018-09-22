@@ -42,22 +42,28 @@ $( document ).ready(function() {
         $('#SPFEUR').text((spf * spf_eur).toFixed(8));
     });
 
-    $.get("https://api.fixer.io/latest", function(data) {
-        var usd_eur = data.rates.USD;
+    $.ajax({
+        url: "http://data.fixer.io/api/latest?access_key=80db6acd43cdc31badc316b4b60a86f8",
+        type: 'POST',
+        crossDomain: true,
+        dataType: "jsonp",
+        success: function (data) {
+            var usd_eur = data.rates.USD;
 
-        $.get("https://poloniex.com/public?command=returnTicker", function(data) {
-            var usdt_btc = data.USDT_BTC.last;
-            var usdt_eth = data.USDT_ETH.last;
+            $.get("https://poloniex.com/public?command=returnTicker", function(data) {
+                var usdt_btc = data.USDT_BTC.last;
+                var usdt_eth = data.USDT_ETH.last;
 
-            var btc = $('#BTC').text();
-            var eth = $('#ETH').text();
+                var btc = $('#BTC').text();
+                var eth = $('#ETH').text();
 
-            $('#btceur').text((usdt_btc / usd_eur).toFixed(8));
-            $('#BTCEUR').text((btc * (usdt_btc / usd_eur)).toFixed(8));
+                $('#btceur').text((usdt_btc / usd_eur).toFixed(8));
+                $('#BTCEUR').text((btc * (usdt_btc / usd_eur)).toFixed(8));
 
-            $('#etheur').text((usdt_eth / usd_eur).toFixed(8));
-            $('#ETHEUR').text((eth * (usdt_eth / usd_eur)).toFixed(8));
-        });
+                $('#etheur').text((usdt_eth / usd_eur).toFixed(8));
+                $('#ETHEUR').text((eth * (usdt_eth / usd_eur)).toFixed(8));
+            });
+        }
     });
 
     $('#send_all').click(function(){
