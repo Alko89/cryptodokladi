@@ -69,3 +69,7 @@ def add_page(request):
         return HTTPFound(location=next_url)
     save_url = request.route_url('add_page', pagename=pagename)
     return dict(pagename=pagename, pagetitle='', pagesubtitle='', pagedata='', save_url=save_url)
+
+@view_config(route_name='home', renderer='../templates/index.html')
+def my_view(request):
+    return {'project': 'pyramidVue'}

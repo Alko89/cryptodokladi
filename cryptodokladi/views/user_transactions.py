@@ -34,6 +34,19 @@ def eur_usd_rate(request):
     )
 
 
+def user_token_transactions(request, user, token):
+    transactions = []
+    for row in getTransactions(request, user, token):
+        transactions.append({
+            'token': row.token,
+            'value': float(row.value),
+            'timestamp': str(row.timestamp),
+            'comment': row.comment,
+            'user': row.user.name,
+            'sender': row.sender.name if row.sender else ""
+        })
+    return transactions
+
 @view_config(route_name='user_transactions', renderer='json', permission='view')
 def user_transactions(request):
     user = request.context.user
