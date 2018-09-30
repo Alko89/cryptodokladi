@@ -24,3 +24,4 @@ node_modules/
 bin/
 package-lock.json
 cryptodokladi.sqlite
+cryptodokladi/templates/index.html

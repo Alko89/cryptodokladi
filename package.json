@@ -1,42 +1,35 @@
 {
   "name": "cryptodokladi",
   "version": "0.1.0",
+  "description": "Cryptodokladi Vue Paper Dashboard",
+  "author": "Aleš Ferlan <alefer89@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --mode=development --open --hot",
-    "build": "webpack --progress --hide-modules",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build",
+    "e2e": "node test/e2e/runner.js",
+    "lint": "vue-cli-service lint",
+    "lint-fix": "vue-cli-service lint --fix",
+    "dev": "vue-cli-service serve",
+    "dev-old": "webpack-dev-server --mode=development --hot",
+    "build-old": "webpack --progress --hide-modules"
   },
   "dependencies": {
+    "bootstrap": "^4.1.3",
+    "chartist": "^0.11.0",
+    "es6-promise": "^4.2.5",
     "vue": "^2.5.17",
+    "vue-clickaway": "^2.2.2",
+    "vue-notifyjs": "^0.4.3",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vue-template-compiler": "^2.5.17"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.3",
-    "@vue/cli-plugin-eslint": "^3.0.3",
-    "@vue/cli-service": "^3.0.3",
-    "vue-template-compiler": "^2.5.17",
-    "webpack-cli": "^3.1.1"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
+    "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-plugin-eslint": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "@vue/eslint-config-prettier": "^3.0.4",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0"
   },
   "browserslist": [
     "> 1%",
