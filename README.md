@@ -26,12 +26,10 @@
 
     `env/bin/pytest`
 
-- Install node_modules.
+- Install npm packages and build frontend
 
-    `cd ./cryptodokladi/static`
-    
-    `npm install`
+    `npm install & npm run build`
 
 - Run your project.
 
-    `env/bin/pserve development.ini`
+    `make run`
