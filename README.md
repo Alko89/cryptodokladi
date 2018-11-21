@@ -1,5 +1,7 @@
 # cryptodokladi
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/912fccdd4f654710a2695789cee7c1d0)](https://app.codacy.com/app/Alko89/cryptodokladi?utm_source=github.com&utm_medium=referral&utm_content=Alko89/cryptodokladi&utm_campaign=Badge_Grade_Dashboard)
+
 ## Getting Started
 
 - Change directory into your newly created project.
