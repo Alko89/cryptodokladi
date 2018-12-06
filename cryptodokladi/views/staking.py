@@ -18,6 +18,10 @@ from ..transactions.transaction import getTokenFunds, getTokenUserFunds, getToke
 def calculate_staking_rewards(request):
     pivx_reward = float(request.matchdict['pivx_reward'])
 
+    comment="reward"
+    if pivx_reward < 0:
+        comment="Strosek VPS"
+
     pivx_funds = getTokenFunds(request, "PIVX")
     pivx_user_funds = getTokenUserFunds(request, "PIVX")
 
@@ -31,7 +35,7 @@ def calculate_staking_rewards(request):
         funds_sum_after += float(user.total) + reward
 
         if request.matchdict['save'] == "save":
-            fund = Funds(token="PIVX", value=reward, comment="reward", user_id=user.user_id)
+            fund = Funds(token="PIVX", value=reward, comment=comment, user_id=user.user_id)
             request.dbsession.add(fund)
 
         username = request.dbsession.query(User.name).filter_by(id=user.user_id).first()
