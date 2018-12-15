@@ -16,7 +16,11 @@ from .meta import Base
 class Funds(Base):
     __tablename__ = 'funds'
     id = Column(Integer, primary_key=True)
+    
     token = Column(Text, nullable=False)
+    # token_id = Column(ForeignKey('token.id'), nullable=False)
+    # token = relationship('Token', backref='token_funds', foreign_keys='Funds.token_id')
+
     value = Column(Numeric(precision=28, scale=18), nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
     comment = Column(Text)
@@ -26,6 +30,22 @@ class Funds(Base):
 
     sender_id = Column(ForeignKey('users.id'))
     sender = relationship('User', backref='user_sender', foreign_keys='Funds.sender_id')
+
+class Token(Base):
+    __tablename__ = 'token'
+    id = Column(Integer, primary_key=True)
+    name = Column(Text, nullable=False)
+    token = Column(Text, nullable=False)
+
+class Rewards(Base):
+    __tablename__ = 'rewards'
+    id = Column(Integer, primary_key=True)
+
+    token_id = Column(ForeignKey('token.id'), nullable=False)
+    token = relationship('Token', backref='token_rewards', foreign_keys='Rewards.token_id')
+
+    value = Column(Numeric(precision=28, scale=18), nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
 class LimitTrade(Base):
     __tablename__ = 'limittrade'

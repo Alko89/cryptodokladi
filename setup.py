@@ -22,6 +22,7 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
+    'cornice'
 ]
 
 tests_require = [
@@ -32,7 +33,7 @@ tests_require = [
 
 setup(
     name='cryptodokladi',
-    version='0.0',
+    version='1.0.1',
     description='cryptodokladi',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[

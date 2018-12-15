@@ -1,0 +1,15 @@
+bcrypt
+docutils
+plaster_pastedeploy
+pyramid
+pyramid_debugtoolbar
+pyramid_jinja2
+pyramid_retry
+pyramid_tm
+SQLAlchemy
+mysqlclient
+transaction
+zope.sqlalchemy
+waitress
+cornice
+alembic

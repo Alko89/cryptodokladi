@@ -9,6 +9,7 @@ def main(global_config, **settings):
     config.include('.models')
     config.include('.routes')
     config.add_renderer('.html', "pyramid_jinja2.renderer_factory")
+    config.include("cornice")
     config.include('.security')
     config.scan()
     return config.make_wsgi_app()
