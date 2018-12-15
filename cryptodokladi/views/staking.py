@@ -10,17 +10,14 @@ from pyramid.httpexceptions import (
 from pyramid.view import view_config
 from sqlalchemy import func
 
-from ..models import User, Funds
+from ..models import User, Funds, Rewards, Token
 from ..transactions.transaction import getTokenFunds, getTokenUserFunds, getTokenSum
 
 
 @view_config(route_name='calculate_staking_rewards', renderer='json', permission='calc')
 def calculate_staking_rewards(request):
     pivx_reward = float(request.matchdict['pivx_reward'])
-
-    comment="reward"
-    if pivx_reward < 0:
-        comment="Strosek VPS"
+    comment = request.matchdict['comment']
 
     pivx_funds = getTokenFunds(request, "PIVX")
     pivx_user_funds = getTokenUserFunds(request, "PIVX")
@@ -52,4 +49,11 @@ def calculate_staking_rewards(request):
         'before': float(pivx_funds.total),
         'after': funds_sum_after
     })
+
+    if request.matchdict['save'] == "save":
+        # Log the reward
+        pivx_token = request.dbsession.query(Token).filter_by(token='PIVX').first()
+        token_reward = Rewards(value=pivx_reward, token=pivx_token)
+        request.dbsession.add(token_reward)
+
     return pivx_user_rewards

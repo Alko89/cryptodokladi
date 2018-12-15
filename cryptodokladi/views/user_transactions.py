@@ -10,7 +10,7 @@ from pyramid.httpexceptions import (
 from pyramid.view import view_config
 from sqlalchemy import func, union, select
 
-from ..models import User, Funds
+from ..models import User, Funds, Token
 
 from ..transactions.transaction import getTransactions, getTokenSums, transaction
 
@@ -85,6 +85,22 @@ def user_transactions(request):
             'comment': row.comment,
             'sender': row.sender.name if row.sender else ""
         })
+    for row in getTransactions(request, user, 'XMR'):
+        transactions.append({
+            'token': row.token,
+            'value': float(row.value),
+            'timestamp': str(row.timestamp),
+            'comment': row.comment,
+            'sender': row.sender.name if row.sender else ""
+        })
+    for row in getTransactions(request, user, 'DTR'):
+        transactions.append({
+            'token': row.token,
+            'value': float(row.value),
+            'timestamp': str(row.timestamp),
+            'comment': row.comment,
+            'sender': row.sender.name if row.sender else ""
+        })
 
     return transactions
 
@@ -100,6 +116,8 @@ def user_view(request):
     transactions_eth = getTransactions(request, user, 'ETH')
     transactions_pivx= getTransactions(request, user, 'PIVX')
     transactions_spf = getTransactions(request, user, 'SPF')
+    transactions_xmr = getTransactions(request, user, 'XMR')
+    transactions_dtr = getTransactions(request, user, 'DTR')
 
     funds_add = request.route_url('add_funds', username=user.name)
     funds_send = request.route_url('send_funds', username=user.name)
@@ -110,6 +128,8 @@ def user_view(request):
         transactions_eth=transactions_eth,
         transactions_pivx=transactions_pivx,
         transactions_spf=transactions_spf,
+        transactions_xmr=transactions_xmr,
+        transactions_dtr=transactions_dtr,
         add_funds=funds_add,
         send_funds=funds_send
     )
@@ -117,6 +137,7 @@ def user_view(request):
 @view_config(route_name='user_list', renderer='../templates/user_list.jinja2', permission='list')
 def user_list(request):
     users = request.dbsession.query(User).all()
+    token = request.dbsession.query(Token)
 
     user_funds = []
     for u in users:
@@ -125,22 +146,25 @@ def user_list(request):
             'BTC': 0,
             'ETH': 0,
             'PIVX': 0,
-            'SPF': 0
+            'SPF': 0,
+            'XMR': 0,
+            'DTR': 0
         }
 
-        for token in getTokenSums(request, u).all():
-            user[token.token] = token.value
+        for tokens in getTokenSums(request, u).all():
+            user[tokens.token] = tokens.value
 
         user_funds.append(user)
 
-    return dict(user_funds=user_funds)
+    return dict(user_funds=user_funds, token=token)
 
 
 @view_config(route_name='add_multiple_funds', renderer='../templates/user_add_multiple_funds.jinja2', permission='call')
 def add_multiple_funds(request):
     users = request.dbsession.query(User.name)
+    token = request.dbsession.query(Token)
     
-    return dict(users=users)
+    return dict(users=users, token=token)
 
 @view_config(route_name='add_multiple_funds_call', renderer='json', permission='call')
 def add_multiple_funds_call(request):
@@ -185,6 +209,7 @@ def add_multiple_funds_call(request):
 @view_config(route_name='add_funds', renderer='../templates/user_add_funds.jinja2', permission='create')
 def add_funds(request):
     user = request.context.user
+    token = request.dbsession.query(Token)
     
     # Get sums from all transactions by currencies
     tokens = getTokenSums(request, user)
@@ -200,11 +225,12 @@ def add_funds(request):
         next_url = request.route_url('user_view', username=user.name)
         return HTTPFound(location=next_url)
     
-    return dict(user=user, tokens=tokens)
+    return dict(user=user, tokens=tokens, token=token)
 
 @view_config(route_name='send_funds', renderer='../templates/user_send_funds.jinja2', permission='send')
 def send_funds(request):
     sending_user = request.user
+    token = request.dbsession.query(Token)
     
     # Get sums from all transactions by currencies
     tokens = getTokenSums(request, sending_user)
@@ -227,4 +253,4 @@ def send_funds(request):
         next_url = request.route_url('user_view', username=sending_user.name)
         return HTTPFound(location=next_url)
 
-    return dict(user=sending_user, tokens=tokens, users=users)
+    return dict(user=sending_user, tokens=tokens, users=users, token=token)

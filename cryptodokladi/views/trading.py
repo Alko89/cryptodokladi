@@ -10,13 +10,14 @@ from pyramid.httpexceptions import (
 from pyramid.view import view_config
 from sqlalchemy import func, union, select
 
-from ..models import User, Funds, LimitTrade
+from ..models import User, Funds, LimitTrade, Token
 
 from ..transactions.transaction import transaction, getTokenSums
 
 @view_config(route_name='limit_trade', renderer='../templates/limit_trade.jinja2', permission='send')
 def limit_trade(request):
     user = request.user
+    token = request.dbsession.query(Token)
     trades = request.dbsession.query(LimitTrade).filter(LimitTrade.user != user).order_by(LimitTrade.timestamp.desc())
     user_trades = request.dbsession.query(LimitTrade).filter(LimitTrade.user == user)
     tokens = getTokenSums(request, user)
@@ -147,5 +148,6 @@ def limit_trade(request):
         user=user,
         tokens=tokens,
         trades=trades,
-        user_trades=user_trades
+        user_trades=user_trades,
+        token=token
     )

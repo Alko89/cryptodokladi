@@ -17,10 +17,9 @@
                 <thead>
                     <tr>
                         <th>User</th>
-                        <th>BTC</th>
-                        <th>ETH</th>
-                        <th>SPF</th>
-                        <th>PIVX</th>
+                        {% for t in token %}
+                        <th>{{ t.token }}</th>
+                        {% endfor %}
                     </tr>
                 </thead>
 
@@ -42,16 +41,21 @@
                     <td class="{{ user.token }}">
                         {{ "%.8f"|format(user.PIVX) if user.PIVX != 0 else '/' }}
                     </td>
+                    <td class="{{ user.token }}">
+                        {{ "%.8f"|format(user.XMR) if user.XMR != 0 else '/' }}
+                    </td>
+                    <td class="{{ user.token }}">
+                        {{ "%.8f"|format(user.DTR) if user.DTR != 0 else '/' }}
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>        
                 <tfoot>
                     <tr>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        {% for t in token %}
+                        <th></th>
+                        {% endfor %}
                     </tr>
                 </tfoot>
             </table>

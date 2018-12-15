@@ -3,9 +3,9 @@
     <thead>
         <tr>
             <th>Koin</th>
-            <th>Vrednost</th>
-            <th>Tečaj</th>
-            <th>Vrednost v EUR</th>
+            <th>Value</th>
+            <th>Rate</th>
+            <th>Value in EUR</th>
         </tr>
     </thead>
 
@@ -26,6 +26,10 @@
             <td id="pivxeur"></td>
             {% elif fund.token == "SPF" %}
             <td id="spfeur"></td>
+            {% elif fund.token == "XMR" %}
+            <td id="xmreur"></td>
+            {% elif fund.token == "DTR" %}
+            <td id="dtreur"></td>
             {% else %}
             <td></td>
             {% endif %}
@@ -38,7 +42,17 @@
 {% endmacro %}
 
 {% macro user_transactions(transactions) %}
-<table class="pure-table pure-table-bordered" style="width:100%">
+<table class="pure-table pure-table-bordered transactions-table" style="width:100%">
+    <thead>
+        <tr>
+            <th>Koin</th>
+            <th>Value</th>
+            <th>Comment</th>
+            <th>Sender</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for fund in transactions %}
     <tr>
         <td>
@@ -66,5 +80,8 @@
         </td>
     </tr>
     {% endfor %}
+    </tbody>
 </table>
+</br>
+</br>
 {% endmacro %}

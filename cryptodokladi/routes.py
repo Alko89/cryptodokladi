@@ -37,7 +37,7 @@ def includeme(config):
     config.add_route('add_funds', '/user/add_funds/{username}', factory=add_funds_factory)
     config.add_route('send_funds', '/user/send_funds/{username}', factory=send_funds_factory)
 
-    config.add_route('calculate_staking_rewards', '/api/calculate_rewards/{pivx_reward}/{save}', factory=calculate_staking_rewards)
+    config.add_route('calculate_staking_rewards', '/api/calculate_rewards/{pivx_reward}/{comment}/{save}', factory=calculate_staking_rewards)
     config.add_route('add_multiple_funds_call', '/api/add_multiple_funds_call/{token}/{rate}', factory=calculate_staking_rewards)
     config.add_route('user_transactions', '/api/user_transactions/{username}', factory=user_factory)
     config.add_route('eur_usd_rate', '/api/eur_usd_rate')

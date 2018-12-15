@@ -44,14 +44,11 @@
             </div>
             {% endif %}
         </div>
+        </br>
+        </br>
     </div>
 
     {% if transactions_btc.count() != 0 %}
-    <header class="post-header">
-        <p class="post-meta">
-            Bitcoin transakcije
-        </p>
-    </header>
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
@@ -63,11 +60,6 @@
 
 
     {% if transactions_eth.count() != 0 %}
-    <header class="post-header">
-        <p class="post-meta">
-            Ethereum transakcije
-        </p>
-    </header>
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
@@ -78,11 +70,6 @@
     {% endif %}
 
     {% if transactions_spf.count() != 0 %}
-    <header class="post-header">
-        <p class="post-meta">
-            SportyFi transakcije
-        </p>
-    </header>
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
@@ -92,17 +79,31 @@
     </div>
     {% endif %}
 
-
     {% if transactions_pivx.count() != 0 %}
-    <header class="post-header">
-        <p class="post-meta">
-            PIVX transakcije
-        </p>
-    </header>
     <div class="post-description">
         <div class="post-images pure-g">
             <div class="pure-u-1">
                 {{ user_transactions(transactions_pivx) }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if transactions_xmr.count() != 0 %}
+    <div class="post-description">
+        <div class="post-images pure-g">
+            <div class="pure-u-1">
+                {{ user_transactions(transactions_xmr) }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if transactions_dtr.count() != 0 %}
+    <div class="post-description">
+        <div class="post-images pure-g">
+            <div class="pure-u-1">
+                {{ user_transactions(transactions_dtr) }}
             </div>
         </div>
     </div>

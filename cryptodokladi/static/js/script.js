@@ -42,6 +42,22 @@ $( document ).ready(function() {
         $('#SPFEUR').text((spf * spf_eur).toFixed(8));
     });
 
+    $.get("https://api.coinmarketcap.com/v1/ticker/monero/?convert=EUR", function(data) {
+        var xmr_eur = data[0].price_eur
+        var xmr = $('#XMR').text();
+
+        $('#xmreur').text(parseFloat(xmr_eur).toFixed(8));
+        $('#XMREUR').text((xmr * xmr_eur).toFixed(8));
+    });
+
+    $.get("https://api.coinmarketcap.com/v1/ticker/dynamic-trading-rights/?convert=EUR", function(data) {
+        var dtr_eur = data[0].price_eur
+        var dtr = $('#DTR').text();
+
+        $('#dtreur').text(parseFloat(dtr_eur).toFixed(8));
+        $('#DTREUR').text((dtr * dtr_eur).toFixed(8));
+    });
+
     $.ajax({
         url: "/api/eur_usd_rate",
         type: 'get',

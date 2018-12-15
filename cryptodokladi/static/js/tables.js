@@ -26,6 +26,15 @@ function format ( name, d ) {
 $(document).ready( function () {
     $('.user-table').DataTable();
 
+    $('.transactions-table').DataTable({
+        "iDisplayLength": 10,
+        "searching": false,
+        "lengthChange": false,
+        "fnDrawCallback": function ( oSettings ) {
+            $(oSettings.nTHead).hide();
+        }
+    });
+
     var table = $('#user-funds').DataTable({
         "aLengthMenu": [[50, 100, 500, -1], [50, 100, 500, "All"]],
         "iDisplayLength": 50,
@@ -54,6 +63,12 @@ $(document).ready( function () {
             );
             $( api.column( 4 ).footer() ).html(
                 sumVal(4).toFixed(8)
+            );
+            $( api.column( 5 ).footer() ).html(
+                sumVal(5).toFixed(8)
+            );
+            $( api.column( 6 ).footer() ).html(
+                sumVal(6).toFixed(8)
             );
         }
     });
