@@ -13,11 +13,18 @@
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
+          <drop-down class="nav-item"
+                     title="Settings"
+                     title-classes="nav-link"
+                     icon="ti-settings">
+            <router-link class="dropdown-item" :to="{path:'/stats'}">Profile</router-link>
+            <router-link class="dropdown-item" :to="{path:'/about'}">About</router-link>
+          </drop-down>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="ti-settings"></i>
+              <i class="ti-user"></i>
               <p>
-                Settings
+                Login
               </p>
             </a>
           </li>

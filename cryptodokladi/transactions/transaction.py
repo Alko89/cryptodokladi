@@ -1,6 +1,6 @@
 from ..models import Funds
 
-from sqlalchemy import func, union, select
+from sqlalchemy import func, union
 
 
 def transaction(request, token, value, comment, sending_user, receiving_user):
@@ -50,12 +50,12 @@ def getTokenSums(request, user):
 
 def getTokenSum(request, user, token):
     """Get the sum of a token for a user
-    
+
     Arguments:
         request {[type]} -- [description]
         user {User} -- User
         token {string} -- Token currency code
-    
+
     Returns:
         list -- Sum of token funds of a User
     """
@@ -67,11 +67,11 @@ def getTokenSum(request, user, token):
 
 def getTokenFunds(request, token):
     """Get the sum of a token
-    
+
     Arguments:
         request {[type]} -- [description]
         token {[type]} -- [description]
-    
+
     Returns:
         [type] -- [description]
     """
@@ -83,11 +83,11 @@ def getTokenFunds(request, token):
 
 def getTokenUserFunds(request, token):
     """Get the sum of a token for all users
-    
+
     Arguments:
         request {[type]} -- [description]
         token {[type]} -- [description]
-    
+
     Returns:
         [type] -- [description]
     """

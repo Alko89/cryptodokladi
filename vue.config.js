@@ -9,7 +9,9 @@ module.exports = {
     pages: {
         index: {
           // entry for the page
-          entry: 'cryptodokladi/static/src/main.js'
+          entry: 'frontend/src/main.js',
+          // the source template
+          template: 'frontend/public/index.html'
         }
     },
     indexPath: resolve('cryptodokladi/templates/index.html'),
@@ -19,7 +21,7 @@ module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                '@': resolve('cryptodokladi/static/src')
+                '@': resolve('frontend/src')
             }
         }
     },
