@@ -1,4 +1,10 @@
 // vue.config.js
+var path = require('path')
+
+function resolve (dir) {
+    return path.join(__dirname, dir)
+}
+
 module.exports = {
     pages: {
         index: {
@@ -6,5 +12,25 @@ module.exports = {
           entry: 'cryptodokladi/static/src/main.js'
         }
     },
-    outputDir: 'cryptodokladi/static/dist/'
+    indexPath: resolve('cryptodokladi/templates/index.html'),
+    outputDir: 'cryptodokladi/static/dist/',
+
+    baseUrl: process.env.NODE_ENV === 'production'
+        ? '/static/dist/'
+        : 'http://localhost:8080/cryptodokladi/static/dist/',
+
+    configureWebpack: {
+        resolve: {
+            alias: {
+                '@': resolve('cryptodokladi/static/src')
+            }
+        }
+    },
+
+    devServer: {
+        proxy: 'http://localhost:6543',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+    },
 }

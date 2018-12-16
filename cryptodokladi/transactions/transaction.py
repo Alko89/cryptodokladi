@@ -5,7 +5,7 @@ from sqlalchemy import func, union, select
 
 def transaction(request, token, value, comment, sending_user, receiving_user):
     """Sends the value of a token from sending_user to reciving_user
-    
+
     Arguments:
         request {[type]} -- [description]
         token {string} -- Token to be sent
@@ -19,12 +19,12 @@ def transaction(request, token, value, comment, sending_user, receiving_user):
 
 def getTransactions(request, user, token):
     """Get token transactions of a user
-    
+
     Arguments:
         request {[type]} -- [description]
         user {User} -- User
         token {string} -- Token currency code
-    
+
     Returns:
         Funds -- List of user transactions per token
     """
@@ -34,11 +34,11 @@ def getTransactions(request, user, token):
 
 def getTokenSums(request, user):
     """Gets the sums of tokens for a user
-    
+
     Arguments:
         request {[type]} -- [description]
         user {User} -- User
-    
+
     Returns:
         list -- Sums of all token funds of a User
     """

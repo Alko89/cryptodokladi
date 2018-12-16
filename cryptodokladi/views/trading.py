@@ -4,11 +4,10 @@ from docutils.core import publish_parts
 
 from pyramid.httpexceptions import (
     HTTPFound,
-    HTTPNotFound,
 )
 
 from pyramid.view import view_config
-from sqlalchemy import func, union, select
+from sqlalchemy import func, select
 
 from ..models import User, Funds, LimitTrade, Token
 

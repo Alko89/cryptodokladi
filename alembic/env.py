@@ -13,7 +13,6 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-import cryptodokladi.models
 from cryptodokladi import models
 target_metadata = models.meta.Base.metadata
 

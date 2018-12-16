@@ -195,7 +195,7 @@ def send_funds(request):
     tokens = getTokenSums(request, sending_user)
 
     users = request.dbsession.query(User.id, User.name).all()
-    
+
     if 'form.submitted' in request.params:
         receiving_userid = request.params['receiving_user']
         receiving_user = request.dbsession.query(User).filter_by(id=receiving_userid).first()
