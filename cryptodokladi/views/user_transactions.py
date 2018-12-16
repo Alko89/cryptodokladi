@@ -49,7 +49,8 @@ def user_token_transactions(request, user, token):
 
 @view_config(route_name='user_transactions', renderer='json', permission='view')
 def user_transactions(request):
-    user = request.context.user
+    username = request.matchdict['username']
+    user = request.dbsession.query(User).filter_by(name=username).first()
     token = request.dbsession.query(Token)
 
     transactions = []
