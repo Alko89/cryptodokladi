@@ -14,10 +14,7 @@ module.exports = {
     },
     indexPath: resolve('cryptodokladi/templates/index.html'),
     outputDir: 'cryptodokladi/static/dist/',
-
-    baseUrl: process.env.NODE_ENV === 'production'
-        ? '/static/dist/'
-        : 'http://localhost:8080/cryptodokladi/static/dist/',
+    baseUrl: '/static/dist/',
 
     configureWebpack: {
         resolve: {

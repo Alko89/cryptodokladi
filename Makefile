@@ -6,8 +6,7 @@ venv:
 prod:
 	source ../bin/activate; \
 	pip install -r requirements.txt; \
-	pserve production.ini
-	npm install --production
+	npm install --production \
 
 # Installs development dependencies.
 dev:
@@ -26,7 +25,7 @@ test:
 # This step depends on `make dev`, however dependency is excluded to speed up dev server startup.
 run:
 	source ../bin/activate; \
-	npm run dev & pserve development.ini --reload
+	npm run serve & pserve development.ini --reload
 
 # Builds files for distribution which will be placed in /static/dist
 build:
