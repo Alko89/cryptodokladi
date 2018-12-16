@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --mode=development --open --hot",
-    "build-dev": "webpack --progress --hide-modules",
+    "dev": "webpack-dev-server --mode=development --hot",
+    "build-dev": "NODE_ENV=production webpack --mode=production --progress --hide-modules",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"

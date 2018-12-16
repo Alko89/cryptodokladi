@@ -6,7 +6,6 @@ module.exports = {
   entry: __dirname + '/cryptodokladi/static/src/main.js',
   output: {
     path: path.resolve(__dirname, 'cryptodokladi/static/dist'),
-    publicPath: 'http://localhost:8080/cryptodokladi/static/dist/',
     filename: 'build.js'
   },
   module: {
@@ -49,24 +48,16 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
-  },
-  performance: {
-    hints: false
-  },
-  devtool: '#eval-source-map',
-
-  resolve: {
-    alias: {
-      'vue$': 'vue/dist/vue.common.js'
-    }
-  },
-  devServer: {
+    overlay: true,
     contentBase: __dirname + "cryptodokladi/static/dist",
     publicPath: "http://localhost:8080/cryptodokladi/static/dist/",
     compress: true,
     headers: { 'Access-Control-Allow-Origin': '*' }
   },
+  performance: {
+    hints: false
+  },
+  devtool: '#eval-source-map',
 
   plugins: [
     // make sure to include the plugin for the magic
@@ -74,23 +65,9 @@ module.exports = {
   ]
 }
 
-// if (process.env.NODE_ENV === 'production') {
-//   module.exports.devtool = '#source-map'
-//   // http://vue-loader.vuejs.org/en/workflow/production.html
-//   module.exports.plugins = (module.exports.plugins || []).concat([
-//     new webpack.DefinePlugin({
-//       'process.env': {
-//         NODE_ENV: '"production"'
-//       }
-//     }),
-//     new webpack.optimize.UglifyJsPlugin({
-//       sourceMap: true,
-//       compress: {
-//         warnings: false
-//       }
-//     }),
-//     new webpack.LoaderOptionsPlugin({
-//       minimize: true
-//     })
-//   ])
-// }
+if (process.env.NODE_ENV === 'production') {
+  module.exports.output.publicPath = '/static/dist/'
+}
+else {
+  module.exports.output.publicPath = 'http://localhost:8080/cryptodokladi/static/dist/'
+}
