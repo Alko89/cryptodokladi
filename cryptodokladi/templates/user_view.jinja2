@@ -48,66 +48,18 @@
         </br>
     </div>
 
-    {% if transactions_btc.count() != 0 %}
-    <div class="post-description">
-        <div class="post-images pure-g">
-            <div class="pure-u-1">
-                {{ user_transactions(transactions_btc) }}
+    {% for t in transactions %}
+        {% if t.transactions.count() > 0 %}
+        <div class="post-description">
+            <div class="post-images pure-g">
+                <div class="pure-u-1">
+                    {{ user_transactions(t.transactions) }}
+                </div>
             </div>
         </div>
-    </div>
-    {% endif %}
+        {% endif %}
+    {% endfor %}
 
-
-    {% if transactions_eth.count() != 0 %}
-    <div class="post-description">
-        <div class="post-images pure-g">
-            <div class="pure-u-1">
-               {{ user_transactions(transactions_eth) }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    {% if transactions_spf.count() != 0 %}
-    <div class="post-description">
-        <div class="post-images pure-g">
-            <div class="pure-u-1">
-                {{ user_transactions(transactions_spf) }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    {% if transactions_pivx.count() != 0 %}
-    <div class="post-description">
-        <div class="post-images pure-g">
-            <div class="pure-u-1">
-                {{ user_transactions(transactions_pivx) }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    {% if transactions_xmr.count() != 0 %}
-    <div class="post-description">
-        <div class="post-images pure-g">
-            <div class="pure-u-1">
-                {{ user_transactions(transactions_xmr) }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    {% if transactions_dtr.count() != 0 %}
-    <div class="post-description">
-        <div class="post-images pure-g">
-            <div class="pure-u-1">
-                {{ user_transactions(transactions_dtr) }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
 </section>
 {% endblock content %}
 

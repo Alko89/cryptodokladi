@@ -1,3 +1,4 @@
+# Pyramid
 bcrypt
 docutils
 plaster_pastedeploy
@@ -12,4 +13,10 @@ transaction
 zope.sqlalchemy
 waitress
 cornice
+
+# Database migrations
 alembic
+
+# Bots and scrypts
+python-bitcoinrpc
+python-telegram-bot

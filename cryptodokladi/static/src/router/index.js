@@ -1,12 +1,15 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import routes from "./routes";
-Vue.use(VueRouter);
+import Vue from 'vue'
+import Router from 'vue-router'
+import Hello from '../components/Hello.vue'
 
-// configure router
-const router = new VueRouter({
-  routes, // short for routes: routes
-  linkActiveClass: "active"
-});
+Vue.use(Router)
 
-export default router;
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'Hello',
+      component: Hello
+    }
+  ]
+})

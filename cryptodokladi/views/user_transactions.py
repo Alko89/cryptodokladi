@@ -50,86 +50,45 @@ def user_token_transactions(request, user, token):
 @view_config(route_name='user_transactions', renderer='json', permission='view')
 def user_transactions(request):
     user = request.context.user
+    token = request.dbsession.query(Token)
 
     transactions = []
-    for row in getTransactions(request, user, 'BTC'):
-        transactions.append({
-            'token': row.token,
-            'value': float(row.value),
-            'timestamp': str(row.timestamp),
-            'comment': row.comment,
-            'user': row.user.name,
-            'sender': row.sender.name if row.sender else ""
-        })
-    for row in getTransactions(request, user, 'ETH'):
-        transactions.append({
-            'token': row.token,
-            'value': float(row.value),
-            'timestamp': str(row.timestamp),
-            'comment': row.comment,
-            'sender': row.sender.name if row.sender else ""
-        })
-    for row in getTransactions(request, user, 'SPF'):
-        transactions.append({
-            'token': row.token,
-            'value': float(row.value),
-            'timestamp': str(row.timestamp),
-            'comment': row.comment,
-            'sender': row.sender.name if row.sender else ""
-        })
-    for row in getTransactions(request, user, 'PIVX'):
-        transactions.append({
-            'token': row.token,
-            'value': float(row.value),
-            'timestamp': str(row.timestamp),
-            'comment': row.comment,
-            'sender': row.sender.name if row.sender else ""
-        })
-    for row in getTransactions(request, user, 'XMR'):
-        transactions.append({
-            'token': row.token,
-            'value': float(row.value),
-            'timestamp': str(row.timestamp),
-            'comment': row.comment,
-            'sender': row.sender.name if row.sender else ""
-        })
-    for row in getTransactions(request, user, 'DTR'):
-        transactions.append({
-            'token': row.token,
-            'value': float(row.value),
-            'timestamp': str(row.timestamp),
-            'comment': row.comment,
-            'sender': row.sender.name if row.sender else ""
-        })
+    for t in token:
+        for row in getTransactions(request, user, t.token):
+            transactions.append({
+                'token': row.token,
+                'value': float(row.value),
+                'timestamp': str(row.timestamp),
+                'comment': row.comment,
+                'user': row.user.name,
+                'sender': row.sender.name if row.sender else ""
+            })
 
     return transactions
 
 @view_config(route_name='user_view', renderer='../templates/user_view.jinja2', permission='view')
 def user_view(request):
     user = request.context.user
+    token = request.dbsession.query(Token)
 
     # Get sums from all transactions by currencies
     tokens = getTokenSums(request, user)
 
     # Get all transactions for each currency.
-    transactions_btc = getTransactions(request, user, 'BTC')
-    transactions_eth = getTransactions(request, user, 'ETH')
-    transactions_pivx= getTransactions(request, user, 'PIVX')
-    transactions_spf = getTransactions(request, user, 'SPF')
-    transactions_xmr = getTransactions(request, user, 'XMR')
-    transactions_dtr = getTransactions(request, user, 'DTR')
+    transactions = []
+
+    for t in token:
+        transactions.append({
+            'token': t.name,
+            'transactions': getTransactions(request, user, t.token)
+        })
 
     funds_add = request.route_url('add_funds', username=user.name)
     funds_send = request.route_url('send_funds', username=user.name)
     return dict(
         user=user,
         tokens=tokens,
-        transactions_btc=transactions_btc,
-        transactions_eth=transactions_eth,
-        transactions_pivx=transactions_pivx,
-        transactions_spf=transactions_spf,
-        transactions_xmr=transactions_xmr,
-        transactions_dtr=transactions_dtr,
+        transactions=transactions,
         add_funds=funds_add,
         send_funds=funds_send
     )
@@ -145,8 +104,8 @@ def user_list(request):
             'name': u.name,
             'BTC': 0,
             'ETH': 0,
-            'PIVX': 0,
             'SPF': 0,
+            'PIVX': 0,
             'XMR': 0,
             'DTR': 0
         }
@@ -254,3 +213,17 @@ def send_funds(request):
         return HTTPFound(location=next_url)
 
     return dict(user=sending_user, tokens=tokens, users=users, token=token)
+
+@view_config(route_name='get_tokens', renderer='json')
+def get_tokens(request):
+    token = request.dbsession.query(Token)
+
+    tokens = []
+    for t in token:
+        tokens.append({
+            'id': t.id,
+            'name': t.name,
+            'token': t.token
+        })
+
+    return tokens

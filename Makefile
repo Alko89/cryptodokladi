@@ -12,6 +12,7 @@ prod:
 # Installs development dependencies.
 dev:
 	source ../bin/activate; \
+	pip3 install -r requirements.txt; \
 	pip3 install --upgrade pip setuptools; \
 	npm install; \
 	python3 setup.py develop; \
