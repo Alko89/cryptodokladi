@@ -69,22 +69,6 @@
       </div>
 
       <div class="col-md-6 col-12">
-        <chart-card title="Transactions"
-                    sub-title="All"
-                    :chart-data="transactions.value"
-                    :chart-labels="transactions.timestamp"
-                    :chart-options="activityChart.options">
-          <span slot="footer">
-            <i class="ti-check"></i> Data information certified
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> A
-            <i class="fa fa-circle text-warning"></i> B
-          </div>
-        </chart-card>
-      </div>
-
-      <div class="col-md-6 col-12">
         <p v-for="t in tokens" :key="t.id">
           {{ t.name }}
         </p>
@@ -98,7 +82,6 @@
 import { StatsCard, ChartCard } from "@/components/index";
 import Chartist from 'chartist';
 
-
 import axios from 'axios'
 
 export default {
@@ -106,11 +89,6 @@ export default {
     axios.get("/api/tokens")
     .then(response => {
       this.tokens = response.data
-    })
-
-    axios.get("/api/user_transactions/alko")
-    .then(response => {
-      this.transactions = response.data
     })
   },
 
@@ -127,13 +105,6 @@ export default {
       tokens: [
         {name: 'Bitcoin'},
         {name: 'PIVX'}
-      ],
-      transactions: [
-        {
-          token: "",
-          value: 0,
-          timestamp: ""
-        }
       ],
       statsCards: [
         {

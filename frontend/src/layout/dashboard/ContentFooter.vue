@@ -10,7 +10,7 @@
       </nav>
       <div class="copyright d-flex flex-wrap">
         <a href="https://github.com/Alko89/cryptodokladi" target="_blank">CryptoDokladi.</a>
-        &nbsp;By&nbsp;GoOpen&nbsp;
+        &nbsp;by&nbsp;GoOpen&nbsp;
       </div>
     </div>
   </footer>

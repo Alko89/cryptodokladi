@@ -29,6 +29,36 @@
 
       <content-footer></content-footer>
     </div>
+
+    <!-- Modal Component -->
+    <b-modal id="login-modal" hide-footer title="Login">
+      <form @submit.prevent>
+        <div class="row">
+          <div class="col-md-12">
+            <fg-input type="text"
+                      label="Username"
+                      placeholder="Username">
+            </fg-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <fg-input type="text"
+                      label="Password"
+                      placeholder="Password">
+            </fg-input>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <p-button type="info"
+                    round
+                    @click.native.prevent="">
+            Login
+          </p-button>
+        </div>
+      </form>
+    </b-modal>
   </div>
 </template>
 <style lang="scss">

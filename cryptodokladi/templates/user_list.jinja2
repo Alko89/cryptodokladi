@@ -36,10 +36,10 @@
                         {{ "%.8f"|format(user.ETH) if user.ETH != 0 else '/' }}
                     </td>
                     <td class="{{ user.token }}">
-                        {{ "%.8f"|format(user.SPF) if user.SPF != 0 else '/' }}
+                        {{ "%.8f"|format(user.PIVX) if user.PIVX != 0 else '/' }}
                     </td>
                     <td class="{{ user.token }}">
-                        {{ "%.8f"|format(user.PIVX) if user.PIVX != 0 else '/' }}
+                        {{ "%.8f"|format(user.SPF) if user.SPF != 0 else '/' }}
                     </td>
                     <td class="{{ user.token }}">
                         {{ "%.8f"|format(user.XMR) if user.XMR != 0 else '/' }}

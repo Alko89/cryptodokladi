@@ -21,10 +21,24 @@
         </card>
       </div>
 
+      <div class="col-12">
+        <card class="card-plain">
+          <div class="table-full-width table-responsive">
+            <paper-table type="hover" :title="transactions.title" :sub-title="transactions.subTitle" :data="transactions.data"
+                         :columns="transactions.columns">
+
+            </paper-table>
+          </div>
+        </card>
+      </div>
+
     </div>
 </template>
 <script>
 import { PaperTable } from "@/components";
+
+import axios from 'axios'
+
 const tableColumns = ["Id", "Name", "Salary", "Country", "City"];
 const tableData = [
   {
@@ -81,9 +95,28 @@ export default {
         subTitle: "Here is a subtitle for this table",
         columns: [...tableColumns],
         data: [...tableData]
+      },
+      transactions: {
+        title: "Transactions",
+        subTitle: "List of transactions",
+        columns: ["token", "value", "timestamp", "comment"],
+        data: [{
+          token:	"BTC",
+          value:	0.00082645,
+          timestamp:	"2018-08-31 17:34:44",
+          comment:	"5€ drobiž",
+          user:	"alko",
+          sender:	"7jaka7"
+        }]
       }
     };
-  }
+  },
+  mounted() {
+    axios.get("/api/user_transactions/alko")
+    .then(response => {
+      this.transactions.data = response.data
+    })
+  },
 };
 </script>
 <style>

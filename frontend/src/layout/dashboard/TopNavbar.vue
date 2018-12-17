@@ -13,15 +13,16 @@
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <drop-down class="nav-item"
-                     title="Settings"
-                     title-classes="nav-link"
-                     icon="ti-settings">
-            <router-link class="dropdown-item" :to="{path:'/stats'}">Profile</router-link>
-            <router-link class="dropdown-item" :to="{path:'/about'}">About</router-link>
-          </drop-down>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" @click.prevent="toggleNotificationDropDown()" class="nav-link">
+              <i class="ti-pencil"></i>
+              <p>
+                Register
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" v-b-modal.login-modal class="nav-link">
               <i class="ti-user"></i>
               <p>
                 Login
@@ -34,6 +35,8 @@
 </template>
 <script>
 export default {
+  components: {
+  },
   computed: {
     routeName() {
       const { name } = this.$route;
