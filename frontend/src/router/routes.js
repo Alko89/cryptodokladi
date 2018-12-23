@@ -10,7 +10,22 @@ import Icons from "@/pages/Icons.vue";
 import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
+
 import About from "@/pages/About.vue";
+import Login from "@/auth/Login.vue";
+
+import auth from "@/auth/auth.js"
+
+function requireAuth(to, from, next) {
+  if (!auth.loggedIn()) {
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath }
+    })
+  } else {
+    next()
+  }
+}
 
 const routes = [
   {
@@ -21,11 +36,12 @@ const routes = [
       {
         path: "dashboard",
         name: "dashboard",
-        component: Dashboard
+        component: Dashboard,
+        beforeEnter: requireAuth
       },
       {
-        path: "stats",
-        name: "stats",
+        path: "profile",
+        name: "profile",
         component: UserProfile
       },
       {
@@ -57,6 +73,19 @@ const routes = [
         path: "about",
         name: "about",
         component: About
+      },
+      {
+        path: "login",
+        name: "login",
+        component: Login
+      },
+      {
+        path: "logout",
+        name: "logout",
+        beforeEnter(to, from, next) {
+          auth.logout()
+          next("/login")
+        }
       }
     ]
   },

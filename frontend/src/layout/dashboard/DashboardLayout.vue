@@ -3,7 +3,7 @@
     <side-bar>
       <template slot="links">
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
-        <sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
+        <sidebar-link to="/profile" name="User Profile" icon="ti-user"/>
         <sidebar-link to="/table-list" name="Transactions" icon="ti-view-list-alt"/>
         <sidebar-link to="/typography" name="Typography" icon="ti-text"/>
         <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2"/>
@@ -29,36 +29,6 @@
 
       <content-footer></content-footer>
     </div>
-
-    <!-- Modal Component -->
-    <b-modal id="login-modal" hide-footer title="Login">
-      <form @submit.prevent>
-        <div class="row">
-          <div class="col-md-12">
-            <fg-input type="text"
-                      label="Username"
-                      placeholder="Username">
-            </fg-input>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <fg-input type="text"
-                      label="Password"
-                      placeholder="Password">
-            </fg-input>
-          </div>
-        </div>
-
-        <div class="text-center">
-          <p-button type="info"
-                    round
-                    @click.native.prevent="">
-            Login
-          </p-button>
-        </div>
-      </form>
-    </b-modal>
   </div>
 </template>
 <style lang="scss">
@@ -68,6 +38,7 @@ import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import MobileMenu from "./MobileMenu";
+
 export default {
   components: {
     TopNavbar,

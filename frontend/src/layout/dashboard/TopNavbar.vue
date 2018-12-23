@@ -13,27 +13,37 @@
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="#" @click.prevent="toggleNotificationDropDown()" class="nav-link">
+          <li v-if="!loggedIn" class="nav-item">
+            <router-link class="nav-link" :to="{path:'/register'}">
               <i class="ti-pencil"></i>
               <p>
-                Register
+                {{ $loggedIn }}
               </p>
-            </a>
+            </router-link>
           </li>
-          <li class="nav-item">
-            <a href="#" v-b-modal.login-modal class="nav-link">
+          <li v-if="!loggedIn" class="nav-item">
+            <router-link class="nav-link" :to="{path:'/login'}">
               <i class="ti-user"></i>
               <p>
                 Login
               </p>
-            </a>
+            </router-link>
+          </li>
+          <li v-if="loggedIn" class="nav-item">
+            <router-link class="nav-link" :to="{path:'/logout'}">
+              <i class="ti-user"></i>
+              <p>
+                Logout
+              </p>
+            </router-link>
           </li>
         </ul>
       </div>
     </div></nav>
 </template>
 <script>
+import auth from "@/auth/auth.js"
+
 export default {
   components: {
   },
@@ -45,7 +55,8 @@ export default {
   },
   data() {
     return {
-      activeNotifications: false
+      activeNotifications: false,
+      loggedIn: auth.loggedIn()
     };
   },
   methods: {
