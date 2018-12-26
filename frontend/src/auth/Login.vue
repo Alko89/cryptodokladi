@@ -58,7 +58,7 @@ export default {
       this.$store
         .dispatch("login", { email, password })
         .then(() => this.$router.push("/"))
-        .catch(err => console.log(err));
+        // .catch(err => console.log(err));
     }
   }
 };
