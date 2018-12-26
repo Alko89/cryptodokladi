@@ -6,20 +6,7 @@
 </template>
 
 <script>
-import auth from "@/auth/auth.js"
-
-export default {
-  data () {
-    return {
-      loggedIn: auth.loggedIn()
-    }
-  },
-  created () {
-    auth.onChange = loggedIn => {
-      this.loggedIn = loggedIn
-    }
-  }
-};
+export default {};
 </script>
 
 <style lang="scss">

@@ -7,7 +7,7 @@ import zope.sqlalchemy
 # Base.metadata prior to any initialization routines
 from .song import Song, Lyric, Tag  # noqa
 from .page import Page  # noqa
-from .user import User  # noqa
+from .user import User, UserSchema  # noqa
 from .funds import Funds, Token, Rewards, LimitTrade  # noqa
 
 # run configure_mappers after defining all of the models to ensure

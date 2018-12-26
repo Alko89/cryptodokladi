@@ -14,19 +14,6 @@ import TableList from "@/pages/TableList.vue";
 import About from "@/pages/About.vue";
 import Login from "@/auth/Login.vue";
 
-import auth from "@/auth/auth.js"
-
-function requireAuth(to, from, next) {
-  if (!auth.loggedIn()) {
-    next({
-      path: "/login",
-      query: { redirect: to.fullPath }
-    })
-  } else {
-    next()
-  }
-}
-
 const routes = [
   {
     path: "/",
@@ -37,7 +24,9 @@ const routes = [
         path: "dashboard",
         name: "dashboard",
         component: Dashboard,
-        beforeEnter: requireAuth
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "profile",
@@ -78,14 +67,6 @@ const routes = [
         path: "login",
         name: "login",
         component: Login
-      },
-      {
-        path: "logout",
-        name: "logout",
-        beforeEnter(to, from, next) {
-          auth.logout()
-          next("/login")
-        }
       }
     ]
   },

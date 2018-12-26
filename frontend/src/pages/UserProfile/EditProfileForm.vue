@@ -5,10 +5,10 @@
         <div class="row">
           <div class="col-md-5">
             <fg-input type="text"
-                      label="Company"
+                      label="Username"
                       :disabled="true"
-                      placeholder="Paper dashboard"
-                      v-model="user.company">
+                      placeholder="Username"
+                      v-model="user.name">
             </fg-input>
           </div>
           <div class="col-md-3">
@@ -16,7 +16,7 @@
             <fg-input type="text"
                       label="Username"
                       placeholder="Username"
-                      v-model="user.username">
+                      v-model="user.name">
             </fg-input>
           </div>
           <div class="col-md-4">
@@ -33,14 +33,14 @@
             <fg-input type="text"
                       label="First Name"
                       placeholder="First Name"
-                      v-model="user.firstName">
+                      v-model="user.firstname">
             </fg-input>
           </div>
           <div class="col-md-6">
             <fg-input type="text"
                       label="Last Name"
                       placeholder="Last Name"
-                      v-model="user.lastName">
+                      v-model="user.lastname">
             </fg-input>
           </div>
         </div>
@@ -64,17 +64,17 @@
             </fg-input>
           </div>
           <div class="col-md-4">
+            <fg-input type="number"
+                      label="Postal Code"
+                      placeholder="ZIP Code"
+                      v-model="user.postalcode">
+            </fg-input>
+          </div>
+          <div class="col-md-4">
             <fg-input type="text"
                       label="Country"
                       placeholder="Country"
                       v-model="user.country">
-            </fg-input>
-          </div>
-          <div class="col-md-4">
-            <fg-input type="number"
-                      label="Postal Code"
-                      placeholder="ZIP Code"
-                      v-model="user.postalCode">
             </fg-input>
           </div>
         </div>
@@ -85,7 +85,7 @@
               <label>About Me</label>
               <textarea rows="5" class="form-control border-input"
                         placeholder="Here can be your description"
-                        v-model="user.aboutMe">
+                        v-model="user.about">
 
               </textarea>
             </div>
@@ -104,26 +104,35 @@
   </card>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       user: {
-        company: "Paper Dashboard",
-        username: "michael23",
+        name: "",
         email: "",
-        lastName: "Faker",
-        address: "Melbourne, Australia",
-        city: "melbourne",
-        postalCode: "",
-        aboutMe: `Oh so, your weak rhyme. You doubt I'll bother, reading into it.I'll probably won't, left to my own devicesBut that's the difference in our opinions.`
+        firstname: "",
+        lastname: "",
+        address: "",
+        city: "",
+        postalcode: "",
+        about: ""
       }
     };
   },
   methods: {
     updateProfile() {
-      alert("Your data: " + JSON.stringify(this.user));
+      axios({ url: '/api/user', data: JSON.stringify(this.user), method: 'POST'})
+      console.log(JSON.stringify(this.user));
     }
-  }
+  },
+  mounted() {
+    axios.get("/api/user")
+    .then(response => {
+      this.user = response.data
+    })
+  },
 };
 </script>
 <style>

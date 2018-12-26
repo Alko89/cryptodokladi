@@ -33,20 +33,6 @@ def eur_usd_rate(request):
         error="error"
     )
 
-
-def user_token_transactions(request, user, token):
-    transactions = []
-    for row in getTransactions(request, user, token):
-        transactions.append({
-            'token': row.token,
-            'value': float(row.value),
-            'timestamp': str(row.timestamp),
-            'comment': row.comment,
-            'user': row.user.name,
-            'sender': row.sender.name if row.sender else ""
-        })
-    return transactions
-
 @view_config(route_name='user_transactions', renderer='json', permission='view')
 def user_transactions(request):
     username = request.matchdict['username']
@@ -214,17 +200,3 @@ def send_funds(request):
         return HTTPFound(location=next_url)
 
     return dict(user=sending_user, tokens=tokens, users=users, token=token)
-
-@view_config(route_name='get_tokens', renderer='json')
-def get_tokens(request):
-    token = request.dbsession.query(Token)
-
-    tokens = []
-    for t in token:
-        tokens.append({
-            'id': t.id,
-            'name': t.name,
-            'token': t.token
-        })
-
-    return tokens

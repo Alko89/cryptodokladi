@@ -13,6 +13,7 @@ transaction
 zope.sqlalchemy
 waitress
 cornice
+marshmallow_sqlalchemy
 
 # Database migrations
 alembic

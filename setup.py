@@ -22,7 +22,8 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'cornice'
+    'cornice',
+    'marshmallow_sqlalchemy'
 ]
 
 tests_require = [

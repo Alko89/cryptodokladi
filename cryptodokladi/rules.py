@@ -1,4 +1,5 @@
 from pyramid.httpexceptions import (
+    HTTPUnauthorized,
     HTTPNotFound,
     HTTPFound,
 )
@@ -52,7 +53,14 @@ def user_factory(request):
     username = request.matchdict['username']
     user = request.dbsession.query(User).filter_by(name=username).first()
     if User is None:
-        raise HTTPNotFound
+        raise HTTPUnauthorized
+    return UserResource(user)
+
+def user_id_factory(request):
+    id = request.matchdict['id']
+    user = request.dbsession.query(User).filter_by(id=id).first()
+    if User is None:
+        raise HTTPUnauthorized
     return UserResource(user)
 
 class UserResource(object):
@@ -64,6 +72,7 @@ class UserResource(object):
             (Allow, str(self.user.id), 'view'),
             (Allow, 'role:editor', 'view'),
         ]
+
 
 def user_list_factory(request):
     return UserList()
@@ -103,7 +112,8 @@ class SendFunds(object):
 
     def __acl__(self):
         return [
-            (Allow, str(self.user.id), 'send')
+            (Allow, str(self.user.id), 'send'),
+            (Allow, 'role:editor', 'view'),
         ]
 
 def user_change_settings(request):

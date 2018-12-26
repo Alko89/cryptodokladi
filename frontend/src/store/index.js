@@ -31,15 +31,26 @@ export default new Vuex.Store({
     login({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        axios({ url: 'http://localhost:3000/login', data: user, method: 'POST' })
+        axios({ url: '/api/login', data: user, method: 'POST' })
           .then(resp => {
-            const token = resp.data.token
-            const user = resp.data.user
-            localStorage.setItem('token', token)
-            // Add the following line:
-            axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', token, user)
-            resolve(resp)
+            if(resp.data.result == 'ok') {
+              /*
+              Replace JWT token with random string.
+              */
+              // const token = resp.data.token
+              const token = Math.random().toString(36).substring(7)
+              const user = resp.data.user
+              localStorage.setItem('token', token)
+              // Add the following line:
+              axios.defaults.headers.common['Authorization'] = token
+              commit('auth_success', token, user)
+              resolve(resp)
+            }
+            else {
+              commit('auth_error')
+              localStorage.removeItem('token')
+              reject(resp)
+            }
           })
           .catch(err => {
             commit('auth_error')
@@ -51,7 +62,7 @@ export default new Vuex.Store({
     register({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        axios({ url: 'http://localhost:3000/register', data: user, method: 'POST' })
+        axios({ url: '/register', data: user, method: 'POST' })
           .then(resp => {
             const token = resp.data.token
             const user = resp.data.user
@@ -71,6 +82,8 @@ export default new Vuex.Store({
     logout({ commit }) {
       return new Promise((resolve, reject) => {
         commit('logout')
+        // Remove session cookie id
+        axios({ url: '/logout', method: 'POST' })
         localStorage.removeItem('token')
         delete axios.defaults.headers.common['Authorization']
         resolve()

@@ -7,23 +7,23 @@
       You need to login first.
     </p>
     
-          <form @submit.prevent>
+          <form @submit.prevent="login">
             
             <div class="row">
               <div class="col-md-12">
                 <fg-input type="text"
-                          label="Address"
-                          placeholder="Home Address"
+                          label="Name"
+                          placeholder="Name"
                           v-model="email">
                 </fg-input>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <fg-input type="text"
-                          label="Address"
-                          placeholder="Home Address"
-                          v-model="pass">
+                <fg-input type="password"
+                          label="Password"
+                          placeholder="Password"
+                          v-model="password">
                 </fg-input>
               </div>
             </div>
@@ -44,28 +44,24 @@
 </template>
 
 <script>
-import auth from './auth'
-
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      pass: '',
-      error: false
-    }
+      email: "",
+      password: ""
+    };
   },
   methods: {
-    login () {
-      auth.login(this.email, this.pass, loggedIn => {
-        if (!loggedIn) {
-          this.error = true
-        } else {
-          this.$router.replace(this.$route.query.redirect || '/')
-        }
-      })
+    login: function() {
+      let email = this.email;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { email, password })
+        .then(() => this.$router.push("/"))
+        .catch(err => console.log(err));
     }
   }
-}
+};
 </script>
 
 <style>
