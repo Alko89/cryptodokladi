@@ -7,13 +7,7 @@ import Axios from 'axios'
 import PaperDashboard from "./plugins/paperDashboard";
 import "vue-notifyjs/themes/default.css";
 
-import BootstrapVue from 'bootstrap-vue';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-
 Vue.use(PaperDashboard);
-Vue.use(BootstrapVue);
-
 
 Vue.prototype.$http = Axios;
 
