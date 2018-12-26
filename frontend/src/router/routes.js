@@ -38,10 +38,7 @@ const routes = [
       {
         path: "notifications",
         name: "notifications",
-        component: Notifications,
-        meta: {
-          requiresAuth: true
-        }
+        component: Notifications
       },
       {
         path: "icons",
@@ -56,7 +53,10 @@ const routes = [
       {
         path: "table-list",
         name: "table-list",
-        component: TableList
+        component: TableList,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "about",

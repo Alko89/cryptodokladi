@@ -30,7 +30,7 @@
             </router-link>
           </li>
           <li v-else class="nav-item">
-            <a class="nav-link" @click="logout">
+            <a href="#" class="nav-link" @click="logout">
               <i class="ti-user"></i>
               <p>
                 Logout
