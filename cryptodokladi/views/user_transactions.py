@@ -14,24 +14,6 @@ from ..models import User, Funds, Token
 
 from ..transactions.transaction import getTransactions, getTokenSums, transaction
 
-import urllib.request
-from xml.dom import minidom
-
-@view_config(route_name='eur_usd_rate', renderer='json')
-def eur_usd_rate(request):
-    contents = urllib.request.urlopen("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")
-    xmldoc = minidom.parse(contents)
-    itemlist = xmldoc.getElementsByTagName('Cube')
-    for c in itemlist:
-        if  c.hasAttribute('currency'):
-            if c.attributes['currency'].value == 'USD':
-                return dict(
-                    USD=c.attributes['rate'].value
-                )
-
-    return dict(
-        error="error"
-    )
 
 @view_config(route_name='user_transactions', renderer='json', permission='view')
 def user_transactions(request):

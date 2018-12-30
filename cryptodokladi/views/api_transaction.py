@@ -6,6 +6,8 @@ from ..models import Funds, FundsSchema, Token, TokenSchema
 from ..transactions.transaction import getTransactions
 
 import json
+import urllib.request
+from xml.dom import minidom
 
 funds_schema = FundsSchema(many=True)
 token_schema = TokenSchema(many=True)
@@ -36,3 +38,31 @@ tokens = Service(name='tokens', path='/api/tokens')
 def get_tokens(request):
     tokens = request.dbsession.query(Token)
     return token_schema.dump(tokens).data
+
+
+ticker = Service(name='ticker', path='/api/ticker/{token}')
+
+@ticker.get()
+def get_ticker(request):
+    token = request.matchdict['token']
+    response = urllib.request.urlopen("https://api.coinmarketcap.com/v1/ticker/" + token + "/?convert=EUR")
+    return json.load(response)
+
+
+rate = Service(name='rate', path='/api/eur_usd_rate')
+
+@rate.get()
+def eur_usd_rate(request):
+    contents = urllib.request.urlopen("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")
+    xmldoc = minidom.parse(contents)
+    itemlist = xmldoc.getElementsByTagName('Cube')
+    for c in itemlist:
+        if  c.hasAttribute('currency'):
+            if c.attributes['currency'].value == 'USD':
+                return dict(
+                    USD=c.attributes['rate'].value
+                )
+
+    return dict(
+        error="error"
+    )

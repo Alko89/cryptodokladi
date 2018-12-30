@@ -12,6 +12,7 @@ import "@/assets/sass/paper-dashboard.scss";
 import "@/assets/css/themify-icons.css";
 
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import "cryptofont/css/cryptofont.min.css";
 import "@/assets/css/cryptodokladi.css";
 

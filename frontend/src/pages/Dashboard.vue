@@ -11,6 +11,9 @@
             <p>{{stats.title}}</p>
             {{stats.value}}
           </div>
+          <div class="stats" slot="footer">
+            <i :class="stats.footerIcon"></i> {{stats.footerText}}
+          </div>
         </stats-card>
       </div>
     </div>
@@ -74,7 +77,10 @@ export default {
         }
       ];
 
-      this.statsCards[1].value = value.toFixed(2) + "PIV"
+      axios.get("/api/ticker/PIVX", { crossdomain: true }).then(response => {
+        this.statsCards[1].footerText = (value * response.data[0].price_eur).toFixed(2);
+        this.statsCards[1].value = value.toFixed(2) + "PIV";
+      });
     });
   },
   components: {
@@ -146,25 +152,33 @@ export default {
           type: "warning",
           icon: "cf cf-btc",
           title: "Bitcoin",
-          value: "105BTC"
+          value: "105BTC",
+          footerText: "Updated now",
+          footerIcon: "fas fa-euro-sign"
         },
         {
           type: "purple",
           icon: "cf cf-pivx",
           title: "PIVX",
-          value: "1,345PIV"
+          value: "0PIV",
+          footerText: "",
+          footerIcon: "fas fa-euro-sign"
         },
         {
           type: "danger",
           icon: "cf cf-xmr",
           title: "Monero",
-          value: "23XMR"
+          value: "23XMR",
+          footerText: "Updated now",
+          footerIcon: "fas fa-euro-sign"
         },
         {
           type: "success",
-          icon: "cf cf-doge",
+          icon: "fas fa-euro-sign",
           title: "SUM",
-          value: "23€"
+          value: "23€",
+          footerText: "Updated now",
+          footerIcon: "fas fa-euro-sign"
         }
       ]
     };
