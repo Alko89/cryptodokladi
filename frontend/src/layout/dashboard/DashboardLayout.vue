@@ -5,16 +5,25 @@
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
         <sidebar-link to="/profile" name="User Profile" icon="ti-user"/>
         <sidebar-link to="/table-list" name="Transactions" icon="ti-view-list-alt"/>
-        <sidebar-link to="/typography" name="Typography" icon="ti-text"/>
-        <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2"/>
-        <sidebar-link to="/notifications" name="Notifications" icon="ti-bell"/>
         <sidebar-link to="/about" name="About" icon="ti-info"/>
       </template>
       <mobile-menu>
-        <li class="nav-item">
-          <a class="nav-link">
-            <i class="ti-settings"></i>
-            <p>Settings</p>
+        <li v-if="!isLoggedIn" class="nav-item">
+          <router-link class="nav-link" :to="{path:'/register'}">
+            <i class="ti-pencil"></i>
+            <p>Register</p>
+          </router-link>
+        </li>
+        <li v-if="!isLoggedIn" class="nav-item">
+          <router-link class="nav-link" :to="{path:'/login'}">
+            <i class="ti-user"></i>
+            <p>Login</p>
+          </router-link>
+        </li>
+        <li v-else class="nav-item">
+          <a href="#" class="nav-link" @click="logout">
+            <i class="ti-user"></i>
+            <p>Logout</p>
           </a>
         </li>
         <li class="divider"></li>
@@ -23,9 +32,7 @@
     <div class="main-panel">
       <top-navbar></top-navbar>
 
-      <dashboard-content @click.native="toggleSidebar">
-
-      </dashboard-content>
+      <dashboard-content @click.native="toggleSidebar"></dashboard-content>
 
       <content-footer></content-footer>
     </div>
@@ -46,11 +53,21 @@ export default {
     DashboardContent,
     MobileMenu
   },
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
   methods: {
     toggleSidebar() {
       if (this.$sidebar.showSidebar) {
         this.$sidebar.displaySidebar(false);
       }
+    },
+    logout: function() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
     }
   }
 };

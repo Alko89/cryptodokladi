@@ -36,6 +36,14 @@ const routes = [
         }
       },
       {
+        path: "table-list",
+        name: "table-list",
+        component: TableList,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: "notifications",
         name: "notifications",
         component: Notifications
@@ -49,14 +57,6 @@ const routes = [
         path: "typography",
         name: "typography",
         component: Typography
-      },
-      {
-        path: "table-list",
-        name: "table-list",
-        component: TableList,
-        meta: {
-          requiresAuth: true
-        }
       },
       {
         path: "about",

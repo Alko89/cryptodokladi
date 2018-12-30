@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <!--Stats cards-->
     <div class="row">
       <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
@@ -18,60 +17,129 @@
 
     <!--Charts-->
     <div class="row">
-
       <div class="col-12">
-        <chart-card title="Users behavior"
-                    sub-title="24 Hours performance"
-                    :chart-data="usersChart.data"
-                    :chart-options="usersChart.options">
-          <span slot="footer">
-            <i class="ti-reload"></i> Updated 3 minutes ago
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info">PIVX</i>
-            <i class="fa fa-circle text-danger">XMR</i>
-            <i class="fa fa-circle text-warning">BTC</i>
-          </div>
-        </chart-card>
+        <card>
+          <template slot="header">
+            <h4 class="card-title">
+              <slot name="title">PIVX</slot>
+            </h4>
+            <p class="card-category">
+              <slot name="subTitle">All Time</slot>
+            </p>
+          </template>
+          <apexcharts type="area" height="245" :options="chartOptions" :series="series"/>
+        </card>
       </div>
 
       <div class="col-md-6 col-12">
-        <p v-for="t in tokens" :key="t.id">
-          {{ t.name }}
-        </p>
+        <p v-for="t in tokens" :key="t.id">{{ t.name }}</p>
       </div>
-
     </div>
-
   </div>
 </template>
 <script>
-import { StatsCard, ChartCard } from "@/components/index";
-import Chartist from 'chartist';
+import { StatsCard } from "@/components/index";
+import VueApexCharts from "vue-apexcharts";
 
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   mounted() {
-    axios.get("/api/tokens")
-    .then(response => {
-      this.tokens = response.data
-    })
+    axios.get("/api/tokens").then(response => {
+      this.tokens = response.data;
+
+      // this.tokens.forEach(token => {
+
+      // });
+    });
+
+    axios.get("/api/transactions/alko/PIVX").then(response => {
+      this.transactions.token = "PIVX";
+      this.transactions.transactions = response.data;
+
+      var series = [];
+      var labels = [];
+      var value = 0;
+      response.data.forEach(transaction => {
+        value += transaction.value;
+        labels.push(transaction.timestamp);
+        series.push(value);
+      });
+
+      this.chartOptions.xaxis.categories = labels;
+      this.series = [
+        {
+          name: "PIVX",
+          data: series
+        }
+      ];
+
+      this.statsCards[1].value = value.toFixed(2) + "PIV"
+    });
   },
-
-
   components: {
     StatsCard,
-    ChartCard
+    apexcharts: VueApexCharts
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
    */
   data() {
     return {
+      series: [
+        {
+          name: "series1",
+          data: [31, 40, 28, 51, 42, 109, 100]
+        }
+      ],
+      chartOptions: {
+        colors: ['purple'],
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: "smooth"
+        },
+
+        xaxis: {
+          // type: "datetime",
+          categories: [
+            "2018-09-19T00:00:00",
+            "2018-09-19T01:30:00",
+            "2018-09-19T02:30:00",
+            "2018-09-19T03:30:00",
+            "2018-09-19T04:30:00",
+            "2018-09-19T05:30:00",
+            "2018-09-19T06:30:00"
+          ]
+        },
+        tooltip: {
+          x: {
+            format: "dd/MM/yy HH:mm"
+          }
+        }
+      },
+
       tokens: [
-        {name: 'Bitcoin'},
-        {name: 'PIVX'}
+        {
+          name: "",
+          token: ""
+        }
+      ],
+      transactions: [
+        {
+          token: "",
+          transactions: [
+            {
+              id: 0,
+              user: 0,
+              sender: null,
+              value: 0,
+              timestamp: "",
+              comment: ""
+            }
+          ]
+        }
       ],
       statsCards: [
         {
@@ -81,7 +149,7 @@ export default {
           value: "105BTC"
         },
         {
-          type: "info",
+          type: "purple",
           icon: "cf cf-pivx",
           title: "PIVX",
           value: "1,345PIV"
@@ -98,40 +166,7 @@ export default {
           title: "SUM",
           value: "23€"
         }
-      ],
-      usersChart: {
-        data: {
-          labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM"
-          ],
-          series: [
-            [287, 385, 490, 562, 594, 626, 698, 895, 952],
-            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-            [23, 113, 67, 108, 190, 239, 307, 410, 410]
-          ]
-        },
-        options: {
-          low: 0,
-          high: 1000,
-          showArea: true,
-          height: "245px",
-          axisX: {
-            showGrid: false
-          },
-          lineSmooth: Chartist.Interpolation.simple({
-            divisor: 3
-          }),
-          showLine: true,
-          showPoint: false
-        }
-      }
+      ]
     };
   }
 };

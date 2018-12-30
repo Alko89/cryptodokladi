@@ -30,7 +30,7 @@ def getTransactions(request, user, token):
     """
     transactions_btc_r = request.dbsession.query(Funds).filter_by(user=user).filter(Funds.token==token)
     transactions_btc_s = request.dbsession.query(Funds).filter_by(sender=user).filter(Funds.token==token)
-    return transactions_btc_r.union(transactions_btc_s).order_by(Funds.timestamp.desc())
+    return transactions_btc_r.union(transactions_btc_s)
 
 def getTokenSums(request, user):
     """Gets the sums of tokens for a user

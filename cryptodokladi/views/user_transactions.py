@@ -41,7 +41,7 @@ def user_transactions(request):
 
     transactions = []
     for t in token:
-        for row in getTransactions(request, user, t.token):
+        for row in getTransactions(request, user, t.token).order_by(Funds.timestamp.desc()):
             transactions.append({
                 'token': row.token,
                 'value': float(row.value),

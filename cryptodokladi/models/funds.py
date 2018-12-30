@@ -11,6 +11,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 
 from .meta import Base
+from marshmallow_sqlalchemy import ModelSchema
 
 
 class Funds(Base):
@@ -31,11 +32,21 @@ class Funds(Base):
     sender_id = Column(ForeignKey('users.id'))
     sender = relationship('User', backref='user_sender', foreign_keys='Funds.sender_id')
 
+class FundsSchema(ModelSchema):
+    class Meta:
+        model = Funds
+
+
 class Token(Base):
     __tablename__ = 'token'
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
     token = Column(Text, nullable=False)
+
+class TokenSchema(ModelSchema):
+    class Meta:
+        model = Token
+
 
 class Rewards(Base):
     __tablename__ = 'rewards'
