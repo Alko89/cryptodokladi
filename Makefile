@@ -9,11 +9,12 @@ prod:
 	npm install --production \
 
 # Installs development dependencies.
-dev:
+install:
 	source ../bin/activate; \
-	pip3 install -r requirements.txt; \
 	pip3 install --upgrade pip setuptools; \
+	pip3 install -r requirements.txt; \
 	npm install; \
+	npm run build; \
 	python3 setup.py develop; \
 
 # runs tests for your project
@@ -23,13 +24,9 @@ test:
 
 # Runs development server.
 # This step depends on `make dev`, however dependency is excluded to speed up dev server startup.
-run:
+dev:
 	source ../bin/activate; \
 	npm run serve & pserve development.ini --reload
-
-# Builds files for distribution which will be placed in /static/dist
-build:
-	npm run build
 
 # Cleans up folder by removing node modules and generated files.
 clean:

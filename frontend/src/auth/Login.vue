@@ -58,7 +58,13 @@ export default {
       this.$store
         .dispatch("login", { email, password })
         .then(() => this.$router.push("/"))
-        // .catch(err => console.log(err));
+        .catch(err => this.$notify({
+          message: "Wrong username or password.",
+          icon: "ti-info",
+          horizontalAlign: "center",
+          verticalAlign: "top",
+          type: "danger"
+        }));
     }
   }
 };

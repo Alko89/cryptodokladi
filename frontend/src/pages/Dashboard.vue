@@ -35,7 +35,17 @@
       </div>
 
       <div class="col-md-6 col-12">
-        <p v-for="t in tokens" :key="t.id">{{ t.name }}</p>
+        <card>
+          <template slot="header">
+            <h4 class="card-title">
+              <slot name="title">Rewards distribution</slot>
+            </h4>
+            <p class="card-category">
+              <slot name="subTitle">All Time</slot>
+            </p>
+          </template>
+          <apexcharts type="pie" height="245" :options="rewardsDistribution.options" :series="rewardsDistribution.series"/>
+        </card>
       </div>
     </div>
   </div>
@@ -69,7 +79,25 @@ export default {
         series.push(value);
       });
 
-      this.chartOptions.xaxis.categories = labels;
+      this.chartOptions = {
+        colors: ['purple'],
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: "smooth"
+        },
+
+        xaxis: {
+          type: "datetime",
+          categories: labels
+        },
+        tooltip: {
+          x: {
+            format: "dd/MM/yy HH:mm"
+          }
+        }
+      }
       this.series = [
         {
           name: "PIVX",
@@ -77,9 +105,15 @@ export default {
         }
       ];
 
-      axios.get("/api/ticker/PIVX", { crossdomain: true }).then(response => {
+      axios.get("/api/ticker/PIVX").then(response => {
         this.statsCards[1].footerText = (value * response.data[0].price_eur).toFixed(2);
         this.statsCards[1].value = value.toFixed(2) + "PIV";
+
+        axios.get("/api/token/PIVX").then(response => {
+          var total = response.data.total;
+          var ratio = 100 * value / total;
+          this.rewardsDistribution.series = [ ratio, 100 - ratio ];
+        });
       });
     });
   },
@@ -110,19 +144,39 @@ export default {
         xaxis: {
           // type: "datetime",
           categories: [
-            "2018-09-19T00:00:00",
-            "2018-09-19T01:30:00",
-            "2018-09-19T02:30:00",
-            "2018-09-19T03:30:00",
-            "2018-09-19T04:30:00",
-            "2018-09-19T05:30:00",
-            "2018-09-19T06:30:00"
+            "2018-01-19 00:00:00",
+            "2018-03-19 01:30:00",
+            "2018-05-19 02:30:00",
+            "2018-07-19 03:30:00",
+            "2018-09-19 04:30:00",
+            "2018-11-19 05:30:00",
+            "2018-12-19 06:30:00"
           ]
         },
         tooltip: {
           x: {
             format: "dd/MM/yy HH:mm"
           }
+        }
+      },
+      rewardsDistribution: {
+        series: [50, 50],
+        options: {
+          labels: ['Owned', 'Rest'],
+          theme: {
+            palette: 'palette10'
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }]
         }
       },
 
@@ -152,7 +206,7 @@ export default {
           type: "warning",
           icon: "cf cf-btc",
           title: "Bitcoin",
-          value: "105BTC",
+          value: "0BTC",
           footerText: "Updated now",
           footerIcon: "fas fa-euro-sign"
         },
@@ -168,15 +222,7 @@ export default {
           type: "danger",
           icon: "cf cf-xmr",
           title: "Monero",
-          value: "23XMR",
-          footerText: "Updated now",
-          footerIcon: "fas fa-euro-sign"
-        },
-        {
-          type: "success",
-          icon: "fas fa-euro-sign",
-          title: "SUM",
-          value: "23€",
+          value: "0XMR",
           footerText: "Updated now",
           footerIcon: "fas fa-euro-sign"
         }

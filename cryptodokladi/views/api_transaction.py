@@ -3,7 +3,7 @@ from cornice.validators import marshmallow_body_validator
 
 from ..rules import ( user_factory, send_funds_factory )
 from ..models import Funds, FundsSchema, Token, TokenSchema
-from ..transactions.transaction import getTransactions
+from ..transactions.transaction import getTransactions, getTokenFunds
 
 import json
 import urllib.request
@@ -65,4 +65,16 @@ def eur_usd_rate(request):
 
     return dict(
         error="error"
+    )
+
+token = Service(name='token', path='/api/token/{token}')
+
+@token.get()
+def token_sum(request):
+    token = request.matchdict['token']
+    token_funds = getTokenFunds(request, token)
+    
+    return dict(
+        token=token,
+        total=token_funds.total
     )
