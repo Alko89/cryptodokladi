@@ -30,7 +30,7 @@
               <slot name="subTitle">All Time</slot>
             </p>
           </template>
-          <apexcharts type="area" height="245" :options="chartOptions" :series="series"/>
+          <apexcharts type="area" height="245" :options="transactionsChart.options" :series="transactionsChart.series"/>
         </card>
       </div>
 
@@ -61,59 +61,116 @@ export default {
     axios.get("/api/tokens").then(response => {
       this.tokens = response.data;
 
-      // this.tokens.forEach(token => {
+      this.tokens.forEach(token => {
+        switch (token.token) {
+          case "PIVX":
+            axios.get("/api/transactions/" + this.user.name + "/PIVX").then(response => {
+              this.transactions.token = "PIVX";
+              this.transactions.transactions = response.data;
 
-      // });
-    });
+              var series = [];
+              var labels = [];
+              var value = 0;
+              response.data.forEach(transaction => {
+                if (transaction.sender == this.user.name)
+                  value -= transaction.value;
+                else
+                  value += transaction.value;
+                labels.push(transaction.timestamp);
+                series.push(value);
+              });
 
-    axios.get("/api/transactions/" + this.user.name + "/PIVX").then(response => {
-      this.transactions.token = "PIVX";
-      this.transactions.transactions = response.data;
+              this.transactionsChart.options = {
+                colors: ['purple'],
+                dataLabels: {
+                  enabled: false
+                },
+                stroke: {
+                  curve: "smooth"
+                },
 
-      var series = [];
-      var labels = [];
-      var value = 0;
-      response.data.forEach(transaction => {
-        value += transaction.value;
-        labels.push(transaction.timestamp);
-        series.push(value);
-      });
+                xaxis: {
+                  type: "datetime",
+                  categories: labels
+                },
+                tooltip: {
+                  x: {
+                    format: "dd/MM/yy HH:mm"
+                  }
+                }
+              }
+              this.transactionsChart.series = [
+                {
+                  name: "PIVX",
+                  data: series
+                }
+              ];
 
-      this.chartOptions = {
-        colors: ['purple'],
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: "smooth"
-        },
+              axios.get("/api/ticker/PIVX").then(response => {
+                var card = {
+                  type: "purple",
+                  icon: "cf cf-pivx",
+                  title: token.name,
+                  value: value.toFixed(2) + token.token,
+                  footerText: (value * response.data[0].price_eur).toFixed(2),
+                  footerIcon: "fas fa-euro-sign"
+                }
 
-        xaxis: {
-          type: "datetime",
-          categories: labels
-        },
-        tooltip: {
-          x: {
-            format: "dd/MM/yy HH:mm"
-          }
+                this.statsCards.push(card);
+
+                axios.get("/api/token/PIVX").then(response => {
+                  var total = response.data.total;
+                  var ratio = 100 * value / total;
+                  this.rewardsDistribution.series = [ ratio, 100 - ratio ];
+                });
+              });
+            });
+            break;
+          default:
+            axios.get("/api/transactions/" + this.user.name + "/" + token.token).then(response => {
+              if (response.data.length != 0) {
+              var value = 0;
+              response.data.forEach(transaction => {
+                if (transaction.sender == this.user.name)
+                  value -= transaction.value;
+                else
+                  value += transaction.value;
+              });
+
+              var card = {
+                type: "info",
+                icon: "cf cf-doge",
+                title: token.name,
+                value: value.toFixed(2) + token.token,
+                footerText: (value * response.data[0].price_eur).toFixed(2),
+                footerIcon: "fas fa-euro-sign"
+              }
+
+              switch (token.token) {
+                  case "BTC":
+                    card.type = "warning";
+                    card.icon = "cf cf-btc";
+                    break;
+                  case "ETH":
+                    card.type = "purple";
+                    card.icon = "cf cf-eth";
+                    break;
+                  case "XMR":
+                    card.type = "danger";
+                    card.icon = "cf cf-xmr";
+                    break;
+                  default:
+                }
+
+                this.statsCards.push(card);
+
+                axios.get("/api/ticker/" + token.name).then(response => {
+                  card.footerText = (value * response.data[0].price_eur).toFixed(2)
+                });
+              }
+            });
+            break;
         }
-      }
-      this.series = [
-        {
-          name: "PIVX",
-          data: series
-        }
-      ];
-
-      axios.get("/api/ticker/PIVX").then(response => {
-        this.statsCards[1].footerText = (value * response.data[0].price_eur).toFixed(2);
-        this.statsCards[1].value = value.toFixed(2) + "PIV";
-
-        axios.get("/api/token/PIVX").then(response => {
-          var total = response.data.total;
-          var ratio = 100 * value / total;
-          this.rewardsDistribution.series = [ ratio, 100 - ratio ];
-        });
       });
     });
   },
@@ -127,38 +184,9 @@ export default {
   data() {
     return {
       user: this.$store.getters.getUserData,
-      series: [
-        {
-          name: "series1",
-          data: [31, 40, 28, 51, 42, 109, 100]
-        }
-      ],
-      chartOptions: {
-        colors: ['purple'],
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: "smooth"
-        },
-
-        xaxis: {
-          // type: "datetime",
-          categories: [
-            "2018-01-19 00:00:00",
-            "2018-03-19 01:30:00",
-            "2018-05-19 02:30:00",
-            "2018-07-19 03:30:00",
-            "2018-09-19 04:30:00",
-            "2018-11-19 05:30:00",
-            "2018-12-19 06:30:00"
-          ]
-        },
-        tooltip: {
-          x: {
-            format: "dd/MM/yy HH:mm"
-          }
-        }
+      transactionsChart: {
+        series: [],
+        options: {}
       },
       rewardsDistribution: {
         series: [50, 50],
@@ -202,32 +230,7 @@ export default {
           ]
         }
       ],
-      statsCards: [
-        {
-          type: "warning",
-          icon: "cf cf-btc",
-          title: "Bitcoin",
-          value: "0BTC",
-          footerText: "Updated now",
-          footerIcon: "fas fa-euro-sign"
-        },
-        {
-          type: "purple",
-          icon: "cf cf-pivx",
-          title: "PIVX",
-          value: "0PIV",
-          footerText: "",
-          footerIcon: "fas fa-euro-sign"
-        },
-        {
-          type: "danger",
-          icon: "cf cf-xmr",
-          title: "Monero",
-          value: "0XMR",
-          footerText: "Updated now",
-          footerIcon: "fas fa-euro-sign"
-        }
-      ]
+      statsCards: []
     };
   }
 };
