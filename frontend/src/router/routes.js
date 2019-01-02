@@ -8,7 +8,8 @@ import UserProfile from "@/pages/UserProfile.vue";
 import Notifications from "@/pages/Notifications.vue";
 import Icons from "@/pages/Icons.vue";
 import Typography from "@/pages/Typography.vue";
-import TableList from "@/pages/TableList.vue";
+import TransactionsList from "@/pages/TransactionsList.vue";
+import RewardsList from "@/pages/RewardsList.vue";
 
 import About from "@/pages/About.vue";
 import Login from "@/auth/Login.vue";
@@ -38,7 +39,7 @@ const routes = [
       {
         path: "table-list",
         name: "table-list",
-        component: TableList,
+        component: TransactionsList,
         meta: {
           requiresAuth: true
         }
@@ -57,6 +58,11 @@ const routes = [
         path: "typography",
         name: "typography",
         component: Typography
+      },
+      {
+        path: "rewards",
+        name: "rewards",
+        component: RewardsList
       },
       {
         path: "about",

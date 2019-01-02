@@ -41,3 +41,4 @@ class User(Base):
 class UserSchema(ModelSchema):
     class Meta:
         model = User
+        exclude = ("password_hash", "created_pages")

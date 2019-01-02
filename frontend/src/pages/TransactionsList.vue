@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      user: this.$store.getters.getUserData,
       transactions: {
         title: "Transactions",
         subTitle: "List of transactions",
@@ -39,7 +40,7 @@ export default {
     };
   },
   mounted() {
-    axios.get("/api/user_transactions/alko")
+    axios.get("/api/user_transactions/" + this.user.name)
     .then(response => {
       this.transactions.data = response.data
     })

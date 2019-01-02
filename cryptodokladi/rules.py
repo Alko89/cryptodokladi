@@ -145,6 +145,5 @@ class CalculateStakingRewards(object):
 
     def __acl__(self):
         return [
-            (Allow, 'role:editor', 'call'),
             (Allow, 'name:alko', 'calc')
         ]

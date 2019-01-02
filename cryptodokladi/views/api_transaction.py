@@ -2,7 +2,7 @@ from cornice import Service
 from cornice.validators import marshmallow_body_validator
 
 from ..rules import ( user_factory, send_funds_factory )
-from ..models import Funds, FundsSchema, Token, TokenSchema
+from ..models import Funds, FundsSchema, Token, TokenSchema, Rewards, RewardsSchema
 from ..transactions.transaction import getTransactions, getTokenFunds
 
 import json
@@ -11,6 +11,7 @@ from xml.dom import minidom
 
 funds_schema = FundsSchema(many=True)
 token_schema = TokenSchema(many=True)
+rewards_schema = RewardsSchema(many=True)
 
 transactions = Service(name='transactions', path='/api/transactions/{username}/{token}', factory=user_factory)
 
@@ -31,13 +32,6 @@ def get_transactions(request):
         })
     return t
     # return funds_schema.dump(getTransactions(request, user, token)).data
-
-tokens = Service(name='tokens', path='/api/tokens')
-
-@tokens.get()
-def get_tokens(request):
-    tokens = request.dbsession.query(Token)
-    return token_schema.dump(tokens).data
 
 
 ticker = Service(name='ticker', path='/api/ticker/{token}')
@@ -78,3 +72,19 @@ def token_sum(request):
         token=token,
         total=token_funds.total
     )
+
+
+tokens = Service(name='tokens', path='/api/tokens')
+
+@tokens.get()
+def get_tokens(request):
+    tokens = request.dbsession.query(Token)
+    return token_schema.dump(tokens).data
+
+
+rewards = Service(name='rewards', path='/api/rewards')
+
+@rewards.get()
+def get_rewards(request):
+    rewards = request.dbsession.query(Rewards)
+    return rewards_schema.dump(rewards).data

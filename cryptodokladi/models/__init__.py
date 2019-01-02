@@ -8,7 +8,7 @@ import zope.sqlalchemy
 from .song import Song, Lyric, Tag  # noqa
 from .page import Page  # noqa
 from .user import User, UserSchema  # noqa
-from .funds import Funds, FundsSchema, Token, TokenSchema, Rewards, LimitTrade  # noqa
+from .funds import Funds, FundsSchema, Token, TokenSchema, Rewards, RewardsSchema, LimitTrade  # noqa
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup

@@ -20,7 +20,7 @@
 
     <!--Charts-->
     <div class="row">
-      <div class="col-12">
+      <div class="col-md-6 col-12">
         <card>
           <template slot="header">
             <h4 class="card-title">
@@ -66,7 +66,7 @@ export default {
       // });
     });
 
-    axios.get("/api/transactions/alko/PIVX").then(response => {
+    axios.get("/api/transactions/" + this.user.name + "/PIVX").then(response => {
       this.transactions.token = "PIVX";
       this.transactions.transactions = response.data;
 
@@ -126,6 +126,7 @@ export default {
    */
   data() {
     return {
+      user: this.$store.getters.getUserData,
       series: [
         {
           name: "series1",

@@ -1,16 +1,16 @@
 #Make sure you're working on a virtual environment
 venv:
-	python3 -m venv ../
+	python3 -m venv env
 
 # Initializes virtual environment with basic requirements.
 prod:
-	source ../bin/activate; \
+	source env/bin/activate; \
 	pip install -r requirements.txt; \
 	npm install --production \
 
 # Installs development dependencies.
 install:
-	source ../bin/activate; \
+	source env/bin/activate; \
 	pip3 install --upgrade pip setuptools; \
 	pip3 install -r requirements.txt; \
 	npm install; \
@@ -19,13 +19,13 @@ install:
 
 # runs tests for your project
 test:
-	source ../bin/activate; \
+	source env/bin/activate; \
 	pytest; \
 
 # Runs development server.
 # This step depends on `make dev`, however dependency is excluded to speed up dev server startup.
-dev:
-	source ../bin/activate; \
+run:
+	source env/bin/activate; \
 	npm run serve & pserve development.ini --reload
 
 # Cleans up folder by removing node modules and generated files.

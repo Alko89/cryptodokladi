@@ -109,21 +109,13 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      user: {
-        name: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        address: "",
-        city: "",
-        postalcode: "",
-        about: ""
-      }
+      user: this.$store.getters.getUserData,
     };
   },
   methods: {
     updateProfile() {
       axios({ url: '/api/user', data: JSON.stringify(this.user), method: 'POST'})
+      //TODO: Update store object
       console.log(JSON.stringify(this.user));
     }
   },

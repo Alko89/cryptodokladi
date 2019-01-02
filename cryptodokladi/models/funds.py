@@ -58,6 +58,11 @@ class Rewards(Base):
     value = Column(Numeric(precision=28, scale=18), nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
+class RewardsSchema(ModelSchema):
+    class Meta:
+        model = Rewards
+
+
 class LimitTrade(Base):
     __tablename__ = 'limittrade'
     id = Column(Integer, primary_key=True)
